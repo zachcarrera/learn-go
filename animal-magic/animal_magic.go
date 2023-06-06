@@ -1,7 +1,13 @@
 package chance
 
+import (
+	"math/rand"
+	"time"
+)
+
 // SeedWithTime seeds math/rand with the current computer time.
 func SeedWithTime() {
+	rand.Seed(time.Now().UnixNano())
 	return
 }
 
