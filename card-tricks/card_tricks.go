@@ -17,15 +17,22 @@ func GetItem(slice []int, index int) int {
 // SetItem writes an item to a slice at given position overwriting an existing value.
 // If the index is out of range the value needs to be appended.
 func SetItem(slice []int, index, value int) []int {
-	return []int{2, 4}
+	if index >= len(slice) || index < 0 {
+		return append(slice, value)
+	}
+	slice[index] = value
+	return slice
 }
 
 // PrependItems adds an arbitrary number of values at the front of a slice.
 func PrependItems(slice []int, values ...int) []int {
-	return []int{2, 4}
+	return append(values, slice...)
 }
 
 // RemoveItem removes an item from a slice by modifying the existing slice.
 func RemoveItem(slice []int, index int) []int {
-	return []int{2, 4}
+	if index >= len(slice) || index < 0 {
+		return slice
+	}
+	return append(slice[:index], slice[index+1:]...)
 }
