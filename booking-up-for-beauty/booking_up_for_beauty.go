@@ -41,5 +41,8 @@ func Description(date string) string {
 
 // AnniversaryDate returns a Time with this year's anniversary.
 func AnniversaryDate() time.Time {
-	panic("Please implement the AnniversaryDate function")
+	layout := "2006-01-02"
+	date := "2023-09-15"
+	parsedTime, _ := time.Parse(layout, date)
+	return parsedTime
 }
