@@ -23,6 +23,7 @@ func Quantities(layers []string) (int, float64) {
 
 // TODO: define the 'AddSecretIngredient()' function
 func AddSecretIngredient(friendsList []string, myList []string) {
+	myList[len(myList)-1] = friendsList[len(friendsList)-1]
 	return
 }
 
