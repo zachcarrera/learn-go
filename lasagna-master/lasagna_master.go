@@ -1,8 +1,11 @@
 package lasagna
 
 // TODO: define the 'PreparationTime()' function
-func PreparationTime(layers []string, prepTimePerMinute int) int {
-	return 0
+func PreparationTime(layers []string, prepTimePerLayer int) int {
+	if prepTimePerLayer == 0 {
+		prepTimePerLayer = 2
+	}
+	return prepTimePerLayer * len(layers)
 }
 
 // TODO: define the 'Quantities()' function
