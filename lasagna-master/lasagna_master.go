@@ -10,7 +10,15 @@ func PreparationTime(layers []string, prepTimePerLayer int) int {
 
 // TODO: define the 'Quantities()' function
 func Quantities(layers []string) (int, float64) {
-	return 0, 0.0
+	noodles, sauce := 0, 0.0
+	for _, layer := range layers {
+		if layer == "noodles" {
+			noodles += 50
+		} else if layer == "sauce" {
+			sauce += 0.2
+		}
+	}
+	return noodles, sauce
 }
 
 // TODO: define the 'AddSecretIngredient()' function
