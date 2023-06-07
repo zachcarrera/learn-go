@@ -4,6 +4,9 @@ import "time"
 
 // Schedule returns a time.Time from a string containing a date.
 func Schedule(date string) time.Time {
+	layout := "1/2/2006 15:04:05"
+	time, _ := time.Parse(layout, date)
+	return time
 	panic("Please implement the Schedule function")
 }
 
