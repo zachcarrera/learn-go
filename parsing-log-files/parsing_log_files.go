@@ -17,11 +17,22 @@ func SplitLogLine(text string) []string {
 	if err != nil {
 		return nil
 	}
-	return re.Split(text,-1)
+	return re.Split(text, -1)
 }
 
 func CountQuotedPasswords(lines []string) int {
-	panic("Please implement the CountQuotedPasswords function")
+	count := 0
+	re, err := regexp.Compile(`(?i)".*password.*"`)
+	if err != nil {
+		return 0
+	}
+	for _, line := range lines {
+		if re.MatchString(line) {
+			count += 1
+		}
+	}
+	return count
+
 }
 
 func RemoveEndOfLineText(text string) string {
