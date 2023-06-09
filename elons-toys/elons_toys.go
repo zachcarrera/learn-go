@@ -1,5 +1,7 @@
 package elon
 
+import "fmt"
+
 // TODO: define the 'Drive()' method
 func (c *Car) Drive() {
 	if c.battery >= c.batteryDrain {
@@ -10,7 +12,7 @@ func (c *Car) Drive() {
 
 // TODO: define the 'DisplayDistance() string' method
 func (c *Car) DisplayDistance() string {
-	panic("implement DisplayDistance")
+	return fmt.Sprintf("Driven %d meters", c.distance)
 }
 
 // TODO: define the 'DisplayBattery() string' method
