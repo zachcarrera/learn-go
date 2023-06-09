@@ -17,7 +17,7 @@ func (c *Car) DisplayDistance() string {
 
 // TODO: define the 'DisplayBattery() string' method
 func (c *Car) DisplayBattery() string {
-	panic("implement DisplayBattery")
+	return fmt.Sprintf("Battery at %d%%", c.battery)
 }
 
 // TODO: define the 'CanFinish(trackDistance int) bool' method
