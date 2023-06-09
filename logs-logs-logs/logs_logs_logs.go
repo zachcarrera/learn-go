@@ -2,7 +2,18 @@ package logs
 
 // Application identifies the application emitting the given log.
 func Application(log string) string {
-	panic("Please implement the Application() function")
+	logMap := map[rune]string{
+		'❗': "recommendation",
+		'🔍': "search",
+		'☀': "weather",
+	}
+	for _, char := range log {
+		application, exists := logMap[char]
+		if exists {
+			return application
+		}
+	}
+	return "default"
 }
 
 // Replace replaces all occurrences of old with new, returning the modified log
