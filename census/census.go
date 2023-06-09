@@ -19,7 +19,10 @@ func NewResident(name string, age int, address map[string]string) *Resident {
 
 // HasRequiredInfo determines if a given resident has all of the required information.
 func (r *Resident) HasRequiredInfo() bool {
-	panic("Please implement HasRequiredInfo.")
+	addressIsNotNil := r.Address != nil
+	address, exists := r.Address["street"]
+
+	return r.Name != "" && addressIsNotNil && exists && address != ""
 }
 
 // Delete deletes a resident's information.
