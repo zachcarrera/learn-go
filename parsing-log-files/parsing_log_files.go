@@ -1,7 +1,13 @@
 package parsinglogfiles
 
+import "regexp"
+
 func IsValidLine(text string) bool {
-	panic("Please implement the IsValidLine function")
+	re, err := regexp.Compile(`^(\[ERR\]|\[INF\])`)
+	if err != nil {
+		return false
+	}
+	return re.MatchString(text)
 }
 
 func SplitLogLine(text string) []string {
