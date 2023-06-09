@@ -2,7 +2,10 @@ package elon
 
 // TODO: define the 'Drive()' method
 func (c *Car) Drive() {
-	panic("implement Drive")
+	if c.battery >= c.batteryDrain {
+		c.distance += c.speed
+		c.battery -= c.batteryDrain
+	}
 }
 
 // TODO: define the 'DisplayDistance() string' method
