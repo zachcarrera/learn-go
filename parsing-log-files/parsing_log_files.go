@@ -1,6 +1,9 @@
 package parsinglogfiles
 
-import "regexp"
+import (
+	"fmt"
+	"regexp"
+)
 
 func IsValidLine(text string) bool {
 	re, err := regexp.Compile(`^(\[ERR\]|\[INF\])`)
@@ -44,5 +47,16 @@ func RemoveEndOfLineText(text string) string {
 }
 
 func TagWithUserName(lines []string) []string {
-	panic("Please implement the TagWithUserName function")
+	re, err := regexp.Compile(`User\s`)
+	if err != nil {
+		return lines
+	}
+	for i, line := range lines {
+		if re.MatchString(line) {
+			matchIndex := re.FindStringSubmatchIndex(line)
+			fmt.Println(matchIndex)
+			lines[i] = fmt.Sprintf("[USR] %s", line)
+		}
+	}
+	return lines
 }
