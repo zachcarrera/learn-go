@@ -14,9 +14,7 @@ func IsValidLine(text string) bool {
 }
 
 func SplitLogLine(text string) []string {
-	// ~*|\**|=*|\-*
-	// re, err := regexp.Compile(`<(\-*|\**|~*|\**|\-*|=*)>`)
-	re, err := regexp.Compile(`<(\-*|\**|~*|=*)>`)
+	re, err := regexp.Compile(`<[\-\*~=]*>`)
 	if err != nil {
 		return nil
 	}
