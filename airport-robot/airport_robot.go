@@ -13,22 +13,22 @@ type Greeter interface {
 type Italian struct {
 }
 
-func (i *Italian) LanguageName() string {
+func (i Italian) LanguageName() string {
 	return "Italian"
 }
 
-func (i *Italian) Greet(visitorName string) string {
+func (i Italian) Greet(visitorName string) string {
 	return fmt.Sprintf("Ciao %s!", visitorName)
 }
 
 type Portuguese struct {
 }
 
-func (i *Portuguese) LanguageName() string {
+func (i Portuguese) LanguageName() string {
 	return "Portuguese"
 }
 
-func (i *Portuguese) Greet(visitorName string) string {
+func (i Portuguese) Greet(visitorName string) string {
 	return fmt.Sprintf("Olá %s!", visitorName)
 }
 
