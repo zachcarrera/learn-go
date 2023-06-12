@@ -33,6 +33,10 @@ const (
 )
 
 // Add a String method to SpeedUnit
+func (s SpeedUnit) String() string {
+	units := []string{"km/h", "mph"}
+	return units[s]
+}
 
 type Speed struct {
 	magnitude int
