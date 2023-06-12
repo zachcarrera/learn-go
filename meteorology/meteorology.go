@@ -57,3 +57,6 @@ type MeteorologyData struct {
 }
 
 // Add a String method to MeteorologyData
+func (m MeteorologyData) String() string {
+	return fmt.Sprintf("%s: %v, Wind %s at %v, %d%% Humidity", m.location, m.temperature, m.windDirection, m.windSpeed, m.humidity)
+}
