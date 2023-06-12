@@ -10,6 +10,17 @@ type Greeter interface {
 	Greet(visitorName string) string
 }
 
+type Italian struct {
+}
+
+func (i *Italian) LanguageName() string {
+	return "Italian"
+}
+
+func (i *Italian) Greet(visitorName string) string {
+	return fmt.Sprintf("Ciao %s!", visitorName)
+}
+
 func SayHello(name string, greeter Greeter) string {
 	return fmt.Sprintf("I can speak %s: %s", greeter.LanguageName(), greeter.Greet(name))
 }
