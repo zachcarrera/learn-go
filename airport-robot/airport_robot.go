@@ -21,6 +21,17 @@ func (i *Italian) Greet(visitorName string) string {
 	return fmt.Sprintf("Ciao %s!", visitorName)
 }
 
+type Portuguese struct {
+}
+
+func (i *Portuguese) LanguageName() string {
+	return "Portuguese"
+}
+
+func (i *Portuguese) Greet(visitorName string) string {
+	return fmt.Sprintf("Olá %s!", visitorName)
+}
+
 func SayHello(name string, greeter Greeter) string {
 	return fmt.Sprintf("I can speak %s: %s", greeter.LanguageName(), greeter.Greet(name))
 }
