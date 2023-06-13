@@ -20,6 +20,10 @@ func DivideFood(weightFodder WeightFodder, cows int) (float64, error) {
 		return 0, err
 	}
 
+	if cows == 0 {
+		return 0.0, errors.New("division by zero")
+	}
+
 	if amount < 0 {
 		return 0.0, errors.New("negative fodder")
 	}
