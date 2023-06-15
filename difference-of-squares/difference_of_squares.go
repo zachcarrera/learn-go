@@ -9,5 +9,5 @@ func SumOfSquares(n int) int {
 }
 
 func Difference(n int) int {
-	panic("Please implement the Difference function")
+	return SquareOfSum(n) - SumOfSquares(n)
 }
