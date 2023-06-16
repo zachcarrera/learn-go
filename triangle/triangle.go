@@ -18,10 +18,18 @@ const (
 
 // KindFromSides should have a comment documenting it.
 func KindFromSides(a, b, c float64) Kind {
-	// Write some code here to pass the test suite.
-	// Then remove all the stock comments.
-	// They're here to help you get started but they only clutter a finished solution.
-	// If you leave them in, reviewers may protest!
 	var k Kind
+
+	switch {
+	case !(a+b >= c && b+c >= a && a+c >= b) || a <= 0 || b <= 0 || c <= 0:
+		k = NaT
+	case a == b && b == c:
+		k = Equ
+	case a != b && b != c && a != c:
+		k = Sca
+	default:
+		k = Iso
+	}
+
 	return k
 }
