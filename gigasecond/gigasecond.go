@@ -14,5 +14,12 @@ func AddGigasecond(t time.Time) time.Time {
 	// Then remove all the stock comments.
 	// They're here to help you get started but they only clutter a finished solution.
 	// If you leave them in, reviewers may protest!
-	return t
+	startMilli := t.UnixMilli()
+	// to seconds
+	startSeconds := startMilli / 1000
+	endSeconds := startSeconds + 1000000000
+	endMilli := endSeconds * 1000
+	return time.UnixMilli(endMilli)
+	// fmt.Println(startMilli)
+	// return t
 }
