@@ -27,8 +27,10 @@ func KindFromSides(a, b, c float64) Kind {
 		k = Equ
 	case a != b && b != c && a != c:
 		k = Sca
-	default:
+	case a == b || a == c || b == c:
 		k = Iso
+	default:
+		k = NaT
 	}
 
 	return k
