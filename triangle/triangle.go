@@ -6,14 +6,14 @@
 package triangle
 
 // Notice KindFromSides() returns this type. Pick a suitable data type.
-type Kind string
+type Kind int
 
 const (
 	// Pick values for the following identifiers used by the test program.
-	NaT Kind = "NaT" // not a triangle
-	Equ Kind = "Equ" // equilateral
-	Iso Kind = "Iso" // isosceles
-	Sca Kind = "Sca" // scalene
+	NaT Kind = iota // not a triangle
+	Equ             // equilateral
+	Iso             // isosceles
+	Sca             // scalene
 )
 
 // KindFromSides should have a comment documenting it.
