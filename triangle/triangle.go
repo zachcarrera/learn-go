@@ -5,16 +5,15 @@
 // https://golang.org/doc/effective_go.html#commentary
 package triangle
 
-
 // Notice KindFromSides() returns this type. Pick a suitable data type.
-type Kind
+type Kind string
 
 const (
-    // Pick values for the following identifiers used by the test program.
-    NaT // not a triangle
-    Equ // equilateral
-    Iso // isosceles
-    Sca // scalene
+	// Pick values for the following identifiers used by the test program.
+	NaT Kind = "NaT" // not a triangle
+	Equ Kind = "Equ" // equilateral
+	Iso Kind = "Iso" // isosceles
+	Sca Kind = "Sca" // scalene
 )
 
 // KindFromSides should have a comment documenting it.
