@@ -10,16 +10,10 @@ import "time"
 
 // AddGigasecond should have a comment documenting it.
 func AddGigasecond(t time.Time) time.Time {
-	// Write some code here to pass the test suite.
-	// Then remove all the stock comments.
-	// They're here to help you get started but they only clutter a finished solution.
-	// If you leave them in, reviewers may protest!
+	// current milliseconds
 	startMilli := t.UnixMilli()
-	// to seconds
-	startSeconds := startMilli / 1000
-	endSeconds := startSeconds + 1000000000
-	endMilli := endSeconds * 1000
-	return time.UnixMilli(endMilli)
-	// fmt.Println(startMilli)
-	// return t
+
+	// instead of converting to seconds and back to milliseconds
+	// we can just add 1 * 10^12 (gigasecond * 1000)
+	return time.UnixMilli(startMilli + 1e12)
 }
