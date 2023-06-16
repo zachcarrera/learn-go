@@ -7,9 +7,13 @@ package leap
 
 // IsLeapYear should have a comment documenting it.
 func IsLeapYear(year int) bool {
-	// Write some code here to pass the test suite.
-	// Then remove all the stock comments.
-	// They're here to help you get started but they only clutter a finished solution.
-	// If you leave them in, reviewers may protest!
-	panic("Please implement the IsLeapYear function")
+	switch {
+	case year%400 == 0:
+		return true
+	case year%100 == 0:
+		return false
+	case year%4 == 0 || year%400 == 0:
+		return true
+	}
+	return false
 }
