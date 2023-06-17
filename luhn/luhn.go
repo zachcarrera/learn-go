@@ -1,5 +1,9 @@
 package luhn
 
 func Valid(id string) bool {
-	panic("Please implement the Valid function")
+	if len(id) <= 1 {
+		return false
+	}
+
+	return true
 }
