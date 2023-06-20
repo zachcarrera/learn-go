@@ -24,7 +24,7 @@ func (d DNA) Counts() (Histogram, error) {
 	h['T'] = 0
 
 	for _, char := range d {
-		// A C G T check
+		// return an error if there are invalid characters
 		if !(char == 'A' || char == 'C' || char == 'G' || char == 'T') {
 			return nil, errors.New("Invalid String")
 		}
