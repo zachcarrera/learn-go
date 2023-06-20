@@ -13,5 +13,13 @@ func Square(number int) (uint64, error) {
 }
 
 func Total() uint64 {
-	panic("Please implement the Total function")
+	var sum uint64
+	for i := 1; i < 65; i++ {
+		square, err := Square(i)
+		if err != nil {
+			return 0
+		}
+		sum += square
+	}
+	return sum
 }
