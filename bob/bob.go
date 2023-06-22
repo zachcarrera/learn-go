@@ -12,12 +12,16 @@ import (
 
 // Hey should have a comment documenting it.
 func Hey(remark string) string {
-	// Write some code here to pass the test suite.
-	// Then remove all the stock comments.
-	// They're here to help you get started but they only clutter a finished solution.
-	// If you leave them in, reviewers may protest!
 	fmt.Println("===== =====")
 	fmt.Println(remark)
+
+	// will match for empty strings and strings with only whitespace
+	whitespaceRegEx := regexp.MustCompile(`^\s*$`)
+	if whitespaceRegEx.MatchString(remark) {
+		fmt.Printf("%s: %t\n", "whitespace regex", whitespaceRegEx.MatchString(remark))
+		return "Fine. Be that way!"
+	}
+
 	// will match when all charachters are not lowercase
 	allCapsRegEx := regexp.MustCompile(`^[^a-z]+$`)
 	if allCapsRegEx.MatchString(remark) {
