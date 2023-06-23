@@ -21,8 +21,8 @@ func Hey(remark string) string {
 	questionRegEx := regexp.MustCompile(`^.*\?$`)
 	isQuestion := questionRegEx.MatchString(remark)
 
-	// will match when all charachters are not lowercase
-	allCapsRegEx := regexp.MustCompile(`^[^a-z]+$`)
+	// will match when there is atleast one upper case letter and no lowercase letters
+	allCapsRegEx := regexp.MustCompile(`^[A-Z1-9\s[:punct:]]+[A-Z][A-Z1-9\s[:punct:]]+$`)
 	isYelling := allCapsRegEx.MatchString(remark)
 
 	switch {
