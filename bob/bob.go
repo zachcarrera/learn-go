@@ -22,6 +22,13 @@ func Hey(remark string) string {
 		return "Fine. Be that way!"
 	}
 
+	// will match when strings end with a question mark and has zero or more whitespace characters
+	questionRegEx := regexp.MustCompile(`\?\s*$`)
+	if questionRegEx.MatchString(remark) {
+		fmt.Printf("%s: %t\n", "question regex", questionRegEx.MatchString(remark))
+		return "Sure."
+	}
+
 	// will match when all charachters are not lowercase
 	allCapsRegEx := regexp.MustCompile(`^[^a-z]+$`)
 	if allCapsRegEx.MatchString(remark) {
