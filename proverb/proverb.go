@@ -17,10 +17,8 @@ func Proverb(rhyme []string) []string {
 		return nil
 	}
 	proverb := make([]string, len(rhyme))
-	for i, v := range rhyme {
-		if i != len(rhyme)-1 {
-			proverb[i] = fmt.Sprintf("For want of a %s the %s was lost.", v, rhyme[i+1])
-		}
+	for i := 0; i < len(rhyme)-1; i++ {
+		proverb[i] = fmt.Sprintf("For want of a %s the %s was lost.", rhyme[i], rhyme[i+1])
 	}
 	proverb[len(proverb)-1] = fmt.Sprintf("And all for the want of a %s.", rhyme[0])
 	return proverb
