@@ -1,5 +1,7 @@
 package twelve
 
+import "fmt"
+
 var gifts = []string{
 	"a Partridge in a Pear Tree",
 	"two Turtle Doves",
@@ -31,7 +33,19 @@ var days = []string{
 }
 
 func Verse(i int) string {
-	panic("Please implement the Verse function")
+	prefix := fmt.Sprintf("On the %s day of Christmas my true love gave to me:", days[i-1])
+	if i == 1 {
+		return fmt.Sprintf("%s %s.", prefix, gifts[i-1])
+	}
+	var list string
+	for index := i; index >= 1; index-- {
+		if index == 1 {
+			list += fmt.Sprintf("and %s", gifts[index-1])
+		} else {
+			list += fmt.Sprintf("%s, ", gifts[index-1])
+		}
+	}
+	return fmt.Sprintf("%s %s.", prefix, list)
 }
 
 func Song() string {
