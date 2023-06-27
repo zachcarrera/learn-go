@@ -15,6 +15,21 @@ var gifts = []string{
 	"twelve Drummers Drumming",
 }
 
+var days = []string{
+	"first",
+	"second",
+	"third",
+	"fourth",
+	"fifth",
+	"sixth",
+	"seventh",
+	"eighth",
+	"ninth",
+	"tenth",
+	"eleventh",
+	"twelfth",
+}
+
 func Verse(i int) string {
 	panic("Please implement the Verse function")
 }
