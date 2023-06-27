@@ -1,6 +1,9 @@
 package twelve
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 var gifts = []string{
 	"a Partridge in a Pear Tree",
@@ -49,5 +52,9 @@ func Verse(i int) string {
 }
 
 func Song() string {
-	panic("Please implement the Song function")
+	var song []string
+	for i := 1; i <= 12; i++ {
+		song = append(song, Verse(i))
+	}
+	return strings.Join(song, "\n")
 }
