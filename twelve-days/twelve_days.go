@@ -7,18 +7,18 @@ import (
 
 var (
 	gifts = []string{
-		"a Partridge in a Pear Tree",
-		"two Turtle Doves",
-		"three French Hens",
-		"four Calling Birds",
-		"five Gold Rings",
-		"six Geese-a-Laying",
-		"seven Swans-a-Swimming",
-		"eight Maids-a-Milking",
-		"nine Ladies Dancing",
-		"ten Lords-a-Leaping",
-		"eleven Pipers Piping",
-		"twelve Drummers Drumming",
+		"twelve Drummers Drumming,",
+		"eleven Pipers Piping,",
+		"ten Lords-a-Leaping,",
+		"nine Ladies Dancing,",
+		"eight Maids-a-Milking,",
+		"seven Swans-a-Swimming,",
+		"six Geese-a-Laying,",
+		"five Gold Rings,",
+		"four Calling Birds,",
+		"three French Hens,",
+		"two Turtle Doves, and",
+		"a Partridge in a Pear Tree.",
 	}
 
 	days = []string{
@@ -38,19 +38,8 @@ var (
 )
 
 func Verse(i int) string {
-	prefix := fmt.Sprintf("On the %s day of Christmas my true love gave to me:", days[i-1])
-	if i == 1 {
-		return fmt.Sprintf("%s %s.", prefix, gifts[i-1])
-	}
-	var list string
-	for index := i; index >= 1; index-- {
-		if index == 1 {
-			list += fmt.Sprintf("and %s", gifts[index-1])
-		} else {
-			list += fmt.Sprintf("%s, ", gifts[index-1])
-		}
-	}
-	return fmt.Sprintf("%s %s.", prefix, list)
+	list := strings.Join(gifts[12-i:], " ")
+	return fmt.Sprintf("On the %s day of Christmas my true love gave to me: %s", days[i-1], list)
 }
 
 func Song() string {
