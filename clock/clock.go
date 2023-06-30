@@ -9,7 +9,13 @@ type Clock struct {
 }
 
 func New(h, m int) Clock {
-	return Clock{hour: h, minute: m}
+	h += m / 60
+	m %= 60
+	h %= 24
+	return Clock{
+		hour:   h,
+		minute: m,
+	}
 }
 
 func (c Clock) Add(m int) Clock {
