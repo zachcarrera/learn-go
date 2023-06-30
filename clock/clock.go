@@ -29,7 +29,11 @@ func New(h, m int) Clock {
 }
 
 func (c Clock) Add(m int) Clock {
-	panic("Please implement the Add function")
+	c.minute += m
+	c.hour += c.minute / 60
+	c.minute %= 60
+	c.hour %= 24
+	return c
 }
 
 func (c Clock) Subtract(m int) Clock {
