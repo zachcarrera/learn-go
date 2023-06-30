@@ -12,6 +12,16 @@ func New(h, m int) Clock {
 	h += m / 60
 	m %= 60
 	h %= 24
+
+	if m < 0 {
+		m += 60
+		h -= 1
+	}
+
+	if h < 0 {
+		h += 24
+	}
+
 	return Clock{
 		hour:   h,
 		minute: m,
