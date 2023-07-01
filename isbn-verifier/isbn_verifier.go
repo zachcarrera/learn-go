@@ -1,5 +1,8 @@
 package isbn
 
 func IsValidISBN(isbn string) bool {
-	panic("Please implement the IsValidISBN function")
+	if len(isbn) == 10 || len(isbn) == 13 {
+		return true
+	}
+	return false
 }
