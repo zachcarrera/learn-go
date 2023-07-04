@@ -1,6 +1,13 @@
 package cipher
 
 // Define the shift and vigenere types here.
+type shift struct {
+	distance int
+}
+type vigenere struct {
+	key string
+}
+
 // Both types should satisfy the Cipher interface.
 
 func NewCaesar() Cipher {
