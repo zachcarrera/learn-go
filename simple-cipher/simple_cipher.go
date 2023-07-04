@@ -15,6 +15,9 @@ func NewCaesar() Cipher {
 }
 
 func NewShift(distance int) Cipher {
+	if distance == 0 || distance < -25 || distance > 25 {
+		return nil
+	}
 	return shift{distance: distance}
 }
 
