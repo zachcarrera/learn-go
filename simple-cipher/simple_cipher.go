@@ -1,5 +1,9 @@
 package cipher
 
+import (
+	"unicode/utf8"
+)
+
 // Define the shift and vigenere types here.
 type shift struct {
 	distance int
@@ -11,7 +15,7 @@ type vigenere struct {
 // Both types should satisfy the Cipher interface.
 
 func NewCaesar() Cipher {
-	return NewShift(4)
+	return NewShift(3)
 }
 
 func NewShift(distance int) Cipher {
@@ -22,11 +26,19 @@ func NewShift(distance int) Cipher {
 }
 
 func (c shift) Encode(input string) string {
-	panic("Please implement the Encode function")
+	encoded := make([]rune, utf8.RuneCountInString(input))
+	for i, char := range input {
+		encoded[i] = char + rune(c.distance)
+	}
+	return string(encoded)
 }
 
 func (c shift) Decode(input string) string {
-	panic("Please implement the Decode function")
+	decoded := make([]rune, utf8.RuneCountInString(input))
+	for i, char := range input {
+		decoded[i] = char - rune(c.distance)
+	}
+	return string(decoded)
 }
 
 func NewVigenere(key string) Cipher {
