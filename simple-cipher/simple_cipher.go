@@ -54,13 +54,17 @@ func (c shift) Decode(input string) string {
 
 func NewVigenere(key string) Cipher {
 	lower := true
+	allA := true
 	for _, char := range key {
 		if !unicode.IsLower(char) {
 			lower = false
 		}
+		if char != 'a' {
+			allA = false
+		}
 	}
 
-	if !lower {
+	if !lower || allA {
 		return nil
 	}
 	return vigenere{key: key}
