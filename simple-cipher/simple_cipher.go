@@ -53,7 +53,17 @@ func (c shift) Decode(input string) string {
 }
 
 func NewVigenere(key string) Cipher {
-	panic("Please implement the NewVigenere function")
+	lower := true
+	for _, char := range key {
+		if !unicode.IsLower(char) {
+			lower = false
+		}
+	}
+
+	if !lower {
+		return nil
+	}
+	return vigenere{key: key}
 }
 
 func (v vigenere) Encode(input string) string {
