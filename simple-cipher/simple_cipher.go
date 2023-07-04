@@ -11,11 +11,11 @@ type vigenere struct {
 // Both types should satisfy the Cipher interface.
 
 func NewCaesar() Cipher {
-	panic("Please implement the NewCaesar function")
+	return NewShift(4)
 }
 
 func NewShift(distance int) Cipher {
-	panic("Please implement the NewShift function")
+	return shift{distance: distance}
 }
 
 func (c shift) Encode(input string) string {
