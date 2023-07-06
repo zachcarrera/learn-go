@@ -1,7 +1,6 @@
 package cipher
 
 import (
-	"fmt"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -75,18 +74,13 @@ func (v vigenere) Encode(input string) string {
 	input = strings.ToLower(input)
 	encoded := make([]rune, utf8.RuneCountInString(input))
 	pos := 0
-	fmt.Printf("input: %v\n", input)
-	for i, char := range input {
+	for _, char := range input {
 		if unicode.IsLower(char) {
-			shift := []rune(v.key)[i%utf8.RuneCountInString(v.key)] - 'a'
-			fmt.Printf("char: %c\n", char)
-			fmt.Printf("shift: %v\n", shift)
-			fmt.Printf("char + shift: %c\n", char+shift)
+			shift := []rune(v.key)[pos%utf8.RuneCountInString(v.key)] - 'a'
 			encoded[pos] = (char+shift-'a')%26 + 'a'
 			pos++
 		}
 	}
-	fmt.Printf("encoded: %v\n", string(encoded[:pos]))
 	return string(encoded[:pos])
 }
 
