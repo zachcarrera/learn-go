@@ -85,5 +85,13 @@ func (v vigenere) Encode(input string) string {
 }
 
 func (v vigenere) Decode(input string) string {
-	panic("Please implement the Decode function")
+	decoded := make([]rune, utf8.RuneCountInString(input))
+	for i, char := range input {
+		shift := []rune(v.key)[i%utf8.RuneCountInString(v.key)] - 'a'
+		decoded[i] = (char-shift-'a')%26 + 'a'
+		if decoded[i] < 'a' {
+			decoded[i] += 26
+		}
+	}
+	return string(decoded)
 }
