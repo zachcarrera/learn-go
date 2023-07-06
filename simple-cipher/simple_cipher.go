@@ -28,13 +28,15 @@ func NewShift(distance int) Cipher {
 }
 
 func (c shift) Encode(input string) string {
-	// TODO: fix wrap for negative shift
 	input = strings.ToLower(input)
 	encoded := make([]rune, utf8.RuneCountInString(input))
 	pos := 0
 	for _, char := range input {
 		if unicode.IsLower(char) {
 			encoded[pos] = (char+rune(c.distance)-'a')%26 + 'a'
+			if encoded[pos] < 'a' {
+				encoded[pos] += 26
+			}
 			pos++
 		}
 	}
