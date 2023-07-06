@@ -42,11 +42,13 @@ func (c shift) Encode(input string) string {
 }
 
 func (c shift) Decode(input string) string {
-	// TODO: Fix wrapping shifts for negative shifts
 	decoded := make([]rune, utf8.RuneCountInString(input))
 	for i, char := range input {
 		if unicode.IsLower(char) {
 			decoded[i] = (char-rune(c.distance)-'a')%26 + 'a'
+		}
+		if decoded[i] < 'a' {
+			decoded[i] += 26
 		}
 	}
 	return string(decoded)
