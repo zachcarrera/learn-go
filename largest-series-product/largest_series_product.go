@@ -19,5 +19,18 @@ func LargestSeriesProduct(digits string, span int) (int64, error) {
 		}
 	}
 
-	return 0, nil
+	var maxProduct int64 = 0
+
+	for i := 0; i < len(digits)-span+1; i++ {
+		var product int64 = 1
+
+		for j := 0; j < span; j++ {
+			product *= int64([]rune(digits)[i+j] - '0')
+		}
+		if product > maxProduct {
+			maxProduct = product
+		}
+	}
+
+	return maxProduct, nil
 }
