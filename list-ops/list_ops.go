@@ -4,7 +4,10 @@ package listops
 type IntList []int
 
 func (s IntList) Foldl(fn func(int, int) int, initial int) int {
-	panic("Please implement the Foldl function")
+	for _, v := range s {
+		initial = fn(initial, v)
+	}
+	return initial
 }
 
 func (s IntList) Foldr(fn func(int, int) int, initial int) int {
