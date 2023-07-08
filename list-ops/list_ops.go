@@ -11,7 +11,10 @@ func (s IntList) Foldl(fn func(int, int) int, initial int) int {
 }
 
 func (s IntList) Foldr(fn func(int, int) int, initial int) int {
-	panic("Please implement the Foldr function")
+	for i := len(s) - 1; i >= 0; i-- {
+		initial = fn(s[i], initial)
+	}
+	return initial
 }
 
 func (s IntList) Filter(fn func(int) bool) IntList {
