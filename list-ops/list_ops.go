@@ -18,7 +18,13 @@ func (s IntList) Foldr(fn func(int, int) int, initial int) int {
 }
 
 func (s IntList) Filter(fn func(int) bool) IntList {
-	panic("Please implement the Filter function")
+	filtered := []int{}
+	for _, v := range s {
+		if fn(v) {
+			filtered = append(filtered, v)
+		}
+	}
+	return filtered
 }
 
 func (s IntList) Length() int {
