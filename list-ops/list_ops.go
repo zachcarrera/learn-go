@@ -4,8 +4,8 @@ package listops
 type IntList []int
 
 func (s IntList) Foldl(fn func(int, int) int, initial int) int {
-	for _, v := range s {
-		initial = fn(initial, v)
+	for _, num := range s {
+		initial = fn(initial, num)
 	}
 	return initial
 }
@@ -19,9 +19,9 @@ func (s IntList) Foldr(fn func(int, int) int, initial int) int {
 
 func (s IntList) Filter(fn func(int) bool) IntList {
 	filtered := []int{}
-	for _, v := range s {
-		if fn(v) {
-			filtered = append(filtered, v)
+	for _, num := range s {
+		if fn(num) {
+			filtered = append(filtered, num)
 		}
 	}
 	return filtered
@@ -40,8 +40,8 @@ func (s IntList) Map(fn func(int) int) IntList {
 
 func (s IntList) Reverse() IntList {
 	reversed := make(IntList, len(s))
-	for i, v := range s {
-		reversed[len(s)-1-i] = v
+	for i, num := range s {
+		reversed[len(s)-1-i] = num
 	}
 	return reversed
 }
@@ -51,8 +51,8 @@ func (s IntList) Append(lst IntList) IntList {
 }
 
 func (s IntList) Concat(lists []IntList) IntList {
-	for _, il := range lists {
-		s = append(s, il...)
+	for _, list := range lists {
+		s = append(s, list...)
 	}
 	return s
 }
