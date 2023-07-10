@@ -28,7 +28,7 @@ func (s IntList) Filter(fn func(int) bool) IntList {
 }
 
 func (s IntList) Length() int {
-	panic("Please implement the Length function")
+	return len(s)
 }
 
 func (s IntList) Map(fn func(int) int) IntList {
