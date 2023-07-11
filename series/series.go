@@ -22,3 +22,10 @@ func UnsafeFirst(n int, s string) string {
 	}
 	return ""
 }
+
+func First(n int, s string) (first string, ok bool) {
+	if n <= len(s) {
+		return UnsafeFirst(n, s), true
+	}
+	return "", false
+}
