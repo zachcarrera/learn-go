@@ -5,11 +5,24 @@
 // https://golang.org/doc/effective_go.html#commentary
 package acronym
 
+import (
+	"regexp"
+	"strings"
+)
+
 // Abbreviate should have a comment documenting it.
 func Abbreviate(s string) string {
 	// Write some code here to pass the test suite.
 	// Then remove all the stock comments.
 	// They're here to help you get started but they only clutter a finished solution.
 	// If you leave them in, reviewers may protest!
-	return ""
+	s = strings.ToUpper(s)
+	wordEnds := regexp.MustCompile(`[\s]`)
+	words := wordEnds.Split(s, -1)
+	var acronym []rune
+	for _, v := range words {
+		acronym = append(acronym, []rune(v)[0])
+	}
+
+	return string(acronym)
 }
