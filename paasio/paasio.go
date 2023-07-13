@@ -1,12 +1,16 @@
 package paasio
 
-import "io"
+import (
+	"io"
+	"sync"
+)
 
 // Define readCounter and writeCounter types here.
 type readCounter struct {
 	reader         io.Reader
 	byteCount      int64
 	operationCount int
+	mutex          *sync.Mutex
 }
 
 type writeCounter struct {
@@ -27,7 +31,10 @@ func NewWriteCounter(writer io.Writer) WriteCounter {
 }
 
 func NewReadCounter(reader io.Reader) ReadCounter {
-	return &readCounter{reader: reader}
+	return &readCounter{
+		reader: reader,
+		mutex:  new(sync.Mutex),
+	}
 }
 
 func NewReadWriteCounter(readwriter io.ReadWriter) ReadWriteCounter {
@@ -38,6 +45,8 @@ func NewReadWriteCounter(readwriter io.ReadWriter) ReadWriteCounter {
 }
 
 func (rc *readCounter) Read(p []byte) (int, error) {
+	rc.mutex.Lock()
+	defer rc.mutex.Unlock()
 	m, err := rc.reader.Read(p)
 	rc.byteCount += int64(m)
 	rc.operationCount++
@@ -45,6 +54,8 @@ func (rc *readCounter) Read(p []byte) (int, error) {
 }
 
 func (rc *readCounter) ReadCount() (int64, int) {
+	rc.mutex.Lock()
+	defer rc.mutex.Unlock()
 	return rc.byteCount, rc.operationCount
 }
 
