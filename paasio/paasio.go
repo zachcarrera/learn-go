@@ -15,6 +15,11 @@ type writeCounter struct {
 	operationCount int
 }
 
+type readWriteCounter struct {
+	reader ReadCounter
+	writer WriteCounter
+}
+
 // For the return of the function NewReadWriteCounter, you must also define a type that satisfies the ReadWriteCounter interface.
 
 func NewWriteCounter(writer io.Writer) WriteCounter {
