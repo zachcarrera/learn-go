@@ -63,3 +63,7 @@ func (rwc *readWriteCounter) Read(p []byte) (int, error) {
 func (rwc *readWriteCounter) ReadCount() (int64, int) {
 	return rwc.reader.ReadCount()
 }
+
+func (rwc *readWriteCounter) Write(p []byte) (int, error) {
+	return rwc.writer.Write(p)
+}
