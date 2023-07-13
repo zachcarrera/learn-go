@@ -1,6 +1,10 @@
 package kindergarten
 
 // Define the Garden type here.
+type Garden struct {
+	children []string
+	plants   map[string][]string
+}
 
 // The diagram argument starts each row with a '\n'.  This allows Go's
 // raw string literals to present diagrams in source code nicely as two
