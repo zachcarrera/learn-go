@@ -55,3 +55,7 @@ func (wc *writeCounter) Write(p []byte) (int, error) {
 func (wc *writeCounter) WriteCount() (int64, int) {
 	return wc.byteCount, wc.operationCount
 }
+
+func (rwc *readWriteCounter) Read(p []byte) (int, error) {
+	return rwc.reader.Read(p)
+}
