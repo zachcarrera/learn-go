@@ -37,7 +37,7 @@ func (rc *readCounter) Read(p []byte) (int, error) {
 }
 
 func (rc *readCounter) ReadCount() (int64, int) {
-	panic("Please implement the ReadCount function")
+	return rc.byteCount, rc.operationCount
 }
 
 func (wc *writeCounter) Write(p []byte) (int, error) {
