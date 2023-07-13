@@ -38,7 +38,10 @@ func (rc *readCounter) ReadCount() (int64, int) {
 }
 
 func (wc *writeCounter) Write(p []byte) (int, error) {
-	panic("Please implement the Write function")
+	m, err := wc.writer.Write(p)
+	wc.byteCount += int64(m)
+	wc.operationCount++
+	return m, err
 }
 
 func (wc *writeCounter) WriteCount() (int64, int) {
