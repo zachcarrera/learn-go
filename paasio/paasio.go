@@ -17,6 +17,7 @@ type writeCounter struct {
 	writer         io.Writer
 	byteCount      int64
 	operationCount int
+	mutex          *sync.Mutex
 }
 
 type readWriteCounter struct {
@@ -27,7 +28,10 @@ type readWriteCounter struct {
 // For the return of the function NewReadWriteCounter, you must also define a type that satisfies the ReadWriteCounter interface.
 
 func NewWriteCounter(writer io.Writer) WriteCounter {
-	return &writeCounter{writer: writer}
+	return &writeCounter{
+		writer: writer,
+		mutex:  new(sync.Mutex),
+	}
 }
 
 func NewReadCounter(reader io.Reader) ReadCounter {
@@ -60,6 +64,8 @@ func (rc *readCounter) ReadCount() (int64, int) {
 }
 
 func (wc *writeCounter) Write(p []byte) (int, error) {
+	wc.mutex.Lock()
+	defer wc.mutex.Unlock()
 	m, err := wc.writer.Write(p)
 	wc.byteCount += int64(m)
 	wc.operationCount++
@@ -67,6 +73,8 @@ func (wc *writeCounter) Write(p []byte) (int, error) {
 }
 
 func (wc *writeCounter) WriteCount() (int64, int) {
+	wc.mutex.Lock()
+	defer wc.mutex.Unlock()
 	return wc.byteCount, wc.operationCount
 }
 
