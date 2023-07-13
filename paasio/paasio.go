@@ -22,7 +22,7 @@ func NewWriteCounter(writer io.Writer) WriteCounter {
 }
 
 func NewReadCounter(reader io.Reader) ReadCounter {
-	panic("Please implement the NewReadCounter function")
+	return &readCounter{reader: reader}
 }
 
 func NewReadWriteCounter(readwriter io.ReadWriter) ReadWriteCounter {
