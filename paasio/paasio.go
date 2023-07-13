@@ -45,5 +45,5 @@ func (wc *writeCounter) Write(p []byte) (int, error) {
 }
 
 func (wc *writeCounter) WriteCount() (int64, int) {
-	panic("Please implement the WriteCount function")
+	return wc.byteCount, wc.operationCount
 }
