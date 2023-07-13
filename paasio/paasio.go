@@ -30,7 +30,10 @@ func NewReadWriteCounter(readwriter io.ReadWriter) ReadWriteCounter {
 }
 
 func (rc *readCounter) Read(p []byte) (int, error) {
-	panic("Please implement the Read function")
+	m, err := rc.reader.Read(p)
+	rc.byteCount += int64(m)
+	rc.operationCount++
+	return m, err
 }
 
 func (rc *readCounter) ReadCount() (int64, int) {
