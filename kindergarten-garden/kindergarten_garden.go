@@ -2,6 +2,7 @@ package kindergarten
 
 import (
 	"errors"
+	"unicode"
 )
 
 // Define the Garden type here.
@@ -21,6 +22,16 @@ type Garden struct {
 func NewGarden(diagram string, children []string) (*Garden, error) {
 	if len(children) < 1 {
 		return nil, errors.New("List of children must not be empty")
+	}
+
+	isUpper := true
+	for _, char := range diagram {
+		if !unicode.IsUpper(char) && unicode.IsLetter(char) {
+			isUpper = false
+		}
+	}
+	if !isUpper {
+		return nil, errors.New("Diagram must be formatted with capital letters")
 	}
 
 	return nil, nil
