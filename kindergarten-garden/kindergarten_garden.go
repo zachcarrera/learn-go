@@ -1,5 +1,9 @@
 package kindergarten
 
+import (
+	"errors"
+)
+
 // Define the Garden type here.
 type Garden struct {
 	children []string
@@ -15,7 +19,11 @@ type Garden struct {
 //     VVCCGG`
 
 func NewGarden(diagram string, children []string) (*Garden, error) {
-	panic("Please implement the NewGarden function")
+	if len(children) < 1 {
+		return nil, errors.New("List of children must not be empty")
+	}
+
+	return nil, nil
 }
 
 func (g *Garden) Plants(child string) ([]string, bool) {
