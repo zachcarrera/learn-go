@@ -3,6 +3,8 @@ package kindergarten
 import (
 	"errors"
 	"unicode"
+
+	"golang.org/x/exp/slices"
 )
 
 // Define the Garden type here.
@@ -41,6 +43,19 @@ func NewGarden(diagram string, children []string) (*Garden, error) {
 	}
 	if diagramSlice[0] != '\n' {
 		return nil, errors.New("Diagram must start with a new line character")
+	}
+
+	secondNewLine := slices.Index(diagramSlice[1:], '\n') + 1
+	if secondNewLine == -1 {
+		return nil, errors.New("Diagram must be formatted correctly")
+	}
+
+	if len(diagramSlice[1:secondNewLine])%2 != 0 || len(diagramSlice[secondNewLine+1:])%2 != 0 {
+		return nil, errors.New("Diagram must have an even amount of cups in each row")
+	}
+
+	if len(diagramSlice[1:secondNewLine]) != len(diagramSlice[secondNewLine+1:]) {
+		return nil, errors.New("Diagram rows must be of equal length")
 	}
 
 	return nil, nil
