@@ -86,5 +86,10 @@ func NewGarden(diagram string, children []string) (*Garden, error) {
 }
 
 func (g *Garden) Plants(child string) ([]string, bool) {
-	panic("Please implement the Plants function")
+	plants, ok := g.plants[child]
+	if !ok {
+		return nil, false
+	}
+
+	return plants, true
 }
