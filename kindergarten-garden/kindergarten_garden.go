@@ -2,6 +2,7 @@ package kindergarten
 
 import (
 	"errors"
+	"sort"
 	"unicode"
 
 	"golang.org/x/exp/slices"
@@ -65,8 +66,12 @@ func NewGarden(diagram string, children []string) (*Garden, error) {
 		return nil, errors.New("Diagram rows must be of equal length")
 	}
 
+	orderedChildren := make([]string, len(children))
+	copy(orderedChildren, children)
+	sort.Strings(orderedChildren)
+
 	garden := &Garden{
-		children: children,
+		children: orderedChildren,
 		plants:   make(map[string][]string),
 	}
 
