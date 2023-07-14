@@ -58,7 +58,12 @@ func NewGarden(diagram string, children []string) (*Garden, error) {
 		return nil, errors.New("Diagram rows must be of equal length")
 	}
 
-	return nil, nil
+	garden := &Garden{
+		children: children,
+		plants:   make(map[string][]string),
+	}
+
+	return garden, nil
 }
 
 func (g *Garden) Plants(child string) ([]string, bool) {
