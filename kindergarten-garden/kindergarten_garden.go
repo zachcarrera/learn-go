@@ -70,6 +70,18 @@ func NewGarden(diagram string, children []string) (*Garden, error) {
 		plants:   make(map[string][]string),
 	}
 
+	for i, child := range garden.children {
+		if _, ok := garden.plants[child]; ok {
+			return nil, errors.New("All children must be unique")
+		}
+		garden.plants[child] = []string{
+			plantsLookup[diagramSlice[2*i+1]],
+			plantsLookup[diagramSlice[2*i+2]],
+			plantsLookup[diagramSlice[secondNewLine+2*i+1]],
+			plantsLookup[diagramSlice[secondNewLine+2*i+2]],
+		}
+	}
+
 	return garden, nil
 }
 
