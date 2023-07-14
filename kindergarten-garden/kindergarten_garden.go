@@ -34,6 +34,15 @@ func NewGarden(diagram string, children []string) (*Garden, error) {
 		return nil, errors.New("Diagram must be formatted with capital letters")
 	}
 
+	diagramSlice := []rune(diagram)
+
+	if len(diagramSlice) < 1 {
+		return nil, errors.New("Diagram must contain atleast 1 character")
+	}
+	if diagramSlice[0] != '\n' {
+		return nil, errors.New("Diagram must start with a new line character")
+	}
+
 	return nil, nil
 }
 
