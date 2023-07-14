@@ -13,6 +13,13 @@ type Garden struct {
 	plants   map[string][]string
 }
 
+var plantsLookup = map[rune]string{
+	'V': "violets",
+	'R': "radishes",
+	'C': "clover",
+	'G': "grass",
+}
+
 // The diagram argument starts each row with a '\n'.  This allows Go's
 // raw string literals to present diagrams in source code nicely as two
 // rows flush left, for example,
