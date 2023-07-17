@@ -8,6 +8,7 @@ package stringset
 // Format the empty set as {}.
 
 // Define the Set type here.
+type Set map[string]bool
 
 func New() Set {
 	panic("Please implement the New function")
