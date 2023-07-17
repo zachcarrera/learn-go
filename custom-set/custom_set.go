@@ -1,5 +1,7 @@
 package stringset
 
+import "strings"
+
 // Implement Set as a collection of unique string values.
 //
 // For Set.String, use '{' and '}', output elements as double-quoted strings
@@ -23,7 +25,12 @@ func NewFromSlice(l []string) Set {
 }
 
 func (s Set) String() string {
-	panic("Please implement the String function")
+	keys := make([]string, 0, len(s))
+	for key := range s {
+		key = `"` + key + `"`
+		keys = append(keys, key)
+	}
+	return "{" + strings.Join(keys, ", ") + "}"
 }
 
 func (s Set) IsEmpty() bool {
