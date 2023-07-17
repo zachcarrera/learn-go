@@ -11,7 +11,7 @@ package stringset
 type Set map[string]bool
 
 func New() Set {
-	panic("Please implement the New function")
+	return make(Set)
 }
 
 func NewFromSlice(l []string) Set {
