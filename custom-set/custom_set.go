@@ -31,7 +31,7 @@ func (s Set) Has(elem string) bool {
 }
 
 func (s Set) Add(elem string) {
-	panic("Please implement the Add function")
+	s[elem] = true
 }
 
 func Subset(s1, s2 Set) bool {
