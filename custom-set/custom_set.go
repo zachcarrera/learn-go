@@ -65,7 +65,10 @@ func Disjoint(s1, s2 Set) bool {
 }
 
 func Equal(s1, s2 Set) bool {
-	panic("Please implement the Equal function")
+	if len(s1) != len(s2) {
+		return false
+	}
+	return Subset(s1, s2)
 }
 
 func Intersection(s1, s2 Set) Set {
