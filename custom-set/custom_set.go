@@ -15,7 +15,11 @@ func New() Set {
 }
 
 func NewFromSlice(l []string) Set {
-	panic("Please implement the NewFromSlice function")
+	set := make(Set)
+	for _, v := range l {
+		set.Add(v)
+	}
+	return set
 }
 
 func (s Set) String() string {
