@@ -47,7 +47,12 @@ func (s Set) Add(elem string) {
 }
 
 func Subset(s1, s2 Set) bool {
-	panic("Please implement the Subset function")
+	for key := range s1 {
+		if !s2.Has(key) {
+			return false
+		}
+	}
+	return true
 }
 
 func Disjoint(s1, s2 Set) bool {
