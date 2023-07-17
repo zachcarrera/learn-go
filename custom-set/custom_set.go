@@ -105,5 +105,12 @@ func Difference(s1, s2 Set) Set {
 }
 
 func Union(s1, s2 Set) Set {
-	panic("Please implement the Union function")
+	union := make(Set)
+	for key := range s1 {
+		union.Add(key)
+	}
+	for key := range s2 {
+		union.Add(key)
+	}
+	return union
 }
