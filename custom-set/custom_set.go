@@ -38,7 +38,8 @@ func (s Set) IsEmpty() bool {
 }
 
 func (s Set) Has(elem string) bool {
-	panic("Please implement the Has function")
+	_, ok := s[elem]
+	return ok
 }
 
 func (s Set) Add(elem string) {
