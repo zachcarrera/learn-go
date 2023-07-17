@@ -34,7 +34,7 @@ func (s Set) String() string {
 }
 
 func (s Set) IsEmpty() bool {
-	panic("Please implement the IsEmpty function")
+	return len(s) == 0
 }
 
 func (s Set) Has(elem string) bool {
