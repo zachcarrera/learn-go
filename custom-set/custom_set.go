@@ -87,7 +87,21 @@ func Intersection(s1, s2 Set) Set {
 }
 
 func Difference(s1, s2 Set) Set {
-	panic("Please implement the Difference function")
+	if s1.IsEmpty() {
+		return s1
+	}
+
+	if s2.IsEmpty() {
+		return s1
+	}
+
+	difference := make([]string, 0)
+	for key := range s1 {
+		if !s2.Has(key) {
+			difference = append(difference, key)
+		}
+	}
+	return NewFromSlice(difference)
 }
 
 func Union(s1, s2 Set) Set {
