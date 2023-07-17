@@ -56,7 +56,12 @@ func Subset(s1, s2 Set) bool {
 }
 
 func Disjoint(s1, s2 Set) bool {
-	panic("Please implement the Disjoint function")
+	for key := range s1 {
+		if s2.Has(key) {
+			return false
+		}
+	}
+	return true
 }
 
 func Equal(s1, s2 Set) bool {
