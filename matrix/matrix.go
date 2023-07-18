@@ -38,7 +38,13 @@ func New(s string) (Matrix, error) {
 
 // Cols and Rows must return the results without affecting the matrix.
 func (m Matrix) Cols() [][]int {
-	panic("Please implement the Cols function")
+	cols := make([][]int, len(m[0]))
+	for _, rows := range m {
+		for j, num := range rows {
+			cols[j] = append(cols[j], num)
+		}
+	}
+	return cols
 }
 
 func (m Matrix) Rows() [][]int {
