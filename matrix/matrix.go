@@ -20,7 +20,7 @@ func New(s string) (Matrix, error) {
 		for _, v := range num {
 			number, err := strconv.Atoi(v)
 			if err != nil {
-				return nil, errors.New("test error")
+				return nil, errors.New("Invalid Number in row")
 			}
 			numbers = append(numbers, number)
 		}
@@ -28,7 +28,7 @@ func New(s string) (Matrix, error) {
 			rowLength = len(numbers)
 		} else {
 			if len(numbers) != rowLength {
-				return nil, errors.New("length error")
+				return nil, errors.New("Mismatched row lengths in matrix")
 			}
 		}
 		m = append(m, numbers)
