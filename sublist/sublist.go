@@ -11,6 +11,17 @@ func Sublist(l1, l2 []int) Relation {
 		} else {
 			return RelationUnequal
 		}
+	} else if len(l1) > len(l2) {
+		if result := Sublist(l2, l1); result != "sublist" {
+			return result
+		}
+		return RelationSuperlist
+	} else {
+		for i := 0; i <= len(l2)-len(l1); i++ {
+			if reflect.DeepEqual(l1, l2[i:i+len(l1)]) {
+				return RelationSublist
+			}
+		}
+	}
 	return RelationUnequal
-	panic("Please implement the Sublist function")
 }
