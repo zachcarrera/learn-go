@@ -48,7 +48,13 @@ func (m Matrix) Cols() [][]int {
 }
 
 func (m Matrix) Rows() [][]int {
-	panic("Please implement the Rows function")
+	var rows [][]int
+	for _, row := range m {
+		var rowCopy []int
+		rowCopy = append(rowCopy, row...)
+		rows = append(rows, rowCopy)
+	}
+	return rows
 }
 
 func (m Matrix) Set(row, col, val int) bool {
