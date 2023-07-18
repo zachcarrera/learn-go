@@ -1,6 +1,7 @@
 package matrix
 
 // Define the Matrix type here.
+type Matrix [][]int
 
 func New(s string) (Matrix, error) {
 	panic("Please implement the New function")
