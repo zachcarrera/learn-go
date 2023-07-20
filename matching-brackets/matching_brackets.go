@@ -1,16 +1,21 @@
 package brackets
 
 func Bracket(input string) bool {
+	bracketPair := map[rune]rune{
+		']': '[',
+		'}': '{',
+		')': '(',
+	}
 	stack := make([]rune, 0)
 	for _, char := range input {
-		if char == '{' || char == '[' || char == '(' {
+		switch char {
+		case '{', '[', '(':
 			stack = append(stack, char)
-		}
-
-		if len(stack) > 0 && ((char == '}' && stack[len(stack)-1] == '{') || (char == ']' && stack[len(stack)-1] == '[') || (char == ')' && stack[len(stack)-1] == '(')) {
+		case '}', ']', ')':
+			if len(stack) == 0 || stack[len(stack)-1] != bracketPair[char] {
+				return false
+			}
 			stack = stack[:len(stack)-1]
-		} else if char == '}' || char == ']' || char == ')' {
-			return false
 		}
 	}
 	return len(stack) == 0
