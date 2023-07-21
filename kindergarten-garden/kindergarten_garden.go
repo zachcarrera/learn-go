@@ -4,8 +4,6 @@ import (
 	"errors"
 	"sort"
 	"unicode"
-
-	"golang.org/x/exp/slices"
 )
 
 // Define the Garden type here.
@@ -34,26 +32,19 @@ func NewGarden(diagram string, children []string) (*Garden, error) {
 		return nil, errors.New("List of children must not be empty")
 	}
 
-	isUpper := true
-	for _, char := range diagram {
-		if !unicode.IsUpper(char) && unicode.IsLetter(char) {
-			isUpper = false
+	secondNewLine := -1
+	for i, char := range diagram {
+		if i == 0 && char != '\n' {
+			return nil, errors.New("Diagram must start with a new line character")
+		} else if i != 0 && char == '\n' {
+			secondNewLine = i
+		} else if !unicode.IsUpper(char) && unicode.IsLetter(char) {
+			return nil, errors.New("Diagram must be formatted with capital letters")
 		}
-	}
-	if !isUpper {
-		return nil, errors.New("Diagram must be formatted with capital letters")
 	}
 
 	diagramSlice := []rune(diagram)
 
-	if len(diagramSlice) < 1 {
-		return nil, errors.New("Diagram must contain atleast 1 character")
-	}
-	if diagramSlice[0] != '\n' {
-		return nil, errors.New("Diagram must start with a new line character")
-	}
-
-	secondNewLine := slices.Index(diagramSlice[1:], '\n') + 1
 	if secondNewLine == -1 {
 		return nil, errors.New("Diagram must be formatted correctly")
 	}
