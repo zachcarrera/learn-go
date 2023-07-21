@@ -8,8 +8,7 @@ import (
 
 // Define the Garden type here.
 type Garden struct {
-	children []string
-	plants   map[string][]string
+	plants map[string][]string
 }
 
 var plantsLookup = map[rune]string{
@@ -65,11 +64,10 @@ func NewGarden(diagram string, children []string) (*Garden, error) {
 	sort.Strings(orderedChildren)
 
 	garden := &Garden{
-		children: orderedChildren,
-		plants:   make(map[string][]string),
+		plants: make(map[string][]string),
 	}
 
-	for i, child := range garden.children {
+	for i, child := range orderedChildren {
 		if _, ok := garden.plants[child]; ok {
 			return nil, errors.New("All children must be unique")
 		}
