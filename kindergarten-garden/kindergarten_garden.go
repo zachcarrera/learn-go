@@ -49,11 +49,14 @@ func NewGarden(diagram string, children []string) (*Garden, error) {
 		return nil, errors.New("Diagram must be formatted correctly")
 	}
 
-	if len(diagramSlice[1:secondNewLine])%2 != 0 || len(diagramSlice[secondNewLine+1:])%2 != 0 {
+	topRowLength := len(diagramSlice[1:secondNewLine])
+	bottomRowLength := len(diagramSlice[secondNewLine+1:])
+
+	if topRowLength%2 != 0 || bottomRowLength%2 != 0 {
 		return nil, errors.New("Diagram must have an even amount of cups in each row")
 	}
 
-	if len(diagramSlice[1:secondNewLine]) != len(diagramSlice[secondNewLine+1:]) {
+	if topRowLength != bottomRowLength {
 		return nil, errors.New("Diagram rows must be of equal length")
 	}
 
