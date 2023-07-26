@@ -1,18 +1,15 @@
 package railfence
 
-import "strings"
-
 func Encode(message string, rails int) string {
-	newRails := make([]string, rails)
-	i, sign := 0, 1
-	for _, char := range message {
-		newRails[i] += string(char)
-		if cycle := i + sign; cycle == -1 || cycle == rails {
-			sign *= -1
-		}
-		i += sign
+	messageRunes := []rune(message)
+	length := len(messageRunes)
+	encoded := make([]rune, length)
+	positions := makeRails(length, rails)
+
+	for to, from := range positions {
+		encoded[to] = messageRunes[from]
 	}
-	return strings.Join(newRails, "")
+	return string(encoded)
 }
 
 func Decode(message string, rails int) string {
