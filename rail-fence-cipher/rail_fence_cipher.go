@@ -17,29 +17,12 @@ func Encode(message string, rails int) string {
 
 func Decode(message string, rails int) string {
 	messageRunes := []rune(message)
-	decoded := make([]rune, len(messageRunes))
+	length := len(messageRunes)
+	decoded := make([]rune, length)
+	positions := makeRails(length, rails)
 
-	var rails2 [][]int
-	rail, dRail := 0, 1
-	for i := 0; i < len(messageRunes); i++ {
-		if i < rails {
-			rails2 = append(rails2, []int{})
-		}
-		rails2[rail] = append(rails2[rail], i)
-
-		if cycle := rail + dRail; cycle == -1 || cycle == rails {
-			dRail *= -1
-		}
-		rail += dRail
-	}
-	var positions []int
-	for _, slice := range rails2 {
-		positions = append(positions, slice...)
-	}
-
-	for i, v := range positions {
-		decoded[v] = messageRunes[i]
-
+	for from, to := range positions {
+		decoded[to] = messageRunes[from]
 	}
 	return string(decoded)
 }
