@@ -8,7 +8,7 @@ type BinarySearchTree struct {
 
 // NewBst creates and returns a new BinarySearchTree.
 func NewBst(i int) *BinarySearchTree {
-	panic("Please implement the NewBst function")
+	return &BinarySearchTree{data: i}
 }
 
 // Insert inserts an int into the BinarySearchTree.
