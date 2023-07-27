@@ -1,6 +1,8 @@
 package tournament
 
 import (
+	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"sort"
@@ -40,6 +42,38 @@ func (t *teamRecord) String() string {
 
 func Tally(reader io.Reader, writer io.Writer) error {
 	panic("Please implement the Tally function")
+}
+
+func readMatches(reader io.Reader) (map[string]*teamRecord, error) {
+	teams := make(map[string]*teamRecord)
+	scanner := bufio.NewScanner(reader)
+
+	for scanner.Scan() {
+		text := scanner.Text()
+		if text == "" || text[0] == '#' {
+			continue
+		}
+
+		tokens := strings.Split(text, ";")
+		if len(tokens) != 3 {
+			return nil, errors.New("Invalid match given")
+		}
+
+		switch tokens[2] {
+		case "win":
+			getOrCreateTeam(teams, tokens[0]).won()
+			getOrCreateTeam(teams, tokens[1]).lost()
+		case "loss":
+			getOrCreateTeam(teams, tokens[0]).lost()
+			getOrCreateTeam(teams, tokens[1]).won()
+		case "draw":
+			getOrCreateTeam(teams, tokens[0]).draw()
+			getOrCreateTeam(teams, tokens[1]).draw()
+		default:
+			return nil, errors.New("Invalid match result")
+		}
+	}
+	return teams, nil
 }
 
 func rankedTeams(teams map[string]*teamRecord) []*teamRecord {
