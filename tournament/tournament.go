@@ -1,6 +1,9 @@
 package tournament
 
-import "io"
+import (
+	"fmt"
+	"io"
+)
 
 type teamRecord struct {
 	name   string
@@ -27,6 +30,10 @@ func (t *teamRecord) draw() {
 
 func (t *teamRecord) points() int {
 	return t.wins*3 + t.draws
+}
+
+func (t *teamRecord) String() string {
+	return fmt.Sprintf("%-30s |%3d |%3d |%3d |%3d |%3d\n", t.name, t.played, t.wins, t.draws, t.losses, t.points())
 }
 
 func Tally(reader io.Reader, writer io.Writer) error {
