@@ -41,7 +41,17 @@ func (t *teamRecord) String() string {
 }
 
 func Tally(reader io.Reader, writer io.Writer) error {
-	panic("Please implement the Tally function")
+	teams, err := readMatches(reader)
+	if err != nil {
+		return err
+	}
+
+	topRow := fmt.Sprintf("%-30s |%3s |%3s |%3s |%3s |%3s\n", "Team", "MP", "W", "D", "L", "P")
+	writer.Write([]byte(topRow))
+	for _, team := range rankedTeams(teams) {
+		writer.Write([]byte(team.String()))
+	}
+	return nil
 }
 
 func readMatches(reader io.Reader) (map[string]*teamRecord, error) {
