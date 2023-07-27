@@ -25,6 +25,10 @@ func (t *teamRecord) draw() {
 	t.draws++
 }
 
+func (t *teamRecord) points() int {
+	return t.wins*3 + t.draws
+}
+
 func Tally(reader io.Reader, writer io.Writer) error {
 	panic("Please implement the Tally function")
 }
