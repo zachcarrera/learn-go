@@ -20,6 +20,11 @@ func (t *teamRecord) lost() {
 	t.losses++
 }
 
+func (t *teamRecord) draw() {
+	t.played++
+	t.draws++
+}
+
 func Tally(reader io.Reader, writer io.Writer) error {
 	panic("Please implement the Tally function")
 }
