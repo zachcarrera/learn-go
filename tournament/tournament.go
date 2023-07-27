@@ -10,6 +10,11 @@ type teamRecord struct {
 	draws  int
 }
 
+func (t *teamRecord) won() {
+	t.played++
+	t.wins++
+}
+
 func Tally(reader io.Reader, writer io.Writer) error {
 	panic("Please implement the Tally function")
 }
