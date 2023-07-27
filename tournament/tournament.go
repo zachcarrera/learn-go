@@ -3,6 +3,8 @@ package tournament
 import (
 	"fmt"
 	"io"
+	"sort"
+	"strings"
 )
 
 type teamRecord struct {
@@ -38,6 +40,25 @@ func (t *teamRecord) String() string {
 
 func Tally(reader io.Reader, writer io.Writer) error {
 	panic("Please implement the Tally function")
+}
+
+func rankedTeams(teams map[string]*teamRecord) []*teamRecord {
+	rankedTeams := make([]*teamRecord, 0, len(teams))
+	for _, team := range teams {
+		rankedTeams = append(rankedTeams, team)
+	}
+
+	sort.Slice(rankedTeams, func(a, b int) bool {
+		if rankedTeams[a].points() > rankedTeams[b].points() {
+			return true
+		}
+		if rankedTeams[a].points() < rankedTeams[b].points() {
+			return false
+		}
+
+		return strings.Compare(rankedTeams[a].name, rankedTeams[b].name) < 0
+	})
+	return rankedTeams
 }
 
 func getOrCreateTeam(teams map[string]*teamRecord, name string) *teamRecord {
