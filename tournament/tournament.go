@@ -39,3 +39,12 @@ func (t *teamRecord) String() string {
 func Tally(reader io.Reader, writer io.Writer) error {
 	panic("Please implement the Tally function")
 }
+
+func getOrCreateTeam(teams map[string]*teamRecord, name string) *teamRecord {
+	team, ok := teams[name]
+	if !ok {
+		team = &teamRecord{name: name}
+		teams[name] = team
+	}
+	return team
+}
