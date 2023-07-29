@@ -67,7 +67,13 @@ func (l *List) Pop() (int, error) {
 }
 
 func (l *List) Array() []int {
-	panic("Please implement the Array function")
+	var list []int
+	current := l.head
+	for current != nil {
+		list = append(list, current.data)
+		current = current.next
+	}
+	return list
 }
 
 func (l *List) Reverse() *List {
