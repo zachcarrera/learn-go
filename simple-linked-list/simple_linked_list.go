@@ -1,5 +1,7 @@
 package linkedlist
 
+import "errors"
+
 // Define the List and Element types here.
 
 type Element struct {
@@ -43,7 +45,25 @@ func (l *List) Push(element int) {
 }
 
 func (l *List) Pop() (int, error) {
-	panic("Please implement the Pop function")
+
+	if l.head == nil {
+		return 0, errors.New("Cannot pop from an empty list")
+	}
+
+	if l.head.next == nil {
+		l.head = nil
+		return 0, nil
+	}
+
+	current := l.head
+
+	for current.next.next != nil {
+		current = current.next
+	}
+
+	popped := current.next.data
+	current.next = nil
+	return popped, nil
 }
 
 func (l *List) Array() []int {
