@@ -30,7 +30,16 @@ func (l *List) Size() int {
 }
 
 func (l *List) Push(element int) {
-	panic("Please implement the Push function")
+	if l.head == nil {
+		l.head = &Element{data: element}
+		return
+	}
+
+	current := l.head
+	for current.next != nil {
+		current = current.next
+	}
+	current.next = &Element{data: element}
 }
 
 func (l *List) Pop() (int, error) {
