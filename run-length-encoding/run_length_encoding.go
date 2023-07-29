@@ -3,6 +3,7 @@ package encode
 import (
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 func RunLengthEncode(input string) string {
@@ -26,5 +27,22 @@ func RunLengthEncode(input string) string {
 }
 
 func RunLengthDecode(input string) string {
-	panic("Please implement the RunLengthDecode function")
+	var sb strings.Builder
+	inputChars := []rune(input)
+	for i := 0; i < len(inputChars); i++ {
+		var charCount string
+		for unicode.IsDigit(inputChars[i]) {
+			charCount += string(inputChars[i])
+			i++
+		}
+		if charCount == "" {
+			charCount = "1"
+		}
+		currentChar := inputChars[i]
+		convertedNum, _ := strconv.Atoi(charCount)
+		for j := 0; j < convertedNum; j++ {
+			sb.WriteRune(currentChar)
+		}
+	}
+	return sb.String()
 }
