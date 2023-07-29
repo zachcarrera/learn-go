@@ -20,7 +20,13 @@ func New(elements []int) *List {
 }
 
 func (l *List) Size() int {
-	panic("Please implement the Size function")
+	var size int
+	current := l.head
+	for current != nil {
+		current = current.next
+		size++
+	}
+	return size
 }
 
 func (l *List) Push(element int) {
