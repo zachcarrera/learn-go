@@ -7,6 +7,10 @@ type Element struct {
 	next *Element
 }
 
+type List struct {
+	head *Element
+}
+
 func New(elements []int) *List {
 	panic("Please implement the New function")
 }
