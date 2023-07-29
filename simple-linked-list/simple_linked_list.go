@@ -12,7 +12,11 @@ type List struct {
 }
 
 func New(elements []int) *List {
-	panic("Please implement the New function")
+	baseList := &List{}
+	for _, v := range elements {
+		baseList.Push(v)
+	}
+	return baseList
 }
 
 func (l *List) Size() int {
