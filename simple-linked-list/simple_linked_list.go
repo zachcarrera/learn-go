@@ -77,5 +77,17 @@ func (l *List) Array() []int {
 }
 
 func (l *List) Reverse() *List {
-	panic("Please implement the Reverse function")
+	var prev *Element
+	var next *Element
+	current := l.head
+
+	for current != nil {
+		next = current.next
+		current.next = prev
+		prev = current
+		current = next
+	}
+	l.head = prev
+
+	return l
 }
