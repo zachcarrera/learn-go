@@ -12,6 +12,13 @@ type Entry struct {
 	Change      int // in cents
 }
 
+const (
+	nlLocaleString   = "nl-NL"
+	usLocaleString   = "en-US"
+	euCurrencyString = "EUR"
+	usCurrencyString = "USD"
+)
+
 func FormatLedger(currency string, locale string, entries []Entry) (string, error) {
 	var entriesCopy []Entry
 	for _, e := range entries {
