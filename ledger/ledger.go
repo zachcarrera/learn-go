@@ -89,9 +89,9 @@ func parseEntry(i int, entry Entry, messages chan message, locale string, curren
 	}
 	var date string
 	if locale == nlLocaleString {
-		date = day + "-" + month + "-" + year
+		date = fmt.Sprintf("%s-%s-%s", day, month, year)
 	} else if locale == usLocaleString {
-		date = month + "/" + day + "/" + year
+		date = fmt.Sprintf("%s/%s/%s", month, day, year)
 	}
 	negative := false
 	cents := entry.Change
