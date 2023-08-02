@@ -78,10 +78,6 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 }
 
 func parseEntry(i int, entry Entry, messages chan message, locale string, currency string) {
-	if len(entry.Date) != 10 {
-		messages <- message{err: errInvalidDate}
-		return
-	}
 	year, month, day, err := parseDate(entry.Date)
 	if err != nil {
 		messages <- message{err: err}
@@ -192,7 +188,6 @@ func parseDate(date string) (year, month, day string, err error) {
 		err = errInvalidDate
 		return
 	}
-
 	if date[4] != '-' || date[7] != '-' {
 		err = errInvalidDate
 		return
