@@ -2,6 +2,7 @@ package ledger
 
 import (
 	"errors"
+	"fmt"
 	"sort"
 	"strconv"
 	"strings"
@@ -24,6 +25,7 @@ const (
 	usLocaleString   = "en-US"
 	euCurrencyString = "EUR"
 	usCurrencyString = "USD"
+	headerFormatter  = "%-10s | %-25s | %s\n"
 )
 
 var (
@@ -51,22 +53,13 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 	var s string
 	switch locale {
 	case nlLocaleString:
-		s = "Datum" +
-			strings.Repeat(" ", 10-len("Datum")) +
-			" | " +
-			"Omschrijving" +
-			strings.Repeat(" ", 25-len("Omschrijving")) +
-			" | " + "Verandering" + "\n"
+		s = fmt.Sprintf(headerFormatter, "Datum", "Omschrijving", "Verandering")
 	case usLocaleString:
-		s = "Date" +
-			strings.Repeat(" ", 10-len("Date")) +
-			" | " +
-			"Description" +
-			strings.Repeat(" ", 25-len("Description")) +
-			" | " + "Change" + "\n"
+		s = fmt.Sprintf(headerFormatter, "Date", "Description", "Change")
 	default:
 		return "", errInvalidLocale
 	}
+
 	// Parallelism, always a great idea
 	co := make(chan message)
 	for i, et := range entriesCopy {
