@@ -19,6 +19,12 @@ const (
 	usCurrencyString = "USD"
 )
 
+var (
+	errInvalidLocale   = errors.New("Invalid locale specified")
+	errInvalidCurrency = errors.New("Invalid currency specified")
+	errInvalidDate     = errors.New("Invalide entry date provided")
+)
+
 func FormatLedger(currency string, locale string, entries []Entry) (string, error) {
 	var entriesCopy []Entry
 	for _, e := range entries {
