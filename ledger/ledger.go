@@ -87,17 +87,17 @@ func parseEntry(i int, entry Entry, messages chan message, locale string, curren
 		messages <- message{err: err}
 		return
 	}
-	de := entry.Description
-	if len(de) > 25 {
-		de = de[:22] + "..."
+	desc := entry.Description
+	if len(desc) > 25 {
+		desc = desc[:22] + "..."
 	} else {
-		de = de + strings.Repeat(" ", 25-len(de))
+		desc = desc + strings.Repeat(" ", 25-len(desc))
 	}
-	var d string
+	var date string
 	if locale == nlLocaleString {
-		d = day + "-" + month + "-" + year
+		date = day + "-" + month + "-" + year
 	} else if locale == usLocaleString {
-		d = month + "/" + day + "/" + year
+		date = month + "/" + day + "/" + year
 	}
 	negative := false
 	cents := entry.Change
@@ -105,17 +105,17 @@ func parseEntry(i int, entry Entry, messages chan message, locale string, curren
 		cents = cents * -1
 		negative = true
 	}
-	var a string
+	var change string
 	if locale == nlLocaleString {
 		if currency == "EUR" {
-			a += "€"
+			change += "€"
 		} else if currency == "USD" {
-			a += "$"
+			change += "$"
 		} else {
 			messages <- message{err: errInvalidCurrency}
 			return
 		}
-		a += " "
+		change += " "
 		centsStr := strconv.Itoa(cents)
 		switch len(centsStr) {
 		case 1:
@@ -133,24 +133,24 @@ func parseEntry(i int, entry Entry, messages chan message, locale string, curren
 			parts = append(parts, rest)
 		}
 		for i := len(parts) - 1; i >= 0; i-- {
-			a += parts[i] + "."
+			change += parts[i] + "."
 		}
-		a = a[:len(a)-1]
-		a += ","
-		a += centsStr[len(centsStr)-2:]
+		change = change[:len(change)-1]
+		change += ","
+		change += centsStr[len(centsStr)-2:]
 		if negative {
-			a += "-"
+			change += "-"
 		} else {
-			a += " "
+			change += " "
 		}
 	} else if locale == usLocaleString {
 		if negative {
-			a += "("
+			change += "("
 		}
 		if currency == "EUR" {
-			a += "€"
+			change += "€"
 		} else if currency == "USD" {
-			a += "$"
+			change += "$"
 		} else {
 			messages <- message{err: errInvalidCurrency}
 			return
@@ -172,26 +172,26 @@ func parseEntry(i int, entry Entry, messages chan message, locale string, curren
 			parts = append(parts, rest)
 		}
 		for i := len(parts) - 1; i >= 0; i-- {
-			a += parts[i] + ","
+			change += parts[i] + ","
 		}
-		a = a[:len(a)-1]
-		a += "."
-		a += centsStr[len(centsStr)-2:]
+		change = change[:len(change)-1]
+		change += "."
+		change += centsStr[len(centsStr)-2:]
 		if negative {
-			a += ")"
+			change += ")"
 		} else {
-			a += " "
+			change += " "
 		}
 	} else {
 		messages <- message{err: errInvalidLocale}
 		return
 	}
 	var al int
-	for range a {
+	for range change {
 		al++
 	}
-	messages <- message{index: i, formattedEntry: d + strings.Repeat(" ", 10-len(d)) + " | " + de + " | " +
-		strings.Repeat(" ", 13-al) + a + "\n"}
+	messages <- message{index: i, formattedEntry: date + strings.Repeat(" ", 10-len(date)) + " | " + desc + " | " +
+		strings.Repeat(" ", 13-al) + change + "\n"}
 }
 
 func parseDate(date string) (year, month, day string, err error) {
