@@ -62,127 +62,8 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 
 	// Parallelism, always a great idea
 	messages := make(chan message)
-	for i, et := range entriesCopy {
-		go func(i int, entry Entry) {
-			if len(entry.Date) != 10 {
-				messages <- message{err: errInvalidDate}
-				return
-			}
-			d1, d2, d3, d4, d5 := entry.Date[0:4], entry.Date[4], entry.Date[5:7], entry.Date[7], entry.Date[8:10]
-			if d2 != '-' {
-				messages <- message{err: errInvalidDate}
-				return
-			}
-			if d4 != '-' {
-				messages <- message{err: errInvalidDate}
-				return
-			}
-			de := entry.Description
-			if len(de) > 25 {
-				de = de[:22] + "..."
-			} else {
-				de = de + strings.Repeat(" ", 25-len(de))
-			}
-			var d string
-			if locale == nlLocaleString {
-				d = d5 + "-" + d3 + "-" + d1
-			} else if locale == usLocaleString {
-				d = d3 + "/" + d5 + "/" + d1
-			}
-			negative := false
-			cents := entry.Change
-			if cents < 0 {
-				cents = cents * -1
-				negative = true
-			}
-			var a string
-			if locale == nlLocaleString {
-				if currency == "EUR" {
-					a += "€"
-				} else if currency == "USD" {
-					a += "$"
-				} else {
-					messages <- message{err: errInvalidCurrency}
-					return
-				}
-				a += " "
-				centsStr := strconv.Itoa(cents)
-				switch len(centsStr) {
-				case 1:
-					centsStr = "00" + centsStr
-				case 2:
-					centsStr = "0" + centsStr
-				}
-				rest := centsStr[:len(centsStr)-2]
-				var parts []string
-				for len(rest) > 3 {
-					parts = append(parts, rest[len(rest)-3:])
-					rest = rest[:len(rest)-3]
-				}
-				if len(rest) > 0 {
-					parts = append(parts, rest)
-				}
-				for i := len(parts) - 1; i >= 0; i-- {
-					a += parts[i] + "."
-				}
-				a = a[:len(a)-1]
-				a += ","
-				a += centsStr[len(centsStr)-2:]
-				if negative {
-					a += "-"
-				} else {
-					a += " "
-				}
-			} else if locale == usLocaleString {
-				if negative {
-					a += "("
-				}
-				if currency == "EUR" {
-					a += "€"
-				} else if currency == "USD" {
-					a += "$"
-				} else {
-					messages <- message{err: errInvalidCurrency}
-					return
-				}
-				centsStr := strconv.Itoa(cents)
-				switch len(centsStr) {
-				case 1:
-					centsStr = "00" + centsStr
-				case 2:
-					centsStr = "0" + centsStr
-				}
-				rest := centsStr[:len(centsStr)-2]
-				var parts []string
-				for len(rest) > 3 {
-					parts = append(parts, rest[len(rest)-3:])
-					rest = rest[:len(rest)-3]
-				}
-				if len(rest) > 0 {
-					parts = append(parts, rest)
-				}
-				for i := len(parts) - 1; i >= 0; i-- {
-					a += parts[i] + ","
-				}
-				a = a[:len(a)-1]
-				a += "."
-				a += centsStr[len(centsStr)-2:]
-				if negative {
-					a += ")"
-				} else {
-					a += " "
-				}
-			} else {
-				messages <- message{err: errInvalidLocale}
-				return
-			}
-			var al int
-			for range a {
-				al++
-			}
-			messages <- message{index: i, formattedEntry: d + strings.Repeat(" ", 10-len(d)) + " | " + de + " | " +
-				strings.Repeat(" ", 13-al) + a + "\n"}
-		}(i, et)
+	for i, entry := range entriesCopy {
+		go parseEntry(i, entry, messages, locale, currency)
 	}
 	entryStrings := make([]string, len(entriesCopy))
 	for range entriesCopy {
@@ -194,4 +75,125 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 	}
 	s += strings.Join(entryStrings, "")
 	return s, nil
+}
+
+func parseEntry(i int, entry Entry, messages chan message, locale string, currency string) {
+	if len(entry.Date) != 10 {
+		messages <- message{err: errInvalidDate}
+		return
+	}
+	d1, d2, d3, d4, d5 := entry.Date[0:4], entry.Date[4], entry.Date[5:7], entry.Date[7], entry.Date[8:10]
+	if d2 != '-' {
+		messages <- message{err: errInvalidDate}
+		return
+	}
+	if d4 != '-' {
+		messages <- message{err: errInvalidDate}
+		return
+	}
+	de := entry.Description
+	if len(de) > 25 {
+		de = de[:22] + "..."
+	} else {
+		de = de + strings.Repeat(" ", 25-len(de))
+	}
+	var d string
+	if locale == nlLocaleString {
+		d = d5 + "-" + d3 + "-" + d1
+	} else if locale == usLocaleString {
+		d = d3 + "/" + d5 + "/" + d1
+	}
+	negative := false
+	cents := entry.Change
+	if cents < 0 {
+		cents = cents * -1
+		negative = true
+	}
+	var a string
+	if locale == nlLocaleString {
+		if currency == "EUR" {
+			a += "€"
+		} else if currency == "USD" {
+			a += "$"
+		} else {
+			messages <- message{err: errInvalidCurrency}
+			return
+		}
+		a += " "
+		centsStr := strconv.Itoa(cents)
+		switch len(centsStr) {
+		case 1:
+			centsStr = "00" + centsStr
+		case 2:
+			centsStr = "0" + centsStr
+		}
+		rest := centsStr[:len(centsStr)-2]
+		var parts []string
+		for len(rest) > 3 {
+			parts = append(parts, rest[len(rest)-3:])
+			rest = rest[:len(rest)-3]
+		}
+		if len(rest) > 0 {
+			parts = append(parts, rest)
+		}
+		for i := len(parts) - 1; i >= 0; i-- {
+			a += parts[i] + "."
+		}
+		a = a[:len(a)-1]
+		a += ","
+		a += centsStr[len(centsStr)-2:]
+		if negative {
+			a += "-"
+		} else {
+			a += " "
+		}
+	} else if locale == usLocaleString {
+		if negative {
+			a += "("
+		}
+		if currency == "EUR" {
+			a += "€"
+		} else if currency == "USD" {
+			a += "$"
+		} else {
+			messages <- message{err: errInvalidCurrency}
+			return
+		}
+		centsStr := strconv.Itoa(cents)
+		switch len(centsStr) {
+		case 1:
+			centsStr = "00" + centsStr
+		case 2:
+			centsStr = "0" + centsStr
+		}
+		rest := centsStr[:len(centsStr)-2]
+		var parts []string
+		for len(rest) > 3 {
+			parts = append(parts, rest[len(rest)-3:])
+			rest = rest[:len(rest)-3]
+		}
+		if len(rest) > 0 {
+			parts = append(parts, rest)
+		}
+		for i := len(parts) - 1; i >= 0; i-- {
+			a += parts[i] + ","
+		}
+		a = a[:len(a)-1]
+		a += "."
+		a += centsStr[len(centsStr)-2:]
+		if negative {
+			a += ")"
+		} else {
+			a += " "
+		}
+	} else {
+		messages <- message{err: errInvalidLocale}
+		return
+	}
+	var al int
+	for range a {
+		al++
+	}
+	messages <- message{index: i, formattedEntry: d + strings.Repeat(" ", 10-len(d)) + " | " + de + " | " +
+		strings.Repeat(" ", 13-al) + a + "\n"}
 }
