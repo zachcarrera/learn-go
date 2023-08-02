@@ -56,7 +56,7 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 			"Omschrijving" +
 			strings.Repeat(" ", 25-len("Omschrijving")) +
 			" | " + "Verandering" + "\n"
-	} else if locale == "en-US" {
+	} else if locale == usLocaleString {
 		s = "Date" +
 			strings.Repeat(" ", 10-len("Date")) +
 			" | " +
@@ -89,7 +89,7 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 			var d string
 			if locale == nlLocaleString {
 				d = d5 + "-" + d3 + "-" + d1
-			} else if locale == "en-US" {
+			} else if locale == usLocaleString {
 				d = d3 + "/" + d5 + "/" + d1
 			}
 			negative := false
@@ -135,7 +135,7 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 				} else {
 					a += " "
 				}
-			} else if locale == "en-US" {
+			} else if locale == usLocaleString {
 				if negative {
 					a += "("
 				}
