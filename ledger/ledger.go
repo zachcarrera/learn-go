@@ -64,21 +64,24 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 			strings.Repeat(" ", 25-len("Description")) +
 			" | " + "Change" + "\n"
 	} else {
-		return "", errors.New("")
+		return "", errInvalidLocale
 	}
 	// Parallelism, always a great idea
 	co := make(chan message)
 	for i, et := range entriesCopy {
 		go func(i int, entry Entry) {
 			if len(entry.Date) != 10 {
-				co <- message{err: errors.New("")}
+				co <- message{err: errInvalidDate}
+				return
 			}
 			d1, d2, d3, d4, d5 := entry.Date[0:4], entry.Date[4], entry.Date[5:7], entry.Date[7], entry.Date[8:10]
 			if d2 != '-' {
-				co <- message{err: errors.New("")}
+				co <- message{err: errInvalidDate}
+				return
 			}
 			if d4 != '-' {
-				co <- message{err: errors.New("")}
+				co <- message{err: errInvalidDate}
+				return
 			}
 			de := entry.Description
 			if len(de) > 25 {
@@ -105,7 +108,8 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 				} else if currency == "USD" {
 					a += "$"
 				} else {
-					co <- message{err: errors.New("")}
+					co <- message{err: errInvalidCurrency}
+					return
 				}
 				a += " "
 				centsStr := strconv.Itoa(cents)
@@ -144,7 +148,8 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 				} else if currency == "USD" {
 					a += "$"
 				} else {
-					co <- message{err: errors.New("")}
+					co <- message{err: errInvalidCurrency}
+					return
 				}
 				centsStr := strconv.Itoa(cents)
 				switch len(centsStr) {
@@ -174,7 +179,8 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 					a += " "
 				}
 			} else {
-				co <- message{err: errors.New("")}
+				co <- message{err: errInvalidLocale}
+				return
 			}
 			var al int
 			for range a {
