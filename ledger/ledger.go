@@ -61,20 +61,20 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 	}
 
 	// Parallelism, always a great idea
-	co := make(chan message)
+	messages := make(chan message)
 	for i, et := range entriesCopy {
 		go func(i int, entry Entry) {
 			if len(entry.Date) != 10 {
-				co <- message{err: errInvalidDate}
+				messages <- message{err: errInvalidDate}
 				return
 			}
 			d1, d2, d3, d4, d5 := entry.Date[0:4], entry.Date[4], entry.Date[5:7], entry.Date[7], entry.Date[8:10]
 			if d2 != '-' {
-				co <- message{err: errInvalidDate}
+				messages <- message{err: errInvalidDate}
 				return
 			}
 			if d4 != '-' {
-				co <- message{err: errInvalidDate}
+				messages <- message{err: errInvalidDate}
 				return
 			}
 			de := entry.Description
@@ -102,7 +102,7 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 				} else if currency == "USD" {
 					a += "$"
 				} else {
-					co <- message{err: errInvalidCurrency}
+					messages <- message{err: errInvalidCurrency}
 					return
 				}
 				a += " "
@@ -142,7 +142,7 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 				} else if currency == "USD" {
 					a += "$"
 				} else {
-					co <- message{err: errInvalidCurrency}
+					messages <- message{err: errInvalidCurrency}
 					return
 				}
 				centsStr := strconv.Itoa(cents)
@@ -173,20 +173,20 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 					a += " "
 				}
 			} else {
-				co <- message{err: errInvalidLocale}
+				messages <- message{err: errInvalidLocale}
 				return
 			}
 			var al int
 			for range a {
 				al++
 			}
-			co <- message{index: i, formattedEntry: d + strings.Repeat(" ", 10-len(d)) + " | " + de + " | " +
+			messages <- message{index: i, formattedEntry: d + strings.Repeat(" ", 10-len(d)) + " | " + de + " | " +
 				strings.Repeat(" ", 13-al) + a + "\n"}
 		}(i, et)
 	}
 	ss := make([]string, len(entriesCopy))
 	for range entriesCopy {
-		v := <-co
+		v := <-messages
 		if v.err != nil {
 			return "", v.err
 		}
