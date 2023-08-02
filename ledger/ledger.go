@@ -49,21 +49,22 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 	})
 
 	var s string
-	if locale == nlLocaleString {
+	switch locale {
+	case nlLocaleString:
 		s = "Datum" +
 			strings.Repeat(" ", 10-len("Datum")) +
 			" | " +
 			"Omschrijving" +
 			strings.Repeat(" ", 25-len("Omschrijving")) +
 			" | " + "Verandering" + "\n"
-	} else if locale == usLocaleString {
+	case usLocaleString:
 		s = "Date" +
 			strings.Repeat(" ", 10-len("Date")) +
 			" | " +
 			"Description" +
 			strings.Repeat(" ", 25-len("Description")) +
 			" | " + "Change" + "\n"
-	} else {
+	default:
 		return "", errInvalidLocale
 	}
 	// Parallelism, always a great idea
