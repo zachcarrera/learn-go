@@ -184,16 +184,14 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 				strings.Repeat(" ", 13-al) + a + "\n"}
 		}(i, et)
 	}
-	ss := make([]string, len(entriesCopy))
+	entryStrings := make([]string, len(entriesCopy))
 	for range entriesCopy {
-		v := <-messages
-		if v.err != nil {
-			return "", v.err
+		message := <-messages
+		if message.err != nil {
+			return "", message.err
 		}
-		ss[v.index] = v.formattedEntry
+		entryStrings[message.index] = message.formattedEntry
 	}
-	for i := 0; i < len(entriesCopy); i++ {
-		s += ss[i]
-	}
+	s += strings.Join(entryStrings, "")
 	return s, nil
 }
