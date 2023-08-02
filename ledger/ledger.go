@@ -90,8 +90,6 @@ func parseEntry(i int, entry Entry, messages chan message, locale string, curren
 	desc := entry.Description
 	if len(desc) > 25 {
 		desc = desc[:22] + "..."
-	} else {
-		desc = desc + strings.Repeat(" ", 25-len(desc))
 	}
 	var date string
 	if locale == nlLocaleString {
@@ -186,12 +184,7 @@ func parseEntry(i int, entry Entry, messages chan message, locale string, curren
 		messages <- message{err: errInvalidLocale}
 		return
 	}
-	var al int
-	for range change {
-		al++
-	}
-	messages <- message{index: i, formattedEntry: date + strings.Repeat(" ", 10-len(date)) + " | " + desc + " | " +
-		strings.Repeat(" ", 13-al) + change + "\n"}
+	messages <- message{index: i, formattedEntry: fmt.Sprintf("%-10s | %-25s | %13s\n", date, desc, change)}
 }
 
 func parseDate(date string) (year, month, day string, err error) {
