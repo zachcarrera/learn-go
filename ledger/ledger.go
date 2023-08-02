@@ -49,7 +49,7 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 	})
 
 	var s string
-	if locale == "nl-NL" {
+	if locale == nlLocaleString {
 		s = "Datum" +
 			strings.Repeat(" ", 10-len("Datum")) +
 			" | " +
@@ -87,7 +87,7 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 				de = de + strings.Repeat(" ", 25-len(de))
 			}
 			var d string
-			if locale == "nl-NL" {
+			if locale == nlLocaleString {
 				d = d5 + "-" + d3 + "-" + d1
 			} else if locale == "en-US" {
 				d = d3 + "/" + d5 + "/" + d1
@@ -99,7 +99,7 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 				negative = true
 			}
 			var a string
-			if locale == "nl-NL" {
+			if locale == nlLocaleString {
 				if currency == "EUR" {
 					a += "€"
 				} else if currency == "USD" {
