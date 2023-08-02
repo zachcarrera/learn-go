@@ -82,13 +82,9 @@ func parseEntry(i int, entry Entry, messages chan message, locale string, curren
 		messages <- message{err: errInvalidDate}
 		return
 	}
-	d1, d2, d3, d4, d5 := entry.Date[0:4], entry.Date[4], entry.Date[5:7], entry.Date[7], entry.Date[8:10]
-	if d2 != '-' {
-		messages <- message{err: errInvalidDate}
-		return
-	}
-	if d4 != '-' {
-		messages <- message{err: errInvalidDate}
+	year, month, day, err := parseDate(entry.Date)
+	if err != nil {
+		messages <- message{err: err}
 		return
 	}
 	de := entry.Description
@@ -99,9 +95,9 @@ func parseEntry(i int, entry Entry, messages chan message, locale string, curren
 	}
 	var d string
 	if locale == nlLocaleString {
-		d = d5 + "-" + d3 + "-" + d1
+		d = day + "-" + month + "-" + year
 	} else if locale == usLocaleString {
-		d = d3 + "/" + d5 + "/" + d1
+		d = month + "/" + day + "/" + year
 	}
 	negative := false
 	cents := entry.Change
@@ -196,4 +192,18 @@ func parseEntry(i int, entry Entry, messages chan message, locale string, curren
 	}
 	messages <- message{index: i, formattedEntry: d + strings.Repeat(" ", 10-len(d)) + " | " + de + " | " +
 		strings.Repeat(" ", 13-al) + a + "\n"}
+}
+
+func parseDate(date string) (year, month, day string, err error) {
+	if len(date) != 10 {
+		err = errInvalidDate
+		return
+	}
+
+	if date[4] != '-' || date[7] != '-' {
+		err = errInvalidDate
+		return
+	}
+	year, month, day = date[0:4], date[5:7], date[8:10]
+	return
 }
