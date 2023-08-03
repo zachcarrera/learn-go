@@ -137,31 +137,14 @@ func formatChange(locale string, currencySymbol rune, cents int) (string, error)
 	var change string
 	switch locale {
 	case nlLocaleString:
-		number := fmt.Sprintf(",%02d", cents%100)
-		cents /= 100
-		number = fmt.Sprintf("%d%s", cents%1000, number)
-		cents /= 1000
-		for cents > 0 {
-			number = fmt.Sprintf("%d.%s", cents%1000, number)
-			cents /= 1000
-		}
-		change = fmt.Sprintf("%c %s", currencySymbol, number)
+		change = fmt.Sprintf("%c %s", currencySymbol, formatNumber(cents, ',', '.'))
 		if negative {
 			change = fmt.Sprintf("%s-", change)
 		} else {
 			change = fmt.Sprintf("%s ", change)
 		}
 	case usLocaleString:
-		number := fmt.Sprintf(".%02d", cents%100)
-		cents /= 100
-		number = fmt.Sprintf("%d%s", cents%1000, number)
-		cents /= 1000
-
-		for cents > 0 {
-			number = fmt.Sprintf("%d,%s", cents%1000, number)
-			cents /= 1000
-		}
-		change = fmt.Sprintf("%c%s", currencySymbol, number)
+		change = fmt.Sprintf("%c%s", currencySymbol, formatNumber(cents, '.', ','))
 		if negative {
 			change = fmt.Sprintf("(%s)", change)
 		} else {
@@ -171,4 +154,17 @@ func formatChange(locale string, currencySymbol rune, cents int) (string, error)
 		return "", errInvalidLocale
 	}
 	return change, nil
+}
+
+func formatNumber(cents int, decimalSeperator, thousandsSeperator rune) string {
+	number := fmt.Sprintf("%c%02d", decimalSeperator, cents%100)
+	cents /= 100
+	number = fmt.Sprintf("%d%s", cents%1000, number)
+	cents /= 1000
+
+	for cents > 0 {
+		number = fmt.Sprintf("%d%c%s", cents%1000, thousandsSeperator, number)
+		cents /= 1000
+	}
+	return number
 }
