@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"sort"
-	"strconv"
 	"strings"
 )
 
@@ -40,7 +39,7 @@ var (
 )
 
 func FormatLedger(currency string, locale string, entries []Entry) (string, error) {
-	_, validCurrency := currencySymbols[currency]
+	currencySymbol, validCurrency := currencySymbols[currency]
 	if !validCurrency {
 		return "", errInvalidCurrency
 	}
@@ -67,7 +66,7 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 	// Parallelism, always a great idea
 	messages := make(chan message)
 	for i, entry := range entriesCopy {
-		go parseEntry(i, entry, messages, locale, currency)
+		go parseEntry(i, entry, messages, locale, currencySymbol)
 	}
 	entryStrings := make([]string, len(entriesCopy))
 	for range entriesCopy {
@@ -81,7 +80,7 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 	return ledger, nil
 }
 
-func parseEntry(i int, entry Entry, messages chan<- message, locale string, currency string) {
+func parseEntry(i int, entry Entry, messages chan<- message, locale string, currencySymbol rune) {
 	year, month, day, err := parseDate(entry.Date)
 	if err != nil {
 		messages <- message{err: err}
@@ -96,7 +95,7 @@ func parseEntry(i int, entry Entry, messages chan<- message, locale string, curr
 		messages <- message{err: err}
 	}
 
-	change, err := formatChange(locale, currency, entry.Change)
+	change, err := formatChange(locale, currencySymbol, entry.Change)
 	if err != nil {
 		messages <- message{err: err}
 	}
@@ -129,7 +128,7 @@ func formatDate(locale, year, month, day string) (string, error) {
 	return date, nil
 }
 
-func formatChange(locale, currency string, cents int) (string, error) {
+func formatChange(locale string, currencySymbol rune, cents int) (string, error) {
 	negative := false
 	if cents < 0 {
 		cents = cents * -1
@@ -138,78 +137,35 @@ func formatChange(locale, currency string, cents int) (string, error) {
 	var change string
 	switch locale {
 	case nlLocaleString:
-		if currency == "EUR" {
-			change += "€"
-		} else if currency == "USD" {
-			change += "$"
-		} else {
-			return "", errInvalidCurrency
+		number := fmt.Sprintf(",%02d", cents%100)
+		cents /= 100
+		number = fmt.Sprintf("%d%s", cents%1000, number)
+		cents /= 1000
+		for cents > 0 {
+			number = fmt.Sprintf("%d.%s", cents%1000, number)
+			cents /= 1000
 		}
-		change += " "
-		centsStr := strconv.Itoa(cents)
-		switch len(centsStr) {
-		case 1:
-			centsStr = "00" + centsStr
-		case 2:
-			centsStr = "0" + centsStr
-		}
-		rest := centsStr[:len(centsStr)-2]
-		var parts []string
-		for len(rest) > 3 {
-			parts = append(parts, rest[len(rest)-3:])
-			rest = rest[:len(rest)-3]
-		}
-		if len(rest) > 0 {
-			parts = append(parts, rest)
-		}
-		for i := len(parts) - 1; i >= 0; i-- {
-			change += parts[i] + "."
-		}
-		change = change[:len(change)-1]
-		change += ","
-		change += centsStr[len(centsStr)-2:]
+		change = fmt.Sprintf("%c %s", currencySymbol, number)
 		if negative {
-			change += "-"
+			change = fmt.Sprintf("%s-", change)
 		} else {
-			change += " "
+			change = fmt.Sprintf("%s ", change)
 		}
 	case usLocaleString:
+		number := fmt.Sprintf(".%02d", cents%100)
+		cents /= 100
+		number = fmt.Sprintf("%d%s", cents%1000, number)
+		cents /= 1000
+
+		for cents > 0 {
+			number = fmt.Sprintf("%d,%s", cents%1000, number)
+			cents /= 1000
+		}
+		change = fmt.Sprintf("%c%s", currencySymbol, number)
 		if negative {
-			change += "("
-		}
-		if currency == "EUR" {
-			change += "€"
-		} else if currency == "USD" {
-			change += "$"
+			change = fmt.Sprintf("(%s)", change)
 		} else {
-			return "", errInvalidCurrency
-		}
-		centsStr := strconv.Itoa(cents)
-		switch len(centsStr) {
-		case 1:
-			centsStr = "00" + centsStr
-		case 2:
-			centsStr = "0" + centsStr
-		}
-		rest := centsStr[:len(centsStr)-2]
-		var parts []string
-		for len(rest) > 3 {
-			parts = append(parts, rest[len(rest)-3:])
-			rest = rest[:len(rest)-3]
-		}
-		if len(rest) > 0 {
-			parts = append(parts, rest)
-		}
-		for i := len(parts) - 1; i >= 0; i-- {
-			change += parts[i] + ","
-		}
-		change = change[:len(change)-1]
-		change += "."
-		change += centsStr[len(centsStr)-2:]
-		if negative {
-			change += ")"
-		} else {
-			change += " "
+			change = fmt.Sprintf("%s ", change)
 		}
 	default:
 		return "", errInvalidLocale
