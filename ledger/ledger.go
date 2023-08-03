@@ -77,7 +77,7 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 	return ledger, nil
 }
 
-func parseEntry(i int, entry Entry, messages chan message, locale string, currency string) {
+func parseEntry(i int, entry Entry, messages chan<- message, locale string, currency string) {
 	year, month, day, err := parseDate(entry.Date)
 	if err != nil {
 		messages <- message{err: err}
