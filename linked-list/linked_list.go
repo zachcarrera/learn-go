@@ -85,7 +85,12 @@ func (l *List) Pop() (interface{}, error) {
 }
 
 func (l *List) Reverse() {
-	panic("Please implement the Reverse function")
+	l.head, l.tail = l.tail, l.head
+	current := l.head
+	for current != nil {
+		current.next, current.prev = current.prev, current.next
+		current = current.next
+	}
 }
 
 func (l *List) First() *Node {
