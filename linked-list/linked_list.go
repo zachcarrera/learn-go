@@ -1,6 +1,12 @@
 package linkedlist
 
 // Define List and Node types here.
+type Node struct {
+	Value interface{}
+	next  *Node
+	prev  *Node
+}
+
 // Note: The tests expect Node type to include an exported field with name Value to pass.
 
 func NewList(elements ...interface{}) *List {
