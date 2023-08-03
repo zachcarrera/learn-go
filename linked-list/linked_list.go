@@ -7,6 +7,11 @@ type Node struct {
 	prev  *Node
 }
 
+type List struct {
+	head *Node
+	tail *Node
+}
+
 // Note: The tests expect Node type to include an exported field with name Value to pass.
 
 func NewList(elements ...interface{}) *List {
