@@ -51,5 +51,5 @@ func (l *List) First() *Node {
 }
 
 func (l *List) Last() *Node {
-	panic("Please implement the Last function")
+	return l.tail
 }
