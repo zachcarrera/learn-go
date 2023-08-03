@@ -69,7 +69,19 @@ func (l *List) Shift() (interface{}, error) {
 }
 
 func (l *List) Pop() (interface{}, error) {
-	panic("Please implement the Pop function")
+	if l.tail == nil {
+		return nil, errors.New("Cannot pop from an empty list")
+	}
+	if l.head == l.tail {
+		poppedValue := l.tail.Value
+		l.head, l.tail = nil, nil
+		return poppedValue, nil
+	}
+	poppedNode := l.tail
+	l.tail = poppedNode.prev
+	poppedNode.prev = nil
+	l.tail.next = nil
+	return poppedNode.Value, nil
 }
 
 func (l *List) Reverse() {
