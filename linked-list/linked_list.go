@@ -31,7 +31,14 @@ func (l *List) Unshift(v interface{}) {
 }
 
 func (l *List) Push(v interface{}) {
-	panic("Please implement the Push function")
+	if l.head == nil {
+		l.head = &Node{Value: v}
+		l.tail = l.head
+		return
+	}
+
+	l.tail.next = &Node{Value: v, prev: l.tail}
+	l.tail = l.tail.next
 }
 
 func (l *List) Shift() (interface{}, error) {
