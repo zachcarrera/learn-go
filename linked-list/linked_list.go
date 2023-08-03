@@ -1,5 +1,7 @@
 package linkedlist
 
+import "errors"
+
 // Define List and Node types here.
 type Node struct {
 	Value interface{}
@@ -52,7 +54,18 @@ func (l *List) Push(v interface{}) {
 }
 
 func (l *List) Shift() (interface{}, error) {
-	panic("Please implement the Shift function")
+	if l.head == nil {
+		return nil, errors.New("Cannot shift an empty list")
+	}
+	if l.head == l.tail {
+		poppedValue := l.head.Value
+		l.head, l.tail = nil, nil
+		return poppedValue, nil
+	}
+	poppedNode := l.head
+	l.head = l.head.next
+	l.head.prev = nil
+	return poppedNode.Value, nil
 }
 
 func (l *List) Pop() (interface{}, error) {
