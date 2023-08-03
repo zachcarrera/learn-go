@@ -19,7 +19,7 @@ func NewList(elements ...interface{}) *List {
 }
 
 func (n *Node) Next() *Node {
-	panic("Please implement the Next function")
+	return n.next
 }
 
 func (n *Node) Prev() *Node {
