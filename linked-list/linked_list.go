@@ -15,7 +15,11 @@ type List struct {
 // Note: The tests expect Node type to include an exported field with name Value to pass.
 
 func NewList(elements ...interface{}) *List {
-	panic("Please implement the NewList function")
+	newList := &List{}
+	for _, v := range elements {
+		newList.Push(v)
+	}
+	return newList
 }
 
 func (n *Node) Next() *Node {
