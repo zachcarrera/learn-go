@@ -23,7 +23,7 @@ func (n *Node) Next() *Node {
 }
 
 func (n *Node) Prev() *Node {
-	panic("Please implement the Prev function")
+	return n.prev
 }
 
 func (l *List) Unshift(v interface{}) {
