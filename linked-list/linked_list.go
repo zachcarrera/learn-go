@@ -47,7 +47,7 @@ func (l *List) Reverse() {
 }
 
 func (l *List) First() *Node {
-	panic("Please implement the First function")
+	return l.head
 }
 
 func (l *List) Last() *Node {
