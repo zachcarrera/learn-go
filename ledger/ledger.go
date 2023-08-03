@@ -32,17 +32,21 @@ var (
 	errInvalidLocale   = errors.New("Invalid locale specified")
 	errInvalidCurrency = errors.New("Invalid currency specified")
 	errInvalidDate     = errors.New("Invalide entry date provided")
+
+	currencySymbols = map[string]rune{
+		"EUR": '€',
+		"USD": '$',
+	}
 )
 
 func FormatLedger(currency string, locale string, entries []Entry) (string, error) {
+	_, validCurrency := currencySymbols[currency]
+	if !validCurrency {
+		return "", errInvalidCurrency
+	}
+
 	entriesCopy := make([]Entry, len(entries))
 	copy(entriesCopy, entries)
-
-	if len(entries) == 0 {
-		if _, err := FormatLedger(currency, "en-US", []Entry{{Date: "2014-01-01", Description: "", Change: 0}}); err != nil {
-			return "", err
-		}
-	}
 
 	sort.Slice(entriesCopy, func(i, j int) bool {
 		// sort by Date, then Description, then Change
@@ -91,21 +95,55 @@ func parseEntry(i int, entry Entry, messages chan<- message, locale string, curr
 	if err != nil {
 		messages <- message{err: err}
 	}
+
+	change, err := formatChange(locale, currency, entry.Change)
+	if err != nil {
+		messages <- message{err: err}
+	}
+	messages <- message{index: i, formattedEntry: fmt.Sprintf("%-10s | %-25s | %13s\n", date, desc, change)}
+}
+
+func parseDate(date string) (year, month, day string, err error) {
+	if len(date) != 10 {
+		err = errInvalidDate
+		return
+	}
+	if date[4] != '-' || date[7] != '-' {
+		err = errInvalidDate
+		return
+	}
+	year, month, day = date[0:4], date[5:7], date[8:10]
+	return
+}
+
+func formatDate(locale, year, month, day string) (string, error) {
+	var date string
+	switch locale {
+	case nlLocaleString:
+		date = fmt.Sprintf("%s-%s-%s", day, month, year)
+	case usLocaleString:
+		date = fmt.Sprintf("%s/%s/%s", month, day, year)
+	default:
+		return date, errInvalidLocale
+	}
+	return date, nil
+}
+
+func formatChange(locale, currency string, cents int) (string, error) {
 	negative := false
-	cents := entry.Change
 	if cents < 0 {
 		cents = cents * -1
 		negative = true
 	}
 	var change string
-	if locale == nlLocaleString {
+	switch locale {
+	case nlLocaleString:
 		if currency == "EUR" {
 			change += "€"
 		} else if currency == "USD" {
 			change += "$"
 		} else {
-			messages <- message{err: errInvalidCurrency}
-			return
+			return "", errInvalidCurrency
 		}
 		change += " "
 		centsStr := strconv.Itoa(cents)
@@ -135,7 +173,7 @@ func parseEntry(i int, entry Entry, messages chan<- message, locale string, curr
 		} else {
 			change += " "
 		}
-	} else if locale == usLocaleString {
+	case usLocaleString:
 		if negative {
 			change += "("
 		}
@@ -144,8 +182,7 @@ func parseEntry(i int, entry Entry, messages chan<- message, locale string, curr
 		} else if currency == "USD" {
 			change += "$"
 		} else {
-			messages <- message{err: errInvalidCurrency}
-			return
+			return "", errInvalidCurrency
 		}
 		centsStr := strconv.Itoa(cents)
 		switch len(centsStr) {
@@ -174,35 +211,8 @@ func parseEntry(i int, entry Entry, messages chan<- message, locale string, curr
 		} else {
 			change += " "
 		}
-	} else {
-		messages <- message{err: errInvalidLocale}
-		return
-	}
-	messages <- message{index: i, formattedEntry: fmt.Sprintf("%-10s | %-25s | %13s\n", date, desc, change)}
-}
-
-func parseDate(date string) (year, month, day string, err error) {
-	if len(date) != 10 {
-		err = errInvalidDate
-		return
-	}
-	if date[4] != '-' || date[7] != '-' {
-		err = errInvalidDate
-		return
-	}
-	year, month, day = date[0:4], date[5:7], date[8:10]
-	return
-}
-
-func formatDate(locale, year, month, day string) (string, error) {
-	var date string
-	switch locale {
-	case nlLocaleString:
-		date = fmt.Sprintf("%s-%s-%s", day, month, year)
-	case usLocaleString:
-		date = fmt.Sprintf("%s/%s/%s", month, day, year)
 	default:
-		return date, errInvalidLocale
+		return "", errInvalidLocale
 	}
-	return date, nil
+	return change, nil
 }
