@@ -50,12 +50,12 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 			(entriesCopy[i].Description == entriesCopy[j].Description && entriesCopy[i].Change < entriesCopy[j].Change)
 	})
 
-	var s string
+	var ledger string
 	switch locale {
 	case nlLocaleString:
-		s = fmt.Sprintf(headerFormatter, "Datum", "Omschrijving", "Verandering")
+		ledger = fmt.Sprintf(headerFormatter, "Datum", "Omschrijving", "Verandering")
 	case usLocaleString:
-		s = fmt.Sprintf(headerFormatter, "Date", "Description", "Change")
+		ledger = fmt.Sprintf(headerFormatter, "Date", "Description", "Change")
 	default:
 		return "", errInvalidLocale
 	}
@@ -73,8 +73,8 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 		}
 		entryStrings[message.index] = message.formattedEntry
 	}
-	s += strings.Join(entryStrings, "")
-	return s, nil
+	ledger += strings.Join(entryStrings, "")
+	return ledger, nil
 }
 
 func parseEntry(i int, entry Entry, messages chan message, locale string, currency string) {
