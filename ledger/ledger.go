@@ -87,11 +87,9 @@ func parseEntry(i int, entry Entry, messages chan message, locale string, curren
 	if len(desc) > 25 {
 		desc = desc[:22] + "..."
 	}
-	var date string
-	if locale == nlLocaleString {
-		date = fmt.Sprintf("%s-%s-%s", day, month, year)
-	} else if locale == usLocaleString {
-		date = fmt.Sprintf("%s/%s/%s", month, day, year)
+	date, err := formatDate(locale, year, month, day)
+	if err != nil {
+		messages <- message{err: err}
 	}
 	negative := false
 	cents := entry.Change
@@ -194,4 +192,17 @@ func parseDate(date string) (year, month, day string, err error) {
 	}
 	year, month, day = date[0:4], date[5:7], date[8:10]
 	return
+}
+
+func formatDate(locale, year, month, day string) (string, error) {
+	var date string
+	switch locale {
+	case nlLocaleString:
+		date = fmt.Sprintf("%s-%s-%s", day, month, year)
+	case usLocaleString:
+		date = fmt.Sprintf("%s/%s/%s", month, day, year)
+	default:
+		return date, errInvalidLocale
+	}
+	return date, nil
 }
