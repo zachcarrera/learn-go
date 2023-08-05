@@ -1,5 +1,9 @@
 package anagram
 
 func Detect(subject string, candidates []string) []string {
-	panic("Please implement the Detect function")
+	frequencyTable := make(map[rune]int)
+	for _, char := range subject {
+		frequencyTable[char]++
+	}
+	return nil
 }
