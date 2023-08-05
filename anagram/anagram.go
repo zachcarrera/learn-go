@@ -5,6 +5,11 @@ import "strings"
 func Detect(subject string, candidates []string) []string {
 	subject = strings.ToLower(subject)
 	var anagrams []string
+	for _, candidate := range candidates {
+		if isAnagram(subject, strings.ToLower(candidate)) {
+			anagrams = append(anagrams, candidate)
+		}
+	}
 	return anagrams
 }
 
