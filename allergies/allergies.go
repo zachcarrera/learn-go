@@ -22,5 +22,12 @@ func Allergies(allergies uint) []string {
 }
 
 func AllergicTo(allergies uint, allergen string) bool {
-	panic("Please implement the AllergicTo function")
+	var position int
+	for i, v := range allergens {
+		if v == allergen {
+			position = i
+			break
+		}
+	}
+	return allergies&(1<<position) != 0
 }
