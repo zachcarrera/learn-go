@@ -1,7 +1,23 @@
 package atbash
 
+import (
+	"strings"
+	"unicode"
+)
+
 func Atbash(s string) string {
-	panic("Please implement the Atbash function")
+	var cipherBuilder strings.Builder
+	for _, char := range strings.ToLower(s) {
+		if (unicode.IsLetter(char) || unicode.IsDigit(char)) && cipherBuilder.Len()%6 == 5 {
+			cipherBuilder.WriteRune(' ')
+		}
+		if unicode.IsLetter(char) {
+			cipherBuilder.WriteRune(translateAtbashRune(char))
+		} else if unicode.IsDigit(char) {
+			cipherBuilder.WriteRune(char)
+		}
+	}
+	return cipherBuilder.String()
 }
 
 func translateAtbashRune(char rune) rune {
