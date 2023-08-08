@@ -26,7 +26,11 @@ func Number(phoneNumber string) (string, error) {
 }
 
 func AreaCode(phoneNumber string) (string, error) {
-	panic("Please implement the AreaCode function")
+	number, err := Number(phoneNumber)
+	if err != nil {
+		return "", err
+	}
+	return number[0:3], nil
 }
 
 func Format(phoneNumber string) (string, error) {
