@@ -12,7 +12,13 @@ var allergens = []string{
 }
 
 func Allergies(allergies uint) []string {
-	panic("Please implement the Allergies function")
+	var knownAllergies []string
+	for i, allergen := range allergens {
+		if allergies&(1<<i) != 0 {
+			knownAllergies = append(knownAllergies, allergen)
+		}
+	}
+	return knownAllergies
 }
 
 func AllergicTo(allergies uint, allergen string) bool {
