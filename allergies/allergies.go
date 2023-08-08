@@ -1,5 +1,16 @@
 package allergies
 
+var allergens = []string{
+	"eggs",
+	"peanuts",
+	"shellfish",
+	"strawberries",
+	"tomatoes",
+	"chocolate",
+	"pollen",
+	"cats",
+}
+
 func Allergies(allergies uint) []string {
 	panic("Please implement the Allergies function")
 }
