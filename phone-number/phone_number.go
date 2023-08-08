@@ -2,6 +2,7 @@ package phonenumber
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 	"unicode"
 )
@@ -34,5 +35,9 @@ func AreaCode(phoneNumber string) (string, error) {
 }
 
 func Format(phoneNumber string) (string, error) {
-	panic("Please implement the Format function")
+	number, err := Number(phoneNumber)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("(%s) %s-%s", number[0:3], number[3:6], number[6:]), nil
 }
