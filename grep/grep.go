@@ -78,12 +78,3 @@ func findFlags(flags []string) (showLineNumbers, matchFiles, caseInsensitive, in
 	}
 	return
 }
-
-func hasFlag(flags []string, flag string) bool {
-	for _, v := range flags {
-		if v == flag {
-			return true
-		}
-	}
-	return false
-}
