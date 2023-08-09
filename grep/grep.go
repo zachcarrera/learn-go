@@ -62,6 +62,24 @@ func buildComparison(flags []string) lineComparison {
 	}
 }
 
+func findFlags(flags []string) (showLineNumbers, matchFiles, caseInsensitive, invertSearch, matchLine bool) {
+	for _, flag := range flags {
+		switch flag {
+		case "-n":
+			showLineNumbers = true
+		case "-l":
+			matchFiles = true
+		case "-i":
+			caseInsensitive = true
+		case "-v":
+			invertSearch = true
+		case "-x":
+			matchLine = true
+		}
+	}
+	return
+}
+
 func hasFlag(flags []string, flag string) bool {
 	for _, v := range flags {
 		if v == flag {
