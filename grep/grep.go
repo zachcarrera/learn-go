@@ -11,7 +11,8 @@ type lineComparison func(string, string) bool
 
 func Search(pattern string, flags, files []string) []string {
 	var matches []string
-	comparison := buildComparison(flags)
+	showLineNumbers, matchFiles, caseInsensitive, invertSearch, matchLine := findFlags(flags)
+	comparison := buildComparison(invertSearch, matchLine)
 	for _, fileName := range files {
 		myFile, err := os.Open(fileName)
 		if err != nil {
@@ -21,18 +22,18 @@ func Search(pattern string, flags, files []string) []string {
 		lineNumber := 1
 		for scanner.Scan() {
 			currentLine := scanner.Text()
-			if hasFlag(flags, "-i") {
+			if caseInsensitive {
 				pattern = strings.ToLower(pattern)
 				currentLine = strings.ToLower(currentLine)
 			}
 
 			if comparison(currentLine, pattern) {
-				if hasFlag(flags, "-l") {
+				if matchFiles {
 					matches = append(matches, fileName)
 					break
 				}
 				match := scanner.Text()
-				if hasFlag(flags, "-n") {
+				if showLineNumbers {
 					match = fmt.Sprintf("%d:%s", lineNumber, match)
 				}
 				if len(files) > 1 {
@@ -47,9 +48,7 @@ func Search(pattern string, flags, files []string) []string {
 	return matches
 }
 
-func buildComparison(flags []string) lineComparison {
-	hasInvert := hasFlag(flags, "-v")
-	hasMatchEntireLine := hasFlag(flags, "-x")
+func buildComparison(hasInvert, hasMatchEntireLine bool) lineComparison {
 	switch {
 	case hasInvert && hasMatchEntireLine:
 		return func(s1, s2 string) bool { return s1 != s2 }
