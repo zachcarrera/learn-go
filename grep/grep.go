@@ -9,7 +9,7 @@ import (
 
 func Search(pattern string, flags, files []string) []string {
 	var matches []string
-	showLineNumbers, matchFiles, caseInsensitive, invertSearch, matchLine := findFlags(flags)
+	showLineNumbers, matchFiles, caseInsensitive, invertSearch, matchLine := parseFlags(flags)
 	if matchLine {
 		pattern = fmt.Sprintf("^%s$", pattern)
 	}
@@ -59,7 +59,7 @@ func buildComparison(regex *regexp.Regexp, invertSearch bool) func(string) bool 
 	return regex.MatchString
 }
 
-func findFlags(flags []string) (showLineNumbers, matchFiles, caseInsensitive, invertSearch, matchLine bool) {
+func parseFlags(flags []string) (showLineNumbers, matchFiles, caseInsensitive, invertSearch, matchLine bool) {
 	for _, flag := range flags {
 		switch flag {
 		case "-n":
