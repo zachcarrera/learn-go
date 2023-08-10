@@ -4,15 +4,23 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
+	"regexp"
 )
-
-type lineComparison func(string, string) bool
 
 func Search(pattern string, flags, files []string) []string {
 	var matches []string
 	showLineNumbers, matchFiles, caseInsensitive, invertSearch, matchLine := findFlags(flags)
-	comparison := buildComparison(invertSearch, matchLine)
+	if matchLine {
+		pattern = fmt.Sprintf("^%s$", pattern)
+	}
+	if caseInsensitive {
+		pattern = fmt.Sprintf("(?i)%s", pattern)
+	}
+	searchExp, err := regexp.Compile(pattern)
+	if err != nil {
+		panic("regex failed")
+	}
+	comparison := buildComparison(searchExp, invertSearch)
 	for _, fileName := range files {
 		myFile, err := os.Open(fileName)
 		if err != nil {
@@ -22,12 +30,8 @@ func Search(pattern string, flags, files []string) []string {
 		lineNumber := 1
 		for scanner.Scan() {
 			currentLine := scanner.Text()
-			if caseInsensitive {
-				pattern = strings.ToLower(pattern)
-				currentLine = strings.ToLower(currentLine)
-			}
 
-			if comparison(currentLine, pattern) {
+			if comparison(currentLine) {
 				if matchFiles {
 					matches = append(matches, fileName)
 					break
@@ -48,17 +52,11 @@ func Search(pattern string, flags, files []string) []string {
 	return matches
 }
 
-func buildComparison(hasInvert, hasMatchEntireLine bool) lineComparison {
-	switch {
-	case hasInvert && hasMatchEntireLine:
-		return func(s1, s2 string) bool { return s1 != s2 }
-	case hasMatchEntireLine:
-		return func(s1, s2 string) bool { return s1 == s2 }
-	case hasInvert:
-		return func(s1, s2 string) bool { return !strings.Contains(s1, s2) }
-	default:
-		return strings.Contains
+func buildComparison(regex *regexp.Regexp, invertSearch bool) func(string) bool {
+	if invertSearch {
+		return func(s string) bool { return !regex.MatchString(s) }
 	}
+	return regex.MatchString
 }
 
 func findFlags(flags []string) (showLineNumbers, matchFiles, caseInsensitive, invertSearch, matchLine bool) {
