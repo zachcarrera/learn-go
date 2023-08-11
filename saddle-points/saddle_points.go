@@ -1,6 +1,7 @@
 package matrix
 
 import (
+	"math"
 	"strconv"
 	"strings"
 )
@@ -31,6 +32,16 @@ func New(s string) (*Matrix, error) {
 
 func (m *Matrix) Saddle() []Pair {
 	panic("Please implement the Saddle function")
+}
+
+func (m *Matrix) isMax(x, y int) bool {
+	max := math.MinInt
+	for _, num := range (*m)[x] {
+		if max < num {
+			max = num
+		}
+	}
+	return (*m)[x][y] == max
 }
 
 func (m *Matrix) isMin(x, y int) bool {
