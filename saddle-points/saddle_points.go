@@ -31,7 +31,15 @@ func New(s string) (*Matrix, error) {
 }
 
 func (m *Matrix) Saddle() []Pair {
-	panic("Please implement the Saddle function")
+	var pairs []Pair
+	for x, row := range *m {
+		for y := range row {
+			if m.isMin(x, y) && m.isMax(x, y) {
+				pairs = append(pairs, Pair{x + 1, y + 1})
+			}
+		}
+	}
+	return pairs
 }
 
 func (m *Matrix) isMax(x, y int) bool {
