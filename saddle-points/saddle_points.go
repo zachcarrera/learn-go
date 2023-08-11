@@ -32,3 +32,13 @@ func New(s string) (*Matrix, error) {
 func (m *Matrix) Saddle() []Pair {
 	panic("Please implement the Saddle function")
 }
+
+func (m *Matrix) isMin(x, y int) bool {
+	min := math.MaxInt
+	for _, row := range *m {
+		if row[y] < min {
+			min = row[y]
+		}
+	}
+	return (*m)[x][y] == min
+}
