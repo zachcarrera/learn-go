@@ -15,24 +15,15 @@ func CanQueenAttack(whitePosition, blackPosition string) (bool, error) {
 		return false, errInvalidPosition
 	}
 
-	whiteXY := []int{
-		int(whitePosition[0] - 'a'),
-		int(whitePosition[1] - '1'),
-	}
-	blackXY := []int{
-		int(blackPosition[0] - 'a'),
-		int(blackPosition[1] - '1'),
-	}
-
-	if whiteXY[0] == blackXY[0] {
+	if whitePosition[0] == blackPosition[0] {
 		return true, nil
 	}
 
-	if whiteXY[1] == blackXY[1] {
+	if whitePosition[1] == blackPosition[1] {
 		return true, nil
 	}
 
-	if whiteXY[0]-blackXY[0] == whiteXY[1]-blackXY[1] || whiteXY[0]-blackXY[0] == -1*(whiteXY[1]-blackXY[1]) {
+	if whitePosition[0]-blackPosition[0] == whitePosition[1]-blackPosition[1] || whitePosition[0]-blackPosition[0] == blackPosition[1]-whitePosition[1] {
 		return true, nil
 	}
 
