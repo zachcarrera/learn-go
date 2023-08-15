@@ -15,14 +15,12 @@ func CanQueenAttack(whitePosition, blackPosition string) (bool, error) {
 		return false, errInvalidPosition
 	}
 
-	if whitePosition[0] == blackPosition[0] {
+	// wheck if queens are in the same row or column
+	if whitePosition[0] == blackPosition[0] || whitePosition[1] == blackPosition[1] {
 		return true, nil
 	}
 
-	if whitePosition[1] == blackPosition[1] {
-		return true, nil
-	}
-
+	// check if queens are aligned diagonally
 	if whitePosition[0]-blackPosition[0] == whitePosition[1]-blackPosition[1] || whitePosition[0]-blackPosition[0] == blackPosition[1]-whitePosition[1] {
 		return true, nil
 	}
