@@ -17,8 +17,8 @@ func Render(markdown string) string {
 	pos := 0
 	list := 0
 	listOpened := false
-	html := ""
-	he := false
+	var html string
+	displayHash := false
 	for {
 		char := markdown[pos]
 		if char == '#' {
@@ -29,7 +29,7 @@ func Render(markdown string) string {
 			}
 			if header == 7 {
 				html += fmt.Sprintf("<p>%s ", strings.Repeat("#", header))
-			} else if he {
+			} else if displayHash {
 				html += "# "
 				header--
 			} else {
@@ -38,7 +38,7 @@ func Render(markdown string) string {
 			pos++
 			continue
 		}
-		he = true
+		displayHash = true
 		if char == '*' && header == 0 && strings.Contains(markdown, "\n") {
 			if list == 0 {
 				html += "<ul>"
