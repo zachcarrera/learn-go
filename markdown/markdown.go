@@ -21,7 +21,8 @@ func Render(markdown string) string {
 	displayHash := false
 	for pos < len(markdown) {
 		char := markdown[pos]
-		if char == '#' {
+		switch {
+		case char == '#':
 			for char == '#' {
 				header++
 				pos++
@@ -35,11 +36,7 @@ func Render(markdown string) string {
 			} else {
 				html += fmt.Sprintf("<h%d>", header)
 			}
-			pos++
-			continue
-		}
-		displayHash = true
-		if char == '*' && header == 0 && strings.Contains(markdown, "\n") {
+		case char == '*' && header == 0 && strings.Contains(markdown, "\n"):
 			if list == 0 {
 				html += "<ul>"
 			}
@@ -50,10 +47,8 @@ func Render(markdown string) string {
 			} else {
 				html += string(char) + " "
 			}
-			pos += 2
-			continue
-		}
-		if char == '\n' {
+			pos++
+		case char == '\n':
 			if listOpened && strings.LastIndex(markdown, "\n") == pos && strings.LastIndex(markdown, "\n") > strings.LastIndex(markdown, "*") {
 				html += "</li></ul><p>"
 				listOpened = false
@@ -67,10 +62,10 @@ func Render(markdown string) string {
 				html += fmt.Sprintf("</h%d>", header)
 				header = 0
 			}
-			pos++
-			continue
+		default:
+			html += string(char)
 		}
-		html += string(char)
+		displayHash = true
 		pos++
 	}
 	switch {
