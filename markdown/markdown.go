@@ -53,12 +53,10 @@ func Render(markdown string) string {
 				html += "</li></ul><p>"
 				listOpened = false
 				list = 0
-			}
-			if list > 0 && listOpened {
+			} else if list > 0 && listOpened {
 				html += "</li>"
 				listOpened = false
-			}
-			if header > 0 {
+			} else if header > 0 {
 				html += fmt.Sprintf("</h%d>", header)
 				header = 0
 			}
