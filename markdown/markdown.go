@@ -19,7 +19,7 @@ func Render(markdown string) string {
 	listOpened := false
 	var html string
 	displayHash := false
-	for {
+	for pos < len(markdown) {
 		char := markdown[pos]
 		if char == '#' {
 			for char == '#' {
@@ -72,9 +72,6 @@ func Render(markdown string) string {
 		}
 		html += string(char)
 		pos++
-		if pos >= len(markdown) {
-			break
-		}
 	}
 	switch {
 	case header == 7:
