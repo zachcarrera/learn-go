@@ -15,7 +15,7 @@ func Render(markdown string) string {
 	markdown = strings.Replace(markdown, "_", "<em>", 1)
 	markdown = strings.Replace(markdown, "_", "</em>", 1)
 	var pos int
-	var list int
+	var listLength int
 	var listOpened bool
 	var html string
 	var displayHash bool
@@ -37,10 +37,10 @@ func Render(markdown string) string {
 				html += fmt.Sprintf("<h%d>", header)
 			}
 		case char == '*' && header == 0 && strings.Contains(markdown, "\n"):
-			if list == 0 {
+			if listLength == 0 {
 				html += "<ul>"
 			}
-			list++
+			listLength++
 			if !listOpened {
 				html += "<li>"
 				listOpened = true
@@ -52,8 +52,8 @@ func Render(markdown string) string {
 			if listOpened && strings.LastIndex(markdown, "\n") == pos && strings.LastIndex(markdown, "\n") > strings.LastIndex(markdown, "*") {
 				html += "</li></ul><p>"
 				listOpened = false
-				list = 0
-			} else if list > 0 && listOpened {
+				listLength = 0
+			} else if listLength > 0 && listOpened {
 				html += "</li>"
 				listOpened = false
 			} else if header > 0 {
@@ -71,7 +71,7 @@ func Render(markdown string) string {
 		return fmt.Sprintf("%s</p>", html)
 	case header > 0:
 		return fmt.Sprintf("%s</h%d>", html, header)
-	case list > 0:
+	case listLength > 0:
 		return fmt.Sprintf("%s</li></ul>", html)
 	case strings.Contains(html, "<p>"):
 		return fmt.Sprintf("%s</p>", html)
