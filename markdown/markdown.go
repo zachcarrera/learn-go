@@ -14,11 +14,11 @@ func Render(markdown string) string {
 	markdown = strings.Replace(markdown, "__", "</strong>", 1)
 	markdown = strings.Replace(markdown, "_", "<em>", 1)
 	markdown = strings.Replace(markdown, "_", "</em>", 1)
-	pos := 0
-	list := 0
-	listOpened := false
+	var pos int
+	var list int
+	var listOpened bool
 	var html string
-	displayHash := false
+	var displayHash bool
 	for pos < len(markdown) {
 		char := markdown[pos]
 		switch {
