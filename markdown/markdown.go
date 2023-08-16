@@ -73,13 +73,11 @@ func Render(markdown string) string {
 		return fmt.Sprintf("%s</p>", html)
 	case header > 0:
 		return fmt.Sprintf("%s</h%d>", html, header)
-	}
-	if list > 0 {
+	case list > 0:
 		return fmt.Sprintf("%s</li></ul>", html)
-	}
-	if strings.Contains(html, "<p>") {
+	case strings.Contains(html, "<p>"):
 		return fmt.Sprintf("%s</p>", html)
+	default:
+		return fmt.Sprintf("<p>%s</p>", html)
 	}
-	return fmt.Sprintf("<p>%s</p>", html)
-
 }
