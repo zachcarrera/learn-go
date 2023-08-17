@@ -1,6 +1,12 @@
 package school
 
 // Define the Grade and School types here.
+type School map[string]int
+
+type Grade struct {
+	level    int
+	students []string
+}
 
 func New() *School {
 	panic("Please implement the New function")
