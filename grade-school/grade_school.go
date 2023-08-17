@@ -9,7 +9,8 @@ type Grade struct {
 }
 
 func New() *School {
-	panic("Please implement the New function")
+	school := make(School)
+	return &school
 }
 
 func (s *School) Add(student string, grade int) {
