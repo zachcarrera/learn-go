@@ -11,8 +11,8 @@ func Gen(char byte) (string, error) {
 		return "", errors.New("Invalid char: char must be between A-Z")
 	}
 	sideLength := int(char-'A')*2 + 1
-	matrix := make([]string, sideLength)
-	for i := range matrix {
+	lines := make([]string, sideLength)
+	for i := range lines {
 		var formattedLine string
 		switch {
 		case i >= 1 && i < sideLength/2+1:
@@ -20,7 +20,7 @@ func Gen(char byte) (string, error) {
 			outsideSpacing := strings.Repeat(" ", sideLength/2-i)
 			insideSpacing := strings.Repeat(" ", 2*i-1)
 			formattedLine = fmt.Sprintf("%s%c%s%c%s", outsideSpacing, currentChar, insideSpacing, currentChar, outsideSpacing)
-		case i >= sideLength/2+1 && i < len(matrix)-1:
+		case i >= sideLength/2+1 && i < len(lines)-1:
 			index := i - sideLength/2 - 1
 			currentChar := char - 1 - byte(index)
 			outsideSpacing := strings.Repeat(" ", index+1)
@@ -30,7 +30,7 @@ func Gen(char byte) (string, error) {
 			spacing := strings.Repeat(" ", sideLength/2)
 			formattedLine = fmt.Sprintf("%s%c%s", spacing, 'A', spacing)
 		}
-		matrix[i] = formattedLine
+		lines[i] = formattedLine
 	}
-	return strings.Join(matrix, "\n"), nil
+	return strings.Join(lines, "\n"), nil
 }
