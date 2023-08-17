@@ -12,27 +12,25 @@ func Gen(char byte) (string, error) {
 	}
 	sideLength := int(char-'A')*2 + 1
 	matrix := make([]string, sideLength)
-	spacing := strings.Repeat(" ", sideLength/2)
-	endLines := fmt.Sprintf("%s%c%s", spacing, 'A', spacing)
-	matrix[0] = endLines
-	matrix[len(matrix)-1] = endLines
-	if len(matrix) == 1 {
-		return strings.Join(matrix, "\n"), nil
-	}
-	for i := range matrix[1 : sideLength/2+1] {
-		i += 1
-		currentChar := 'A' + byte(i)
-		outsideSpacing := strings.Repeat(" ", sideLength/2-i)
-		insideSpacing := strings.Repeat(" ", 2*i-1)
-		matrix[i] = fmt.Sprintf("%s%c%s%c%s", outsideSpacing, currentChar, insideSpacing, currentChar, outsideSpacing)
-	}
-
-	for i := range matrix[sideLength/2+1 : len(matrix)-1] {
-		currentChar := char - 1 - byte(i)
-		index := i + sideLength/2 + 1
-		outsideSpacing := strings.Repeat(" ", i+1)
-		insideSpacing := strings.Repeat(" ", sideLength-2*i-4)
-		matrix[index] = fmt.Sprintf("%s%c%s%c%s", outsideSpacing, currentChar, insideSpacing, currentChar, outsideSpacing)
+	for i := range matrix {
+		var formattedLine string
+		switch {
+		case i >= 1 && i < sideLength/2+1:
+			currentChar := 'A' + byte(i)
+			outsideSpacing := strings.Repeat(" ", sideLength/2-i)
+			insideSpacing := strings.Repeat(" ", 2*i-1)
+			formattedLine = fmt.Sprintf("%s%c%s%c%s", outsideSpacing, currentChar, insideSpacing, currentChar, outsideSpacing)
+		case i >= sideLength/2+1 && i < len(matrix)-1:
+			index := i - sideLength/2 - 1
+			currentChar := char - 1 - byte(index)
+			outsideSpacing := strings.Repeat(" ", index+1)
+			insideSpacing := strings.Repeat(" ", sideLength-2*index-4)
+			formattedLine = fmt.Sprintf("%s%c%s%c%s", outsideSpacing, currentChar, insideSpacing, currentChar, outsideSpacing)
+		default:
+			spacing := strings.Repeat(" ", sideLength/2)
+			formattedLine = fmt.Sprintf("%s%c%s", spacing, 'A', spacing)
+		}
+		matrix[i] = formattedLine
 	}
 	return strings.Join(matrix, "\n"), nil
 }
