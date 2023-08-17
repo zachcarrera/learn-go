@@ -1,7 +1,9 @@
 package palindrome
 
 import (
+	"errors"
 	"math"
+	"sort"
 	"strconv"
 )
 
@@ -12,7 +14,28 @@ type Product struct {
 }
 
 func Products(fmin, fmax int) (Product, Product, error) {
-	panic("Please implement the Products function")
+	if fmin > fmax {
+		return Product{}, Product{}, errors.New("fmin > fmax")
+	}
+	var palindromes []int
+	for i := fmin; i <= fmax; i++ {
+		for j := i; j <= fmax; j++ {
+			if intIsPalindrome(i * j) {
+				palindromes = append(palindromes, i*j)
+			}
+		}
+	}
+	if len(palindromes) == 0 {
+		return Product{}, Product{}, errors.New("no palindromes found")
+	}
+	sort.Ints(palindromes)
+	return Product{
+			palindromes[0],
+			getFactors(fmin, fmax, palindromes[0]),
+		}, Product{
+			palindromes[len(palindromes)-1],
+			getFactors(fmin, fmax, palindromes[len(palindromes)-1]),
+		}, nil
 }
 
 func getFactors(min, max, num int) [][2]int {
