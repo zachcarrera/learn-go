@@ -18,7 +18,13 @@ func (s *School) Add(student string, grade int) {
 }
 
 func (s *School) Grade(level int) []string {
-	panic("Please implement the Grade function")
+	var grade []string
+	for studentName, gradeLevel := range *s {
+		if gradeLevel == level {
+			grade = append(grade, studentName)
+		}
+	}
+	return grade
 }
 
 func (s *School) Enrollment() []Grade {
