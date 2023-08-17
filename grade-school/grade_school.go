@@ -14,7 +14,7 @@ func New() *School {
 }
 
 func (s *School) Add(student string, grade int) {
-	panic("Please implement the Add function")
+	(*s)[student] = grade
 }
 
 func (s *School) Grade(level int) []string {
