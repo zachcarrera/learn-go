@@ -9,7 +9,6 @@ import (
 
 // Render translates markdown to HTML
 func Render(markdown string) string {
-	header := 0
 	markdown = strings.Replace(markdown, "__", "<strong>", 1)
 	markdown = strings.Replace(markdown, "__", "</strong>", 1)
 	markdown = strings.Replace(markdown, "_", "<em>", 1)
@@ -19,24 +18,25 @@ func Render(markdown string) string {
 	var listOpened bool
 	var html string
 	var displayHash bool
+	var headerTracker int
 	for pos < len(markdown) {
 		char := markdown[pos]
 		switch {
 		case char == '#':
 			for char == '#' {
-				header++
+				headerTracker++
 				pos++
 				char = markdown[pos]
 			}
-			if header == 7 {
-				html += fmt.Sprintf("<p>%s ", strings.Repeat("#", header))
+			if headerTracker == 7 {
+				html += fmt.Sprintf("<p>%s ", strings.Repeat("#", headerTracker))
 			} else if displayHash {
 				html += "# "
-				header--
+				headerTracker--
 			} else {
-				html += fmt.Sprintf("<h%d>", header)
+				html += fmt.Sprintf("<h%d>", headerTracker)
 			}
-		case char == '*' && header == 0 && strings.Contains(markdown, "\n"):
+		case char == '*' && headerTracker == 0 && strings.Contains(markdown, "\n"):
 			if listLength == 0 {
 				html += "<ul>"
 			}
@@ -56,9 +56,9 @@ func Render(markdown string) string {
 			} else if listLength > 0 && listOpened {
 				html += "</li>"
 				listOpened = false
-			} else if header > 0 {
-				html += fmt.Sprintf("</h%d>", header)
-				header = 0
+			} else if headerTracker > 0 {
+				html += fmt.Sprintf("</h%d>", headerTracker)
+				headerTracker = 0
 			}
 		default:
 			html += string(char)
@@ -67,10 +67,10 @@ func Render(markdown string) string {
 		pos++
 	}
 	switch {
-	case header == 7:
+	case headerTracker == 7:
 		return fmt.Sprintf("%s</p>", html)
-	case header > 0:
-		return fmt.Sprintf("%s</h%d>", html, header)
+	case headerTracker > 0:
+		return fmt.Sprintf("%s</h%d>", html, headerTracker)
 	case listLength > 0:
 		return fmt.Sprintf("%s</li></ul>", html)
 	case strings.Contains(html, "<p>"):
