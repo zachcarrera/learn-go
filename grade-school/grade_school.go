@@ -1,5 +1,7 @@
 package school
 
+import "sort"
+
 // Define the Grade and School types here.
 type School map[string]int
 
@@ -28,5 +30,25 @@ func (s *School) Grade(level int) []string {
 }
 
 func (s *School) Enrollment() []Grade {
-	panic("Please implement the Enrollment function")
+	var enrollment []Grade
+	for studentName, gradeLevel := range *s {
+		gradeExists := false
+		for i := range enrollment {
+			if enrollment[i].level == gradeLevel {
+				gradeExists = true
+				enrollment[i].students = append(enrollment[i].students, studentName)
+				break
+			}
+		}
+		if !gradeExists {
+			enrollment = append(enrollment, Grade{level: gradeLevel, students: []string{studentName}})
+		}
+	}
+	sort.Slice(enrollment, func(i, j int) bool {
+		return enrollment[i].level < enrollment[j].level
+	})
+	for _, g := range enrollment {
+		sort.Strings(g.students)
+	}
+	return enrollment
 }
