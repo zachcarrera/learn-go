@@ -1,6 +1,7 @@
 package palindrome
 
 import (
+	"math"
 	"strconv"
 )
 
@@ -12,6 +13,16 @@ type Product struct {
 
 func Products(fmin, fmax int) (Product, Product, error) {
 	panic("Please implement the Products function")
+}
+
+func getFactors(min, max, num int) [][2]int {
+	var factors [][2]int
+	for i := min; float64(i) <= math.Sqrt(float64(num)); i++ {
+		if num%i == 0 && num/i <= max {
+			factors = append(factors, [2]int{i, num / i})
+		}
+	}
+	return factors
 }
 
 func intIsPalindrome(num int) bool {
