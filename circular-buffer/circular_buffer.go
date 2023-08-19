@@ -30,7 +30,21 @@ func NewBuffer(size int) *Buffer {
 }
 
 func (b *Buffer) ReadByte() (byte, error) {
-	panic("Please implement the ReadByte function")
+	if b.newestPosition == -1 && b.oldestPosition == -1 {
+		return 0, errReadFromEmptyBuffer
+	}
+	readByte := b.buffer[b.oldestPosition]
+	b.buffer[b.oldestPosition] = 0
+	if b.oldestPosition == b.newestPosition {
+		b.Reset()
+	}
+
+	b.oldestPosition = (b.oldestPosition + 1) % len(b.buffer)
+
+	if b.oldestPosition > b.newestPosition {
+		b.Reset()
+	}
+	return readByte, nil
 }
 
 func (b *Buffer) WriteByte(c byte) error {
