@@ -65,7 +65,13 @@ func (b *Buffer) WriteByte(c byte) error {
 }
 
 func (b *Buffer) Overwrite(c byte) {
-	panic("Please implement the Overwrite function")
+	if b.isFull() {
+		b.buffer[b.oldestPosition] = c
+		b.newestPosition = b.oldestPosition
+		b.oldestPosition = (b.oldestPosition + 1) % len(b.buffer)
+		return
+	}
+	b.WriteByte(c)
 }
 
 func (b *Buffer) Reset() {
