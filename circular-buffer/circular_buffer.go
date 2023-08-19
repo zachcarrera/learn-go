@@ -42,5 +42,6 @@ func (b *Buffer) Overwrite(c byte) {
 }
 
 func (b *Buffer) Reset() {
-	panic("Please implement the Reset function")
+	b.oldestPosition = -1
+	b.newestPosition = -1
 }
