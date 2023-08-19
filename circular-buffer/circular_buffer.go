@@ -59,3 +59,11 @@ func (b *Buffer) Reset() {
 	b.oldestPosition = -1
 	b.newestPosition = -1
 }
+
+func (b *Buffer) isFull() bool {
+	if b.newestPosition == -1 && b.oldestPosition == -1 {
+		return false
+	}
+
+	return b.newestPosition-b.oldestPosition == len(b.buffer)-1 || b.oldestPosition-b.newestPosition == 1
+}
