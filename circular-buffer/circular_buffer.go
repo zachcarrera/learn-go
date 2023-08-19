@@ -39,7 +39,7 @@ func (b *Buffer) ReadByte() (byte, error) {
 		b.Reset()
 	}
 
-	b.oldestPosition = (b.oldestPosition + 1) % len(b.buffer)
+	b.oldestPosition = b.increment(b.oldestPosition)
 
 	if b.oldestPosition > b.newestPosition {
 		b.Reset()
@@ -57,8 +57,8 @@ func (b *Buffer) WriteByte(c byte) error {
 		b.oldestPosition = 0
 		b.newestPosition = 0
 	} else {
-		b.buffer[(b.newestPosition+1)%len(b.buffer)] = c
-		b.newestPosition = (b.newestPosition + 1) % len(b.buffer)
+		b.buffer[b.increment(b.newestPosition)] = c
+		b.newestPosition = b.increment(b.newestPosition)
 	}
 
 	return nil
@@ -68,7 +68,7 @@ func (b *Buffer) Overwrite(c byte) {
 	if b.isFull() {
 		b.buffer[b.oldestPosition] = c
 		b.newestPosition = b.oldestPosition
-		b.oldestPosition = (b.oldestPosition + 1) % len(b.buffer)
+		b.oldestPosition = b.increment(b.oldestPosition)
 		return
 	}
 	b.WriteByte(c)
@@ -85,4 +85,8 @@ func (b *Buffer) isFull() bool {
 	}
 
 	return b.newestPosition-b.oldestPosition == len(b.buffer)-1 || b.oldestPosition-b.newestPosition == 1
+}
+
+func (b *Buffer) increment(num int) int {
+	return (num + 1) % len(b.buffer)
 }
