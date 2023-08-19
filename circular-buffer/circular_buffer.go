@@ -22,7 +22,11 @@ var (
 )
 
 func NewBuffer(size int) *Buffer {
-	panic("Please implement the NewBuffer function")
+	return &Buffer{
+		buffer:         make([]byte, size),
+		newestPosition: -1,
+		oldestPosition: -1,
+	}
 }
 
 func (b *Buffer) ReadByte() (byte, error) {
