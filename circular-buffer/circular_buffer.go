@@ -8,6 +8,12 @@ package circular
 // replacement for anything using that interface.
 
 // Define the Buffer type here.
+type Buffer struct {
+	buffer         []byte
+	newestPosition int
+	oldestPosition int
+}
+
 
 func NewBuffer(size int) *Buffer {
 	panic("Please implement the NewBuffer function")
