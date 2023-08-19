@@ -1,5 +1,7 @@
 package circular
 
+import "errors"
+
 // Implement a circular buffer of bytes supporting both overflow-checked writes
 // and unconditional, possibly overwriting, writes.
 //
@@ -14,6 +16,10 @@ type Buffer struct {
 	oldestPosition int
 }
 
+var (
+	errReadFromEmptyBuffer = errors.New("Cannot read from empty buffer")
+	errWriteToFullBuffer   = errors.New("Cannot write to a full buffer")
+)
 
 func NewBuffer(size int) *Buffer {
 	panic("Please implement the NewBuffer function")
