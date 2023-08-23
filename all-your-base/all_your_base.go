@@ -28,9 +28,8 @@ func ConvertToBase(inputBase int, inputDigits []int, outputBase int) ([]int, err
 	}
 
 	var outputDigits []int
-	for inputToDecimal > 0 {
+	for ; inputToDecimal > 0; inputToDecimal /= outputBase {
 		outputDigits = append([]int{inputToDecimal % outputBase}, outputDigits...)
-		inputToDecimal = inputToDecimal / outputBase
 	}
 	return outputDigits, nil
 }
