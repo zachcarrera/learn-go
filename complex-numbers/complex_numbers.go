@@ -2,6 +2,9 @@ package complexnumbers
 
 // Define the Number type here.
 
+// Number represents a complex number where position 0 is a and position 1 is b
+type Number [2]float64
+
 func (n Number) Real() float64 {
 	panic("Please implement the Real method")
 }
