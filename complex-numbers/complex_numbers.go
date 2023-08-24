@@ -22,7 +22,10 @@ func (n1 Number) Subtract(n2 Number) Number {
 }
 
 func (n1 Number) Multiply(n2 Number) Number {
-	panic("Please implement the Multiply method")
+	return [2]float64{
+		(n1[0] * n2[0]) - (n1[1] * n2[1]),
+		n1[1]*n2[0] + n1[0]*n2[1],
+	}
 }
 
 func (n Number) Times(factor float64) Number {
