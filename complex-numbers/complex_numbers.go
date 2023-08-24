@@ -1,5 +1,7 @@
 package complexnumbers
 
+import "math"
+
 // Define the Number type here.
 
 // Number represents a complex number where position 0 is a and position 1 is b
@@ -48,7 +50,7 @@ func (n Number) Conjugate() Number {
 }
 
 func (n Number) Abs() float64 {
-	panic("Please implement the Abs method")
+	return math.Sqrt(math.Pow(n[0], 2) + math.Pow(n[1], 2))
 }
 
 func (n Number) Exp() Number {
