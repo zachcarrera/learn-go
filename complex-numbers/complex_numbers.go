@@ -6,7 +6,7 @@ package complexnumbers
 type Number [2]float64
 
 func (n Number) Real() float64 {
-	panic("Please implement the Real method")
+	return n[0]
 }
 
 func (n Number) Imaginary() float64 {
