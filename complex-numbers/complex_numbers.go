@@ -43,7 +43,8 @@ func (n1 Number) Divide(n2 Number) Number {
 }
 
 func (n Number) Conjugate() Number {
-	panic("Please implement the Conjugate method")
+	n[1] *= -1
+	return n
 }
 
 func (n Number) Abs() float64 {
