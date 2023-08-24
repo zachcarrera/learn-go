@@ -36,7 +36,10 @@ func (n Number) Times(factor float64) Number {
 }
 
 func (n1 Number) Divide(n2 Number) Number {
-	panic("Please implement the Divide method")
+	return [2]float64{
+		((n1[0] * n2[0]) + (n1[1] * n2[1])) / (math.Pow(n2[0], 2) + math.Pow(n2[1], 2)),
+		(n1[1]*n2[0] - n1[0]*n2[1]) / (math.Pow(n2[0], 2) + math.Pow(n2[1], 2)),
+	}
 }
 
 func (n Number) Conjugate() Number {
