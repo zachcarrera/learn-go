@@ -10,7 +10,7 @@ func (n Number) Real() float64 {
 }
 
 func (n Number) Imaginary() float64 {
-	panic("Please implement the Imaginary method")
+	return n[1]
 }
 
 func (n1 Number) Add(n2 Number) Number {
