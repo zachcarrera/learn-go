@@ -14,7 +14,7 @@ func (n Number) Imaginary() float64 {
 }
 
 func (n1 Number) Add(n2 Number) Number {
-	panic("Please implement the Add method")
+	return [2]float64{n1[0] + n2[0], n1[1] + n2[1]}
 }
 
 func (n1 Number) Subtract(n2 Number) Number {
