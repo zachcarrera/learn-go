@@ -29,7 +29,10 @@ func (n1 Number) Multiply(n2 Number) Number {
 }
 
 func (n Number) Times(factor float64) Number {
-	panic("Please implement the Times method")
+	for i := range n {
+		n[i] *= factor
+	}
+	return n
 }
 
 func (n1 Number) Divide(n2 Number) Number {
