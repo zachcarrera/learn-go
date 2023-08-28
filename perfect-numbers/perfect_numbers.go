@@ -14,5 +14,20 @@ const (
 var ErrOnlyPositive = errors.New("Input can only be positive")
 
 func Classify(n int64) (Classification, error) {
-	panic("Please implement the Classify function")
+	if n <= 0 {
+		return 0, ErrOnlyPositive
+	}
+	aliquotSum := 1
+	for i := 2; i < int(n); i++ {
+		if int(n)%i == 0 {
+			aliquotSum += i
+		}
+	}
+	if n == 1 || aliquotSum < int(n) {
+		return ClassificationDeficient, nil
+	} else if aliquotSum == int(n) {
+		return ClassificationPerfect, nil
+	} else {
+		return ClassificationAbundant, nil
+	}
 }
