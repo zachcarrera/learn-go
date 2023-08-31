@@ -17,11 +17,9 @@ func Encode(pt string) string {
 	}
 	normalized := sb.String()
 	r := int(math.Sqrt(float64(len(normalized))))
-	var c int
-	if r*r >= len(normalized) {
-		c = r
-	} else {
-		c = r + 1
+	c := r
+	if c*r < len(normalized) {
+		c++
 	}
 
 	if c*r < len(normalized) {
