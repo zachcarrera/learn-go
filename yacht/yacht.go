@@ -13,3 +13,13 @@ func addSameNumber(dice []int, num int) int {
 	}
 	return sum
 }
+
+func isYacht(dice []int) bool {
+	value := dice[0]
+	for _, die := range dice {
+		if die != value {
+			return false
+		}
+	}
+	return true
+}
