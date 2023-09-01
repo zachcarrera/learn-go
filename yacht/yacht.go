@@ -61,3 +61,16 @@ func isBigStraight(dice []int) bool {
 	}
 	return has2 && has3 && has4 && has5 && has6
 }
+
+func isFourOfKind(dice []int) (int, bool) {
+	diceCounts := make(map[int]int)
+	for _, die := range dice {
+		diceCounts[die]++
+	}
+	for die, count := range diceCounts {
+		if count >= 4 {
+			return die * 4, true
+		}
+	}
+	return 0, false
+}
