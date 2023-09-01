@@ -23,3 +23,22 @@ func isYacht(dice []int) bool {
 	}
 	return true
 }
+
+func isLittleStraight(dice []int) bool {
+	var has1, has2, has3, has4, has5 bool
+	for _, die := range dice {
+		switch die {
+		case 1:
+			has1 = true
+		case 2:
+			has2 = true
+		case 3:
+			has3 = true
+		case 4:
+			has4 = true
+		case 5:
+			has5 = true
+		}
+	}
+	return has1 && has2 && has3 && has4 && has5
+}
