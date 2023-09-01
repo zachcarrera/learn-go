@@ -74,3 +74,19 @@ func isFourOfKind(dice []int) (int, bool) {
 	}
 	return 0, false
 }
+
+func isFullHouse(dice []int) bool {
+	diceCounts := make(map[int]int)
+	for _, die := range dice {
+		diceCounts[die]++
+	}
+	if len(diceCounts) != 2 {
+		return false
+	}
+	for _, count := range diceCounts {
+		if count != 2 && count != 3 {
+			return false
+		}
+	}
+	return true
+}
