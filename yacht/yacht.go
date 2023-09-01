@@ -1,7 +1,48 @@
 package yacht
 
 func Score(dice []int, category string) int {
-	panic("Please implement the Score function")
+	var score int
+	switch category {
+	case "ones":
+		score = addSameNumber(dice, 1)
+	case "twos":
+		score = addSameNumber(dice, 2)
+	case "threes":
+		score = addSameNumber(dice, 3)
+	case "fours":
+		score = addSameNumber(dice, 4)
+	case "fives":
+		score = addSameNumber(dice, 5)
+	case "sixes":
+		score = addSameNumber(dice, 6)
+	case "yacht":
+		if isYacht(dice) {
+			score = 50
+		}
+	case "choice":
+		for _, die := range dice {
+			score += die
+		}
+	case "full house":
+		if isFullHouse(dice) {
+			for _, die := range dice {
+				score += die
+			}
+		}
+	case "big straight":
+		if isBigStraight(dice) {
+			score = 30
+		}
+	case "little straight":
+		if isLittleStraight(dice) {
+			score = 30
+		}
+	case "four of a kind":
+		if sum, ok := isFourOfKind(dice); ok {
+			score = sum
+		}
+	}
+	return score
 }
 
 func addSameNumber(dice []int, num int) int {
