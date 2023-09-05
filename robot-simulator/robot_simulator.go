@@ -20,7 +20,16 @@ func Left() {
 }
 
 func Advance() {
-	panic("Please implement the Advance function")
+	switch Step1Robot.Dir {
+	case N:
+		Step1Robot.Y += 1
+	case E:
+		Step1Robot.X += 1
+	case S:
+		Step1Robot.Y -= 1
+	case W:
+		Step1Robot.X -= 1
+	}
 }
 
 func (d Dir) String() string {
