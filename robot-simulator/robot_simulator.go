@@ -12,7 +12,7 @@ const (
 )
 
 func Right() {
-	panic("Please implement the Right function")
+	Step1Robot.Dir = (Step1Robot.Dir + 1) % 4
 }
 
 func Left() {
