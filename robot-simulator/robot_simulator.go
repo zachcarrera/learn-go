@@ -41,7 +41,10 @@ func (d Dir) String() string {
 type Action byte
 
 func StartRobot(command chan Command, action chan Action) {
-	panic("Please implement the StartRobot function")
+	for c := range command {
+		action <- Action(c)
+	}
+	close(action)
 }
 
 func Room(extent Rect, robot Step2Robot, action chan Action, report chan Step2Robot) {
