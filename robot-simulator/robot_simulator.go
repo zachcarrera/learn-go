@@ -4,6 +4,12 @@ package robot
 
 // Step 1
 // Define N, E, S, W here.
+const (
+	N Dir = iota
+	E
+	S
+	W
+)
 
 func Right() {
 	panic("Please implement the Right function")
