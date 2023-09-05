@@ -38,6 +38,7 @@ func (d Dir) String() string {
 
 // Step 2
 // Define Action type here.
+type Action byte
 
 func StartRobot(command chan Command, action chan Action) {
 	panic("Please implement the StartRobot function")
