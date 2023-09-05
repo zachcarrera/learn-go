@@ -48,7 +48,30 @@ func StartRobot(command chan Command, action chan Action) {
 }
 
 func Room(extent Rect, robot Step2Robot, action chan Action, report chan Step2Robot) {
-	panic("Please implement the Room function")
+	for a := range action {
+		switch a {
+		case 'R':
+			robot.Dir = (robot.Dir + 1) % 4
+		case 'L':
+			robot.Dir = (robot.Dir + 3) % 4
+		case 'A':
+			newPosition := robot.Pos
+			switch robot.Dir {
+			case N:
+				newPosition.Northing += 1
+			case E:
+				newPosition.Easting += 1
+			case S:
+				newPosition.Northing -= 1
+			case W:
+				newPosition.Easting -= 1
+			}
+			if isInBounds(newPosition, extent) {
+				robot.Pos = newPosition
+			}
+		}
+	}
+	report <- robot
 }
 
 func isInBounds(pos Pos, grid Rect) bool {
