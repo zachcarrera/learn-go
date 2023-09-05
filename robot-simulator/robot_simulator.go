@@ -16,7 +16,7 @@ func Right() {
 }
 
 func Left() {
-	panic("Please implement the Left function")
+	Step1Robot.Dir = (Step1Robot.Dir + 3) % 4
 }
 
 func Advance() {
