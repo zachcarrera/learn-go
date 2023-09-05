@@ -33,7 +33,7 @@ func Advance() {
 }
 
 func (d Dir) String() string {
-	panic("Please implement the String function")
+	return "NESW"[d : d+1]
 }
 
 // Step 2
