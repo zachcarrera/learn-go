@@ -51,6 +51,11 @@ func Room(extent Rect, robot Step2Robot, action chan Action, report chan Step2Ro
 	panic("Please implement the Room function")
 }
 
+func isInBounds(pos Pos, grid Rect) bool {
+	return pos.Easting >= grid.Min.Easting && pos.Easting <= grid.Max.Easting &&
+		pos.Northing >= grid.Min.Northing && pos.Northing <= grid.Max.Northing
+}
+
 // Step 3
 // Define Action3 type here.
 
