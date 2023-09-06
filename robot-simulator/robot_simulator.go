@@ -102,5 +102,74 @@ func StartRobot3(name, script string, action chan Action3, log chan string) {
 }
 
 func Room3(extent Rect, robots []Step3Robot, action chan Action3, rep chan []Step3Robot, log chan string) {
-	panic("Please implement the Room3 function")
+	defer func() { rep <- robots }()
+	namePositions := make(map[string]int)
+	filledPositions := make(map[Pos]int)
+	for x, robot := range robots {
+
+		// initialize robot
+		if robot.Name == "" {
+			log <- "Unnamed robot"
+		}
+		if _, ok := namePositions[robot.Name]; ok {
+			log <- "Duplicate name"
+		}
+		namePositions[robot.Name] = x
+
+		if !isInBounds(robot.Step2Robot.Pos, extent) {
+			log <- "Robot placed outside the room"
+			return
+		}
+
+		if _, ok := filledPositions[robot.Step2Robot.Pos]; ok {
+			log <- "Position occupied"
+			return
+		}
+		filledPositions[robot.Step2Robot.Pos] = x
+	}
+	completed := 0
+	for a := range action {
+		x, ok := namePositions[a.name]
+		if !ok {
+			log <- "Action by unknown robot"
+			return
+		}
+		da := &robots[x].Step2Robot
+		switch a.action {
+		case 'R':
+			da.Dir = (da.Dir + 1) % 4
+		case 'L':
+			da.Dir = (da.Dir + 3) % 4
+		case 'A':
+			newPosition := da.Pos
+			switch da.Dir {
+			case N:
+				newPosition.Northing += 1
+			case E:
+				newPosition.Easting += 1
+			case S:
+				newPosition.Northing -= 1
+			case W:
+				newPosition.Easting -= 1
+			}
+			if !isInBounds(newPosition, extent) {
+				log <- fmt.Sprintf("%s bumped into the wall", a.name)
+				continue
+			}
+			if standingRobot, occupied := filledPositions[newPosition]; occupied {
+				log <- fmt.Sprintf("%s bumped into %s", a.name, robots[standingRobot].Name)
+				continue
+			}
+			delete(filledPositions, da.Pos)
+			filledPositions[newPosition] = x
+			da.Pos = newPosition
+		case 0xFF:
+			if completed++; completed == len(robots) {
+				return
+			}
+		default:
+			log <- "Undefined command"
+			return
+		}
+	}
 }
