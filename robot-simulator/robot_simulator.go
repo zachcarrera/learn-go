@@ -1,5 +1,7 @@
 package robot
 
+import "fmt"
+
 // See defs.go for other definitions
 
 // Step 1
@@ -87,7 +89,16 @@ type Action3 struct {
 }
 
 func StartRobot3(name, script string, action chan Action3, log chan string) {
-	panic("Please implement the StartRobot3 function")
+	defer func() { action <- Action3{name: name, action: 0xFF} }()
+	for _, command := range script {
+		switch command {
+		case 'R', 'L', 'A':
+			action <- Action3{name: name, action: Action(command)}
+		default:
+			log <- fmt.Sprintf("invalid command %c in script", command)
+			return
+		}
+	}
 }
 
 func Room3(extent Rect, robots []Step3Robot, action chan Action3, rep chan []Step3Robot, log chan string) {
