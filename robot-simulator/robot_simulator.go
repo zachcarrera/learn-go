@@ -81,6 +81,10 @@ func isInBounds(pos Pos, grid Rect) bool {
 
 // Step 3
 // Define Action3 type here.
+type Action3 struct {
+	name   string
+	action Action
+}
 
 func StartRobot3(name, script string, action chan Action3, log chan string) {
 	panic("Please implement the StartRobot3 function")
