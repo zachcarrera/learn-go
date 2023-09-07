@@ -7,7 +7,7 @@ type Game struct {
 }
 
 func NewGame() *Game {
-	panic("Please implement the NewGame function")
+	return &Game{rolls: make([]int, 0, 21)}
 }
 
 func (g *Game) Roll(pins int) error {
