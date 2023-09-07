@@ -1,6 +1,10 @@
 package bowling
 
 // Define the Game type here.
+type Game struct {
+	rolls         []int
+	isSecondThrow bool
+}
 
 func NewGame() *Game {
 	panic("Please implement the NewGame function")
