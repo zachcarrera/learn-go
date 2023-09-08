@@ -61,3 +61,14 @@ func (r *reactor) CreateCompute2(dep1, dep2 Cell, compute func(int, int) int) Co
 	r.computes = append(r.computes, newCell)
 	return newCell
 }
+
+func (r *reactor) update() {
+	for _, c := range r.computes {
+		if c.compute() == c.data {
+			continue
+		}
+		for _, cb := range c.callbacks {
+			cb(c.Value())
+		}
+	}
+}
