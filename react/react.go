@@ -34,7 +34,8 @@ func (c *cell) SetValue(value int) {
 }
 
 func (c *cell) AddCallback(callback func(int)) Canceler {
-	panic("Please implement the AddCallback function")
+	c.callbacks[len(c.callbacks)] = callback
+	return &canceler{id: len(c.callbacks) - 1, registeredTo: c}
 }
 
 func New() Reactor {
