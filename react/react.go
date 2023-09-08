@@ -35,7 +35,7 @@ func (c *cell) AddCallback(callback func(int)) Canceler {
 }
 
 func New() Reactor {
-	panic("Please implement the New function")
+	return &reactor{computes: make([]*cell, 0)}
 }
 
 func (r *reactor) CreateInput(initial int) InputCell {
