@@ -11,6 +11,13 @@ type reactor struct {
 	computes []*cell
 }
 
+type cell struct {
+	data      int
+	compute   func() int
+	callbacks map[int]func(int)
+	reactor   *reactor
+}
+
 func (c *canceler) Cancel() {
 	panic("Please implement the Cancel function")
 }
