@@ -19,7 +19,7 @@ type cell struct {
 }
 
 func (c *canceler) Cancel() {
-	panic("Please implement the Cancel function")
+	delete(c.registeredTo.callbacks, c.id)
 }
 
 func (c *cell) Value() int {
