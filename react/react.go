@@ -39,7 +39,7 @@ func New() Reactor {
 }
 
 func (r *reactor) CreateInput(initial int) InputCell {
-	panic("Please implement the CreateInput function")
+	return &cell{data: initial, reactor: r}
 }
 
 func (r *reactor) CreateCompute1(dep Cell, compute func(int) int) ComputeCell {
