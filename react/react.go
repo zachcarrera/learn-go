@@ -27,7 +27,10 @@ func (c *cell) Value() int {
 }
 
 func (c *cell) SetValue(value int) {
-	panic("Please implement the SetValue function")
+	if c.data != value {
+		c.data = value
+		c.reactor.update()
+	}
 }
 
 func (c *cell) AddCallback(callback func(int)) Canceler {
