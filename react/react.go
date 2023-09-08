@@ -7,6 +7,9 @@ type canceler struct {
 	registeredTo *cell
 }
 
+type reactor struct {
+	computes []*cell
+}
 
 func (c *canceler) Cancel() {
 	panic("Please implement the Cancel function")
