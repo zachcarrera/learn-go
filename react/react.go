@@ -23,7 +23,10 @@ func (c *canceler) Cancel() {
 }
 
 func (c *cell) Value() int {
-	panic("Please implement the Value function")
+	if c.compute != nil {
+		return c.compute()
+	}
+	return c.data
 }
 
 func (c *cell) SetValue(value int) {
