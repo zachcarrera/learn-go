@@ -53,5 +53,11 @@ func (r *reactor) CreateCompute1(dep Cell, compute func(int) int) ComputeCell {
 }
 
 func (r *reactor) CreateCompute2(dep1, dep2 Cell, compute func(int, int) int) ComputeCell {
-	panic("Please implement the CreateCompute2 function")
+	newCell := &cell{}
+
+	newCell.compute = func() int { return compute(dep1.Value(), dep2.Value()) }
+	newCell.data = newCell.compute()
+	newCell.callbacks = make(map[int]func(int))
+	r.computes = append(r.computes, newCell)
+	return newCell
 }
