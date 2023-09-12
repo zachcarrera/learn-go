@@ -72,6 +72,25 @@ func (tr *Tree) FindNode(value string) *Tree {
 	return nil
 }
 
+func (tr *Tree) FindPathFromRoot(to string) []string {
+	toNode := tr.FindNode(to)
+	if toNode == nil {
+		return nil
+	}
+
+	path := make([]string, 0)
+	for toNode != tr {
+		path = append(path, toNode.value)
+		toNode = toNode.parent
+	}
+
+	path = append(path, tr.value)
+	for i, j := 0, len(path)-1; i < j; i, j = i+1, j-1 {
+		path[i], path[j] = path[j], path[i]
+	}
+	return path
+}
+
 func (tr *Tree) flipNode(visited map[string]bool) *Tree {
 	if tr == nil || visited[tr.value] {
 		return nil
