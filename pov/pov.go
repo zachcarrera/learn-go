@@ -2,6 +2,9 @@ package pov
 
 type Tree struct {
 	// Add the needed fields here
+	value    string
+	children []*Tree
+	parent   *Tree
 }
 
 // New creates and returns a new Tree with the given root value and children.
