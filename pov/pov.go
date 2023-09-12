@@ -56,3 +56,16 @@ func (tr *Tree) FromPov(from string) *Tree {
 func (tr *Tree) PathTo(from, to string) []string {
 	panic("Please implement this function")
 }
+
+func (tr *Tree) FindNode(value string) *Tree {
+	if tr == nil || tr.Value() == value {
+		return tr
+	}
+	for _, child := range tr.Children() {
+		node := child.FindNode(value)
+		if node != nil {
+			return node
+		}
+	}
+	return nil
+}
