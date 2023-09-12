@@ -49,7 +49,9 @@ func (tr *Tree) String() string {
 
 // FromPov returns the pov from the node specified in the argument.
 func (tr *Tree) FromPov(from string) *Tree {
-	panic("Please implement this function")
+	povRoot := tr.FindNode(from)
+	seenNodes := make(map[string]bool)
+	return povRoot.flipNode(seenNodes)
 }
 
 // PathTo returns the shortest path between two nodes in the tree.
