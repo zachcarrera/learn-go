@@ -56,7 +56,19 @@ func (tr *Tree) FromPov(from string) *Tree {
 
 // PathTo returns the shortest path between two nodes in the tree.
 func (tr *Tree) PathTo(from, to string) []string {
-	panic("Please implement this function")
+	if tr == nil {
+		return nil
+	}
+
+	if from == to {
+		return []string{to}
+	}
+
+	fromNode := tr.FromPov(from)
+	if fromNode == nil {
+		return nil
+	}
+	return fromNode.FindPathFromRoot(to)
 }
 
 func (tr *Tree) FindNode(value string) *Tree {
