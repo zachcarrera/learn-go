@@ -69,3 +69,25 @@ func (tr *Tree) FindNode(value string) *Tree {
 	}
 	return nil
 }
+
+func (tr *Tree) flipNode(visited map[string]bool) *Tree {
+	if tr == nil || visited[tr.value] {
+		return nil
+	}
+	visited[tr.value] = true
+	children := make([]*Tree, 0)
+	for _, child := range tr.Children() {
+		flippedChild := child.flipNode(visited)
+		if flippedChild != nil {
+			children = append(children, flippedChild)
+		}
+	}
+
+	if tr.parent != nil {
+		flippedParent := tr.parent.flipNode(visited)
+		if flippedParent != nil {
+			children = append(children, flippedParent)
+		}
+	}
+	return New(tr.value, children...)
+}
