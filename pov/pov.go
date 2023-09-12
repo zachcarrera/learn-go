@@ -9,7 +9,11 @@ type Tree struct {
 
 // New creates and returns a new Tree with the given root value and children.
 func New(value string, children ...*Tree) *Tree {
-	panic("Please implement this function")
+	root := &Tree{value, children, nil}
+	for _, child := range children {
+		child.parent = root
+	}
+	return root
 }
 
 // Value returns the value at the root of a tree.
