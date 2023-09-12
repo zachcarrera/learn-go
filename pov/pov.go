@@ -18,7 +18,7 @@ func New(value string, children ...*Tree) *Tree {
 
 // Value returns the value at the root of a tree.
 func (tr *Tree) Value() string {
-	panic("Please implement this function")
+	return tr.value
 }
 
 // Children returns a slice containing the children of a tree.
