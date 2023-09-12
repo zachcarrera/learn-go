@@ -25,7 +25,7 @@ func (tr *Tree) Value() string {
 // There is no need to sort the elements in the result slice,
 // they can be in any order.
 func (tr *Tree) Children() []*Tree {
-	panic("Please implement this function")
+	return tr.children
 }
 
 // String describes a tree in a compact S-expression format.
