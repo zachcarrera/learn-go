@@ -19,7 +19,15 @@ var directions = []direction{
 }
 
 func Solve(words []string, puzzle []string) (map[string][2][2]int, error) {
-	panic("Please implement the Solve function")
+	positions := make(map[string][2][2]int)
+	for _, word := range words {
+		position, err := solveWord(word, puzzle)
+		if err != nil {
+			return nil, err
+		}
+		positions[word] = position
+	}
+	return positions, nil
 }
 
 func solveWord(word string, puzzle []string) ([2][2]int, error) {
