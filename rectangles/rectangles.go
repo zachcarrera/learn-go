@@ -3,7 +3,18 @@ package rectangles
 type Corner [2]int
 
 func Count(diagram []string) int {
-	panic("Please implement the Count function")
+	var rectangleCount int
+	corners := findCorners(diagram)
+	for _, c := range corners {
+		for _, c2 := range corners {
+			// check that the corners don't share an edge
+			// then check that those corners make a valid rectangle
+			if c[0] < c2[0] && c[1] < c2[1] && isConnectedRectangle(c, c2, diagram) {
+				rectangleCount++
+			}
+		}
+	}
+	return rectangleCount
 }
 
 func findCorners(diagram []string) []Corner {
