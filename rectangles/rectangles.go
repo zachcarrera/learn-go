@@ -17,3 +17,32 @@ func findCorners(diagram []string) []Corner {
 	}
 	return corners
 }
+
+func isConnectedRectangle(c1, c2 Corner, diagram []string) bool {
+	x1, y1 := c1[0], c1[1]
+	x2, y2 := c2[0], c2[1]
+
+	// check if the other two corners of a possible rectangle both contain '+'
+	if diagram[y1][x2] != '+' || diagram[y2][x1] != '+' {
+		return false
+	}
+
+	// check that the top and bottom edges contain valid chars, '-' or '+'
+	for _, topEdgeChar := range diagram[y1][x1:x2] {
+		for _, bottomEdgeChar := range diagram[y2][x1:x2] {
+			if (topEdgeChar != '-' && topEdgeChar != '+') || (bottomEdgeChar != '-' && bottomEdgeChar != '+') {
+				return false
+			}
+		}
+	}
+
+	// check that both vertical edges contain valid chars, '|' or '+'
+	for _, row := range diagram[y1:y2] {
+		leftEdgeChar := row[x1]
+		rightEdgeChar := row[x2]
+		if (leftEdgeChar != '|' && leftEdgeChar != '+') || (rightEdgeChar != '|' && rightEdgeChar != '+') {
+			return false
+		}
+	}
+	return true
+}
