@@ -49,9 +49,9 @@ func isConnectedRectangle(c1, c2 Corner, diagram []string) bool {
 
 	// check that both vertical edges contain valid chars, '|' or '+'
 	for _, row := range diagram[y1:y2] {
-		leftEdgeChar := row[x1]
-		rightEdgeChar := row[x2]
-		if (leftEdgeChar != '|' && leftEdgeChar != '+') || (rightEdgeChar != '|' && rightEdgeChar != '+') {
+		leftEdgeChar := rune(row[x1])
+		rightEdgeChar := rune(row[x2])
+		if !isValidVertical(leftEdgeChar) || !isValidVertical(rightEdgeChar) {
 			return false
 		}
 	}
@@ -60,4 +60,8 @@ func isConnectedRectangle(c1, c2 Corner, diagram []string) bool {
 
 func isValidHorizontal(char rune) bool {
 	return char == '-' || char == '+'
+}
+
+func isValidVertical(char rune) bool {
+	return char == '|' || char == '+'
 }
