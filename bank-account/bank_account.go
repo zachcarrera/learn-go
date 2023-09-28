@@ -17,7 +17,12 @@ func Open(amount int64) *Account {
 }
 
 func (a *Account) Balance() (int64, bool) {
-	panic("Please implement the Balance function")
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	if !a.isOpen {
+		return 0, false
+	}
+	return a.balance, true
 }
 
 func (a *Account) Deposit(amount int64) (int64, bool) {
