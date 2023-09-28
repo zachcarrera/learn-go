@@ -1,6 +1,13 @@
 package account
 
+import "sync"
+
 // Define the Account type here.
+type Account struct {
+	mu      sync.Mutex
+	balance int64
+	isOpen  bool
+}
 
 func Open(amount int64) *Account {
 	panic("Please implement the Open function")
