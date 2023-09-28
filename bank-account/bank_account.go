@@ -10,7 +10,10 @@ type Account struct {
 }
 
 func Open(amount int64) *Account {
-	panic("Please implement the Open function")
+	if amount < 0 {
+		return nil
+	}
+	return &Account{balance: amount, isOpen: true}
 }
 
 func (a *Account) Balance() (int64, bool) {
