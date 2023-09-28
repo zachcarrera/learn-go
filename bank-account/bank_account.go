@@ -36,5 +36,13 @@ func (a *Account) Deposit(amount int64) (int64, bool) {
 }
 
 func (a *Account) Close() (int64, bool) {
-	panic("Please implement the Close function")
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	if !a.isOpen {
+		return 0, false
+	}
+	closingBalance := a.balance
+	a.balance = 0
+	a.isOpen = false
+	return closingBalance, true
 }
