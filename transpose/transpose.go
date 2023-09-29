@@ -13,3 +13,11 @@ func setPadding(size int, fill rune) []rune {
 	}
 	return padding
 }
+
+func toStringSlice(input [][]rune) []string {
+	var output []string
+	for _, row := range input {
+		output = append(output, string(row))
+	}
+	return output
+}
