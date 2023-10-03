@@ -41,3 +41,12 @@ var numberInEnglish = map[int64]string{
 func Say(n int64) (string, bool) {
 	panic("Please implement the Say function")
 }
+
+func separate(n int64) []int64 {
+	var places []int64
+	for n > 0 {
+		places = append(places, n%1000)
+		n /= 1000
+	}
+	return places
+}
