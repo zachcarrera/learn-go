@@ -1,5 +1,10 @@
 package say
 
+import (
+	"fmt"
+	"strings"
+)
+
 var places = []string{
 	"",
 	"thousand",
@@ -49,4 +54,28 @@ func separate(n int64) []int64 {
 		n /= 1000
 	}
 	return places
+}
+
+func sayNumber(n int64) string {
+	var sb strings.Builder
+	if n >= 100 {
+		sb.WriteString(fmt.Sprintf("%s %s ", numberInEnglish[n/100], "hundred"))
+		n %= 100
+	}
+	if n <= 19 && n >= 10 {
+		sb.WriteString(numberInEnglish[n])
+		return sb.String()
+	}
+
+	var needDash bool
+	if n >= 20 {
+		sb.WriteString(numberInEnglish[n/10*10])
+		n %= 10
+		needDash = true
+	}
+	if needDash && n != 0 {
+		sb.WriteRune('-')
+	}
+	sb.WriteString(numberInEnglish[n])
+	return sb.String()
 }
