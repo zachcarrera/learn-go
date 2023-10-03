@@ -44,7 +44,22 @@ var numberInEnglish = map[int64]string{
 }
 
 func Say(n int64) (string, bool) {
-	panic("Please implement the Say function")
+	if n < 0 || n > 999999999999 {
+		return "", false
+	}
+	if n == 0 {
+		return "zero", true
+	}
+	numbers := separate(n)
+
+	var words []string
+	for i := len(numbers) - 1; i >= 0; i-- {
+		if numbers[i] > 0 {
+			words = append(words, sayNumber(numbers[i]))
+			words = append(words, places[i])
+		}
+	}
+	return strings.TrimSpace(strings.Join(words, " ")), true
 }
 
 func separate(n int64) []int64 {
