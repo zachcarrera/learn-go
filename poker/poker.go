@@ -62,6 +62,12 @@ const (
 	StraightFlush
 )
 
+type Hand struct {
+	raw   string
+	cards []Card
+	rank  HandRank
+}
+
 func BestHand(hands []string) ([]string, error) {
 	panic("Please implement the BestHand function")
 }
