@@ -48,6 +48,20 @@ type Card struct {
 	rank CardRank
 }
 
+type HandRank int
+
+const (
+	HighCard HandRank = iota
+	OnePair
+	TwoPair
+	ThreeOfAKind
+	Straight
+	Flush
+	FullHouse
+	FourOfAKind
+	StraightFlush
+)
+
 func BestHand(hands []string) ([]string, error) {
 	panic("Please implement the BestHand function")
 }
