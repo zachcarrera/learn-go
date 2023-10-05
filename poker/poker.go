@@ -43,6 +43,11 @@ var cardRanks = map[string]CardRank{
 	"A":  Ace,
 }
 
+type Card struct {
+	suit Suit
+	rank CardRank
+}
+
 func BestHand(hands []string) ([]string, error) {
 	panic("Please implement the BestHand function")
 }
