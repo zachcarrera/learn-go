@@ -87,3 +87,16 @@ func parseCardRank(card string) (CardRank, error) {
 	}
 	return validRank, nil
 }
+
+func parseSuit(card string) (Suit, error) {
+	suit := []rune(card[1:])
+	if len(card) == 5 {
+		suit = []rune(card[2:])
+	}
+	switch Suit(suit[0]) {
+	case Heart, Club, Diamond, Spade:
+		return Suit(suit[0]), nil
+	default:
+		return -1, errors.New("invalid suit")
+	}
+}
