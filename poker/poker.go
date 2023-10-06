@@ -2,6 +2,8 @@ package poker
 
 import (
 	"errors"
+	"sort"
+	"strings"
 )
 
 type Suit rune
@@ -74,6 +76,30 @@ type Hand struct {
 
 func BestHand(hands []string) ([]string, error) {
 	panic("Please implement the BestHand function")
+}
+
+func parseHand(hand string) (Hand, error) {
+	cards := strings.Split(hand, " ")
+	if len(cards) != 5 {
+		return Hand{}, errors.New("invalid hand")
+	}
+	var parsedCards []Card
+	for _, c := range cards {
+		if len(c) < 4 || len(c) > 5 {
+			return Hand{}, errors.New("invalid rank-suit combination")
+		}
+		rank, err := parseCardRank(c)
+		if err != nil {
+			return Hand{}, err
+		}
+		suit, err := parseSuit(c)
+		if err != nil {
+			return Hand{}, err
+		}
+		parsedCards = append(parsedCards, Card{suit, rank})
+	}
+	sort.SliceStable(parsedCards, func(i, j int) bool { return parsedCards[i].rank < parsedCards[j].rank })
+	return Hand{hand, parsedCards, computeHandRank(parsedCards)}, nil
 }
 
 func parseCardRank(card string) (CardRank, error) {
