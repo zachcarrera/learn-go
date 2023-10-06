@@ -1,5 +1,9 @@
 package poker
 
+import (
+	"errors"
+)
+
 type Suit rune
 
 const (
@@ -70,4 +74,16 @@ type Hand struct {
 
 func BestHand(hands []string) ([]string, error) {
 	panic("Please implement the BestHand function")
+}
+
+func parseCardRank(card string) (CardRank, error) {
+	rank := card[0:1]
+	if len(card) == 5 {
+		rank = card[0:2]
+	}
+	validRank, ok := cardRanks[rank]
+	if !ok {
+		return -1, errors.New("invalid card rank")
+	}
+	return validRank, nil
 }
