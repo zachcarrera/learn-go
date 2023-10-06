@@ -75,7 +75,19 @@ type Hand struct {
 }
 
 func BestHand(hands []string) ([]string, error) {
-	panic("Please implement the BestHand function")
+	bestHand := Hand{"", nil, -1}
+	var bestHands []string
+	for _, rawHand := range hands {
+		hand, err := parseHand(rawHand)
+		if err != nil {
+			return nil, err
+		}
+		if hand.rank > bestHand.rank {
+			bestHands = []string{rawHand}
+			bestHand = hand
+		}
+	}
+	return bestHands, nil
 }
 
 func parseHand(hand string) (Hand, error) {
