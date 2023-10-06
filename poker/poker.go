@@ -100,3 +100,57 @@ func parseSuit(card string) (Suit, error) {
 		return -1, errors.New("invalid suit")
 	}
 }
+
+func computeHandRank(cards []Card) HandRank {
+	cardRankCount := make(map[CardRank]int)
+	consecutiveRankCount := 1
+	suit := cards[0].suit
+	for i, c := range cards {
+		cardRankCount[c.rank]++
+		suit &= c.suit
+		if i > 0 && c.rank-1 == cards[i-1].rank {
+			consecutiveRankCount++
+		}
+	}
+	var isFlush, isStraight bool
+	if suit == cards[0].suit {
+		isFlush = true
+	}
+	if consecutiveRankCount == 5 {
+		isStraight = true
+	}
+
+	var pairs int
+	var isThreeOfAKind, isFourOfAKind bool
+	for _, count := range cardRankCount {
+		switch count {
+		case 2:
+			pairs++
+		case 3:
+			isThreeOfAKind = true
+		case 4:
+			isFourOfAKind = true
+		}
+	}
+
+	switch {
+	case isStraight && isFlush:
+		return StraightFlush
+	case isFourOfAKind:
+		return FourOfAKind
+	case isThreeOfAKind && pairs == 1:
+		return FullHouse
+	case isFlush:
+		return Flush
+	case isStraight:
+		return Straight
+	case isThreeOfAKind:
+		return ThreeOfAKind
+	case pairs == 2:
+		return TwoPair
+	case pairs == 1:
+		return OnePair
+	default:
+		return HighCard
+	}
+}
