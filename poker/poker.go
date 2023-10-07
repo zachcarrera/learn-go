@@ -192,3 +192,18 @@ func computeHandRank(cards []Card) HandRank {
 		return HighCard
 	}
 }
+
+func compareHighCard(h1, h2 Hand) int {
+	for i := len(h1.cards) - 1; i >= 0; i-- {
+		rank1, rank2 := h1.cards[i].rank, h2.cards[i].rank
+		switch {
+		case rank1 == rank2:
+			continue
+		case rank1 < rank2:
+			return -1
+		case rank1 > rank2:
+			return 1
+		}
+	}
+	return 0
+}
