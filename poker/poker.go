@@ -193,6 +193,17 @@ func computeHandRank(cards []Card) HandRank {
 	}
 }
 
+func evaluateTie(h1, h2 Hand) int {
+	switch h1.rank {
+	case HighCard, Flush:
+		return compareHighCard(h1, h2)
+	case OnePair, TwoPair, ThreeOfAKind, FullHouse, FourOfAKind:
+		return compareCardRankCount(h1, h2)
+	case Straight, StraightFlush:
+		return compareStraight(h1, h2)
+	}
+	return -1
+}
 
 func compareHighCard(h1, h2 Hand) int {
 	for i := len(h1.cards) - 1; i >= 0; i-- {
