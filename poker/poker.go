@@ -85,6 +85,16 @@ func BestHand(hands []string) ([]string, error) {
 		if hand.rank > bestHand.rank {
 			bestHands = []string{rawHand}
 			bestHand = hand
+		} else if hand.rank == bestHand.rank {
+			switch evaluateTie(hand, bestHand) {
+			case 1:
+				// hand beats best
+				bestHands = []string{rawHand}
+				bestHand = hand
+			case 0:
+				// still tied so append to bestHands
+				bestHands = append(bestHands, rawHand)
+			}
 		}
 	}
 	return bestHands, nil
