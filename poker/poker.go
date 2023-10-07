@@ -140,6 +140,11 @@ func parseSuit(card string) (Suit, error) {
 }
 
 func computeHandRank(cards []Card) HandRank {
+
+	if cards[len(cards)-1].rank == Ace {
+		cards = append([]Card{{cards[len(cards)-1].suit, -1}}, cards...)
+	}
+
 	cardRankCount := make(map[CardRank]int)
 	consecutiveRankCount := 1
 	suit := cards[0].suit
@@ -156,6 +161,11 @@ func computeHandRank(cards []Card) HandRank {
 	}
 	if consecutiveRankCount == 5 {
 		isStraight = true
+	}
+
+	if len(cards) == 6 {
+		cards = cards[1:]
+		delete(cardRankCount, -1)
 	}
 
 	var pairs int
