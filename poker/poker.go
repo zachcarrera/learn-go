@@ -207,3 +207,23 @@ func compareHighCard(h1, h2 Hand) int {
 	}
 	return 0
 }
+
+func compareStraight(h1, h2 Hand) int {
+	h1HighCard, h2HighCard := h1.cards[len(h1.cards)-1], h2.cards[len(h2.cards)-1]
+
+	if h1HighCard.rank == Ace && h1.cards[0].rank == 0 {
+		h1HighCard = h1.cards[len(h1.cards)-2]
+	}
+	if h2HighCard.rank == Ace && h2.cards[0].rank == 0 {
+		h2HighCard = h2.cards[len(h2.cards)-2]
+	}
+
+	switch {
+	case h1HighCard.rank < h2HighCard.rank:
+		return -1
+	case h1HighCard.rank > h2HighCard.rank:
+		return 1
+	default:
+		return 0
+	}
+}
