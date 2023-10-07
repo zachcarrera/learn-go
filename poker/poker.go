@@ -193,9 +193,53 @@ func computeHandRank(cards []Card) HandRank {
 	}
 }
 
+
 func compareHighCard(h1, h2 Hand) int {
 	for i := len(h1.cards) - 1; i >= 0; i-- {
 		rank1, rank2 := h1.cards[i].rank, h2.cards[i].rank
+		switch {
+		case rank1 == rank2:
+			continue
+		case rank1 < rank2:
+			return -1
+		case rank1 > rank2:
+			return 1
+		}
+	}
+	return 0
+}
+
+func compareCardRankCount(h1, h2 Hand) int {
+	h1CardRankCount := make(map[CardRank]int)
+	for _, c := range h1.cards {
+		h1CardRankCount[c.rank]++
+	}
+	var rc1 [][2]int
+	for rank, count := range h1CardRankCount {
+		rc1 = append(rc1, [2]int{int(rank), count})
+	}
+	sort.SliceStable(rc1, func(i, j int) bool {
+		if rc1[i][1] == rc1[j][1] {
+			return rc1[i][0] < rc1[j][0]
+		}
+		return rc1[i][1] < rc1[j][1]
+	})
+	h2CardRankCount := make(map[CardRank]int)
+	for _, c := range h2.cards {
+		h2CardRankCount[c.rank]++
+	}
+	var rc2 [][2]int
+	for rank, count := range h2CardRankCount {
+		rc2 = append(rc2, [2]int{int(rank), count})
+	}
+	sort.SliceStable(rc2, func(i, j int) bool {
+		if rc2[i][1] == rc2[j][1] {
+			return rc2[i][0] < rc2[j][0]
+		}
+		return rc2[i][1] < rc2[j][1]
+	})
+	for i := len(rc1) - 1; i >= 0; i-- {
+		rank1, rank2 := rc1[i][0], rc2[i][0]
 		switch {
 		case rank1 == rank2:
 			continue
