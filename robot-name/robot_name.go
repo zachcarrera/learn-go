@@ -5,6 +5,7 @@ type Robot struct {
 	name string
 }
 
+var names = map[string]bool{}
 
 func (r *Robot) Name() (string, error) {
 	panic("Please implement the Name function")
