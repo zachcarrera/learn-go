@@ -12,5 +12,5 @@ func (r *Robot) Name() (string, error) {
 }
 
 func (r *Robot) Reset() {
-	panic("Please implement the Reset function")
+	r.name = ""
 }
