@@ -1,5 +1,7 @@
 package stateoftictactoe
 
+import "errors"
+
 type State string
 
 const (
@@ -9,7 +11,20 @@ const (
 )
 
 func StateOfTicTacToe(board []string) (State, error) {
-	panic("Please implement the StateOfTicTacToe function")
+	xCount, oCount := countPlayer(board, 'X'), countPlayer(board, 'O')
+	if xCount != oCount && xCount != oCount+1 {
+		return "", errors.New("out of turn play")
+	}
+	xWon, oWon := hasWon(board, 'X'), hasWon(board, 'O')
+	switch {
+	case xWon && oWon:
+		return "", errors.New("game continued after a win")
+	case xWon || oWon:
+		return Win, nil
+	case xCount+oCount == 9:
+		return Draw, nil
+	}
+	return Ongoing, nil
 }
 
 func countPlayer(board []string, player rune) int {
