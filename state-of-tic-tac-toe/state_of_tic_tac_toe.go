@@ -12,6 +12,18 @@ func StateOfTicTacToe(board []string) (State, error) {
 	panic("Please implement the StateOfTicTacToe function")
 }
 
+func countPlayer(board []string, player rune) int {
+	count := 0
+	for _, row := range board {
+		for _, square := range row {
+			if square == player {
+				count++
+			}
+		}
+	}
+	return count
+}
+
 func hasWon(board []string, player byte) bool {
 
 	// check for a horizontal or vertical win
