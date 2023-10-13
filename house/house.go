@@ -15,6 +15,20 @@ var (
 		"the farmer sowing his corn",
 		"the horse and the hound and the horn",
 	}
+
+	verbs = []string{
+		"lay in",
+		"ate",
+		"killed",
+		"worried",
+		"tossed",
+		"milked",
+		"kissed",
+		"married",
+		"woke",
+		"kept",
+		"belonged to",
+	}
 )
 
 func Verse(v int) string {
