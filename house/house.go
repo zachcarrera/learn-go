@@ -48,5 +48,9 @@ func Verse(v int) string {
 }
 
 func Song() string {
-	panic("Please implement the Song function")
+	var song []string
+	for i := 1; i <= 12; i++ {
+		song = append(song, Verse(i))
+	}
+	return strings.Join(song, "\n\n")
 }
