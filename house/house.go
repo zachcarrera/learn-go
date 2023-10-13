@@ -1,5 +1,10 @@
 package house
 
+import (
+	"fmt"
+	"strings"
+)
+
 var (
 	nouns = []string{
 		"the house that Jack built.",
@@ -32,7 +37,14 @@ var (
 )
 
 func Verse(v int) string {
-	panic("Please implement the Verse function")
+	var lines []string
+	lines = append(lines, fmt.Sprintf("This is %s", nouns[v-1]))
+
+	for i := v - 2; i >= 0; i-- {
+		lines = append(lines, fmt.Sprintf("that %s %s", verbs[i], nouns[i]))
+	}
+
+	return strings.Join(lines, "\n")
 }
 
 func Song() string {
