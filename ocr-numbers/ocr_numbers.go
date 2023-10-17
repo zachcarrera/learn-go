@@ -16,3 +16,10 @@ var digits = map[string]string{
 func Recognize(string) []string {
 	panic("Please implement the Recognize function")
 }
+
+func recognizeDigit(digit string) string {
+	if num, ok := digits[digit]; ok {
+		return num
+	}
+	return "?"
+}
