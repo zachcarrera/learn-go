@@ -1,5 +1,7 @@
 package ocr
 
+import "strings"
+
 var digits = map[string]string{
 	" _ | ||_|": "0",
 	"     |  |": "1",
@@ -15,6 +17,14 @@ var digits = map[string]string{
 
 func Recognize(string) []string {
 	panic("Please implement the Recognize function")
+}
+
+func recognizeLine(lines []string) string {
+	var sb strings.Builder
+	for i := 0; i < len(lines[0]); i += 3 {
+		sb.WriteString(recognizeDigit(lines[0][i:i+3] + lines[1][i:i+3] + lines[2][i:i+3]))
+	}
+	return sb.String()
 }
 
 func recognizeDigit(digit string) string {
