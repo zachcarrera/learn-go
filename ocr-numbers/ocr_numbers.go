@@ -15,8 +15,13 @@ var digits = map[string]string{
 	" _ |_| _|": "9",
 }
 
-func Recognize(string) []string {
-	panic("Please implement the Recognize function")
+func Recognize(s string) []string {
+	var ocr []string
+	lines := strings.Split(s, "\n")
+	for i := 1; i < len(lines); i += 4 {
+		ocr = append(ocr, recognizeLine(lines[i:i+3]))
+	}
+	return ocr
 }
 
 func recognizeLine(lines []string) string {
