@@ -1,5 +1,11 @@
 package foodchain
 
+type verseInfo struct {
+	animal  string
+	comment string
+	action  string
+}
+
 func Verse(v int) string {
 	panic("Please implement the Verse function")
 }
