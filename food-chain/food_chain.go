@@ -6,6 +6,8 @@ type verseInfo struct {
 	action  string
 }
 
+const prefix = "I know an old lady who swallowed a %s.\n"
+
 var animals = []verseInfo{
 	{animal: "fly"},
 	{animal: "spider", comment: "It wriggled and jiggled and tickled inside her.", action: " that wriggled and jiggled and tickled inside her"},
