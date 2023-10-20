@@ -2,6 +2,7 @@ package foodchain
 
 import (
 	"fmt"
+	"strings"
 )
 
 type verseInfo struct {
@@ -39,7 +40,11 @@ func Verse(v int) string {
 }
 
 func Verses(start, end int) string {
-	panic("Please implement the Verses function")
+	verses := make([]string, 0, end-start+1)
+	for i := start; i <= end; i++ {
+		verses = append(verses, Verse(i))
+	}
+	return strings.Join(verses, "\n\n")
 }
 
 func Song() string {
