@@ -1,5 +1,9 @@
 package foodchain
 
+import (
+	"fmt"
+)
+
 type verseInfo struct {
 	animal  string
 	comment string
@@ -19,7 +23,19 @@ var animals = []verseInfo{
 }
 
 func Verse(v int) string {
-	panic("Please implement the Verse function")
+	if v == 8 {
+		return fmt.Sprintf(prefix, "horse") + "She's dead, of course!"
+	}
+
+	verse := fmt.Sprintf(prefix, animals[v-1].animal)
+	if animals[v-1].comment != "" {
+		verse += fmt.Sprintf("%s\n", animals[v-1].comment)
+	}
+	for i := v - 1; i > 0; i-- {
+		verse += fmt.Sprintf("She swallowed the %s to catch the %s%s.\n", animals[i].animal, animals[i-1].animal, animals[i-1].action)
+	}
+	verse += "I don't know why she swallowed the fly. Perhaps she'll die."
+	return verse
 }
 
 func Verses(start, end int) string {
