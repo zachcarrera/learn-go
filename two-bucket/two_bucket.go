@@ -27,6 +27,10 @@ func (b *bucket) empty() {
 	b.currentLevel = 0
 }
 
+func (b *bucket) fill() {
+	b.currentLevel = b.capacity
+}
+
 func Solve(sizeBucketOne, sizeBucketTwo, goalAmount int, startBucket string) (string, int, int, error) {
 	if startBucket != bucketOne && startBucket != bucketTwo {
 		return "", 0, 0, errors.New("invalid start bucket")
