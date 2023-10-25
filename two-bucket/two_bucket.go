@@ -52,37 +52,33 @@ func Solve(sizeBucketOne, sizeBucketTwo, goalAmount int, startBucket string) (st
 	}
 
 	var movesMade int
-	var bucketA, bucketB bucket
+	var bucketA, bucketB *bucket
 
-	// fill the start bucket
 	if startBucket == bucketOne {
-
-		bucketA = bucket{bucketOne, sizeBucketOne, 0}
-		bucketB = bucket{bucketTwo, sizeBucketTwo, 0}
+		bucketA = &bucket{bucketOne, sizeBucketOne, 0}
+		bucketB = &bucket{bucketTwo, sizeBucketTwo, 0}
 
 	} else {
-
-		bucketA = bucket{bucketTwo, sizeBucketTwo, 0}
-		bucketB = bucket{bucketOne, sizeBucketOne, 0}
+		bucketA = &bucket{bucketTwo, sizeBucketTwo, 0}
+		bucketB = &bucket{bucketOne, sizeBucketOne, 0}
 	}
 
 	for bucketA.currentLevel != goalAmount && bucketB.currentLevel != goalAmount {
-		// break
 		switch {
-		case bucketA.currentLevel == 0:
-			bucketA.currentLevel = bucketA.capacity
-		case bucketB.currentLevel == bucketB.capacity:
-			bucketB.currentLevel = 0
-		case bucketB.currentLevel == 0 && bucketB.capacity == goalAmount:
-			bucketB.currentLevel = bucketB.capacity
+		case bucketA.isEmpty():
+			bucketA.fill()
+		case bucketB.isFull():
+			bucketB.empty()
+		case bucketB.isEmpty() && bucketB.capacity == goalAmount:
+			bucketB.fill()
 		default:
 			// fill bucket b with bucket a
-			if bucketB.capacity-bucketB.currentLevel >= bucketA.currentLevel {
+			if bucketB.availableSpace() >= bucketA.currentLevel {
 				bucketB.currentLevel += bucketA.currentLevel
-				bucketA.currentLevel = 0
+				bucketA.empty()
 			} else {
-				bucketA.currentLevel = bucketA.currentLevel - (bucketB.capacity - bucketB.currentLevel)
-				bucketB.currentLevel = bucketB.capacity
+				bucketA.currentLevel -= bucketB.availableSpace()
+				bucketB.fill()
 			}
 
 		}
