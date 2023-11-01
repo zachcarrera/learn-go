@@ -20,4 +20,16 @@ var (
 
 func Sentence(sentence string) string {
 	panic("Please implement the Sentence function")
+
+func Word(word string) string {
+	if beginWithVowelRe.MatchString(word) {
+		return word + "ay"
+	} else if match := containsQuRe.FindStringSubmatch(word); match != nil {
+		return match[2] + match[1] + "ay"
+	} else if match := yAsAVowelRe.FindStringSubmatch(word); match != nil {
+		return match[2] + match[1] + "ay"
+	} else if match := beginWithConsonantRe.FindStringSubmatch(word); match != nil {
+		return match[2] + match[1] + "ay"
+	}
+	return word
 }
