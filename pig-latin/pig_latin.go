@@ -2,6 +2,7 @@ package piglatin
 
 import (
 	"regexp"
+	"strings"
 )
 
 var (
@@ -19,7 +20,13 @@ var (
 )
 
 func Sentence(sentence string) string {
-	panic("Please implement the Sentence function")
+	words := strings.Split(sentence, " ")
+	translatedWords := make([]string, 0, len(words))
+	for _, word := range words {
+		translatedWords = append(translatedWords, Word(word))
+	}
+	return strings.Join(translatedWords, " ")
+}
 
 func Word(word string) string {
 	if beginWithVowelRe.MatchString(word) {
