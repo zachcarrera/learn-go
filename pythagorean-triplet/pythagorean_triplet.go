@@ -12,3 +12,7 @@ func Range(min, max int) []Triplet {
 func Sum(p int) []Triplet {
 	panic("Please implement the Sum function")
 }
+
+func isPythagorean(a, b, c int) bool {
+	return a*a+b*b == c*c
+}
